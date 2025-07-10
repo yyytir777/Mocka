@@ -1,0 +1,4 @@
+rootProject.name = 'jodag'
+
+include 'jodag-core'
+include 'jodag-spring'
