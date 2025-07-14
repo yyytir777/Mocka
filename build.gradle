@@ -4,8 +4,8 @@ plugins {
 }
 
 allprojects {
-    group = 'wonjae'
-    version = '0.0.1-SNAPSHOT'
+    group = 'io.github.yyytir777'
+    version = "0.0.1"
 
     java {
         toolchain {

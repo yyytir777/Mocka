@@ -1,6 +1,57 @@
 plugins {
+    id 'java-library'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "signing"
+
     id 'io.spring.dependency-management'
     id 'org.springframework.boot'
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+tasks.named("bootJar") {
+    enabled = false
+}
+
+tasks.named("jar") {
+    enabled = true
+    archiveClassifier.set("")
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates(group.toString(), "jodag-spring", version.toString())
+
+    pom {
+        name = "Jodag Spring"
+        description = "Spring Library Of Jodag"
+        inceptionYear = "2025"
+        url = "https://github.com/yyytir777/jodag"
+        licenses {
+            license {
+                name = "The MIT License"
+                url = "https://opensource.org/licenses/MIT"
+            }
+        }
+
+        developers {
+            developer {
+                id = "yyytir777"
+                name = "Wonjae Lim"
+                url = "https://github.com/yyytir777"
+            }
+        }
+
+        scm {
+            url = "https://github.com/yyytir777/jodag"
+            connection = "scm:git:git://github.com/yyytir777/jodag.git"
+            developerConnection = "scm:git:ssh://git@github.com/yyytir777/jodag.git"
+        }
+    }
 }
 
 dependencies {
