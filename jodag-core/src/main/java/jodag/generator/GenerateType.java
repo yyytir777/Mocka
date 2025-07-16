@@ -1,5 +1,5 @@
 package jodag.generator;
 
-public enum GenerateType {
-    STRING, INT, NAME, EMAIL, DEFAULT, LOREM_IPSUM;
+public enum GenerateType implements GeneratorKey{
+    NAME, EMAIL, DEFAULT, LOREM_IPSUM;
 }
