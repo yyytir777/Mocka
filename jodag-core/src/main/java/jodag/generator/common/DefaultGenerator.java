@@ -1,44 +1,44 @@
 package jodag.generator.common;
 
-import jodag.generator.GenerateType;
+
+import jodag.generator.AbstractGenerator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DefaultGenerator extends DefaultAbstractGenerator<String> {
+public class DefaultGenerator extends AbstractGenerator<String> {
 
     private static DefaultGenerator INSTANCE;
 
-    private final List<String> emails;
+    private final List<String> defaults;
 
-    public DefaultGenerator(GenerateType generateType) throws IOException {
-        super(generateType.name(), String.class);
+    private DefaultGenerator() throws IOException {
+        super("defaults", String.class);
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("default.txt");
         if (is == null) {
             throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
         }
 
-        this.emails = new BufferedReader(new InputStreamReader(is))
+        this.defaults = new BufferedReader(new InputStreamReader(is))
                 .lines()
                 .collect(Collectors.toList());
     }
 
-    public static synchronized DefaultGenerator getInstance(GenerateType generateType) {
+    public static synchronized DefaultGenerator getInstance() {
         if (INSTANCE == null) {
             try {
-                INSTANCE = new DefaultGenerator(generateType);
+                INSTANCE = new DefaultGenerator();
             } catch (IOException e) {
                 throw new RuntimeException("DefaultGenerator 생성 실패", e);
             }
         }
         return INSTANCE;
     }
+
     @Override
     public String get() {
-        return emails.get(randomProvider.nextInt(emails.size()));
+        return defaults.get(randomProvider.nextInt(defaults.size()));
     }
 }

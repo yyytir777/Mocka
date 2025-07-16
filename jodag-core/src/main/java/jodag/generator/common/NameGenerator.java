@@ -1,21 +1,20 @@
 package jodag.generator.common;
 
-import jodag.generator.GenerateType;
+
+import jodag.generator.AbstractGenerator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NameGenerator extends DefaultAbstractGenerator<String> {
+public class NameGenerator extends AbstractGenerator<String> {
 
     private static NameGenerator INSTANCE;
 
     private final List<String> names;
 
-    private NameGenerator(GenerateType generateType) throws IOException {
-        super(generateType.name(), String.class);
+    private NameGenerator() throws IOException {
+        super("name", String.class);
         InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
         if (is == null) {
             throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
@@ -26,10 +25,10 @@ public class NameGenerator extends DefaultAbstractGenerator<String> {
                 .collect(Collectors.toList());
     }
 
-    public static synchronized NameGenerator getInstance(GenerateType generateType) {
+    public static synchronized NameGenerator getInstance() {
         if(INSTANCE == null) {
             try {
-                INSTANCE = new NameGenerator(generateType);
+                INSTANCE = new NameGenerator();
             } catch (IOException e) {
                 throw new RuntimeException("NameGenerator 생성 실패", e);
             }

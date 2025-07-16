@@ -1,21 +1,20 @@
 package jodag.generator.common;
 
-import jodag.generator.GenerateType;
+
+import jodag.generator.AbstractGenerator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EmailGenerator extends DefaultAbstractGenerator<String> {
+public class EmailGenerator extends AbstractGenerator<String> {
 
     private static EmailGenerator INSTANCE;
 
     private final List<String> emails;
 
-    public EmailGenerator(GenerateType generateType) throws IOException {
-        super(generateType.name(), String.class);
+    private EmailGenerator() throws IOException {
+        super("email", String.class);
         InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
         if (is == null) {
             throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
@@ -26,10 +25,10 @@ public class EmailGenerator extends DefaultAbstractGenerator<String> {
                 .collect(Collectors.toList());
     }
 
-    public static synchronized EmailGenerator getInstance(GenerateType generateType) {
+    public static synchronized EmailGenerator getInstance() {
         if (INSTANCE == null) {
             try {
-                INSTANCE = new EmailGenerator(generateType);
+                INSTANCE = new EmailGenerator();
             } catch (IOException e) {
                 throw new RuntimeException("EmailGenerator 생성 실패", e);
             }
@@ -39,6 +38,27 @@ public class EmailGenerator extends DefaultAbstractGenerator<String> {
 
     @Override
     public String get() {
-        return emails.get(randomProvider.nextInt(emails.size()));
+        String username = randomStringWithNum(5, 10);
+        String domain = randomString(3, 7);
+        String tld = randomString(2, 3);
+        return username + "@" + domain + "." + tld;
+    }
+
+    private String randomStringWithNum(int min, int max) {
+        int length = randomProvider.nextInt(max - min + 1) + min;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < length; i++) {
+            sb.append(randomProvider.nextAlphanum());
+        }
+        return sb.toString();
+    }
+
+    private String randomString(int min, int max) {
+        int length = randomProvider.nextInt(max - min + 1) + min;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < length; i++) {
+            sb.append(randomProvider.nextAlphabet());
+        }
+        return sb.toString();
     }
 }
