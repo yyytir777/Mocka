@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class JodagV2Test {
 
     private final static String key = "name";
-    private final static Path path = Path.of("src/test/resources/test.txt");
+    private final static Path path = Path.of("src/main/resources/test.txt");
 
     @BeforeEach
     public void setUp() {

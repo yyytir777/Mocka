@@ -1,6 +1,5 @@
 package jodag.registry;
 
-import jodag.exception.dataRegistry.DataRegistryException;
 import jodag.exception.dataRegistry.DuplicateGeneratorException;
 import jodag.exception.dataRegistry.NotFoundGeneratorException;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DataRegistryExceptionTest {
 
     private final static String key = "name";
-    private final static Path path = Path.of("src/test/resources/test.txt");
+    private final static Path path = Path.of("src/main/resources/test.txt");
 
     @BeforeEach
     @DisplayName("테스트메서드 호출 시 dataRegistry의 registry초기화")
