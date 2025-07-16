@@ -1,6 +1,8 @@
 package jodag.generator.primitive;
 
 
+import java.util.Locale;
+
 public class CharacterGenerator extends AbstractPrimitiveGenerator<Character> {
 
     private static CharacterGenerator INSTANCE;
@@ -18,6 +20,6 @@ public class CharacterGenerator extends AbstractPrimitiveGenerator<Character> {
 
     @Override
     public Character get() {
-        return randomProvider.nextCharacter();
+        return randomProvider.nextCharacter(Locale.ENGLISH);
     }
 }

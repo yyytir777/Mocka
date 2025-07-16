@@ -1,5 +1,6 @@
 package jodag.random;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -59,6 +60,27 @@ public class RandomProvider {
 
     public Character nextCharacter() {
         return (char) random.nextInt();
+    }
+
+    public Character nextCharacter(Locale locale) {
+        if(locale == Locale.ENGLISH) {
+            return nextEnglish();
+        } else if(locale == Locale.KOREAN) {
+            return nextKorean();
+        }
+        return this.nextCharacter();
+    }
+
+    private Character nextKorean() {
+        return nextCharRange((char) 0xAC00, (char) 0xD7A3);
+    }
+
+    private Character nextEnglish() {
+        return random.nextBoolean() ? nextCharRange('A', 'Z') : nextCharRange('a', 'z');
+    }
+
+    private Character nextCharRange(char start, char end) {
+        return (char) (start + random.nextInt(end - start + 1));
     }
 
     public Integer nextInteger() {
