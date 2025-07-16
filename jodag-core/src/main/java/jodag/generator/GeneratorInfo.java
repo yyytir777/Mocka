@@ -1,7 +1,5 @@
 package jodag.generator;
 
-import jodag.generator.common.DefaultAbstractGenerator;
-
 public class GeneratorInfo<T> {
 
     private final String name;
@@ -13,7 +11,7 @@ public class GeneratorInfo<T> {
     }
 
     public static GeneratorInfo<?> from(Generator<?> generator) {
-        if (generator instanceof DefaultAbstractGenerator<?> g) {
+        if (generator instanceof AbstractGenerator<?> g) {
             return new GeneratorInfo<>(g.getName(), g.getType());
         }
         throw new IllegalArgumentException("Generator는 DefaultAbstractGenerator 기반이어야 합니다.");
