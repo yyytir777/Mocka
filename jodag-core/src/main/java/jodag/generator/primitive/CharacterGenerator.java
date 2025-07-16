@@ -1,13 +1,12 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-public class CharacterGenerator extends AbstractGenerator<Character> {
+public class CharacterGenerator extends AbstractPrimitiveGenerator<Character> {
 
     private static CharacterGenerator INSTANCE;
 
     private CharacterGenerator() {
-        super("char", Character.class);
+        super(Character.class);
     }
 
     public static synchronized CharacterGenerator getInstance() {

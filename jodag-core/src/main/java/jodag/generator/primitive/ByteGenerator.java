@@ -1,23 +1,13 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-import java.util.Random;
 
-public class ByteGenerator extends AbstractGenerator<Byte> {
+public class ByteGenerator extends AbstractPrimitiveGenerator<Byte> {
 
     private static ByteGenerator INSTANCE;
 
     private ByteGenerator() {
-        super("byte", Byte.class);
-    }
-
-    private ByteGenerator(Random random) {
-        super("byte", Byte.class, random);
-    }
-
-    private ByteGenerator(long seed) {
-        super("byte", Byte.class, seed);
+        super(Byte.class);
     }
 
     public static synchronized ByteGenerator getInstance() {

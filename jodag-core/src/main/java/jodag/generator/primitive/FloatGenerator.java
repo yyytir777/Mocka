@@ -1,13 +1,12 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-public class FloatGenerator extends AbstractGenerator<Float> {
+public class FloatGenerator extends AbstractPrimitiveGenerator<Float> {
 
     private static FloatGenerator INSTANCE;
 
     private FloatGenerator() {
-        super("float", Float.class);
+        super(Float.class);
     }
 
     public static FloatGenerator getInstance() {

@@ -1,13 +1,12 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-public class DoubleGenerator extends AbstractGenerator<Double> {
+public class DoubleGenerator extends AbstractPrimitiveGenerator<Double> {
 
     private static DoubleGenerator INSTANCE;
 
     private DoubleGenerator() {
-        super("double", Double.class);
+        super(Double.class);
     }
 
     public static synchronized DoubleGenerator getInstance() {

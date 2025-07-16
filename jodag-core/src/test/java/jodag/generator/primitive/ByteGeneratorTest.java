@@ -3,12 +3,10 @@ package jodag.generator.primitive;
 import jodag.generator.Generator;
 import jodag.generator.PrimitiveType;
 import jodag.registry.DataRegistry;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("ByteGenerator 테스트입니다.")
 class ByteGeneratorTest {

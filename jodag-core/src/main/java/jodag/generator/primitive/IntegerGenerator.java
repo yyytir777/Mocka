@@ -1,13 +1,12 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-public class IntegerGenerator extends AbstractGenerator<Integer> {
+public class IntegerGenerator extends AbstractPrimitiveGenerator<Integer> {
 
     private static IntegerGenerator INSTANCE;
 
     private IntegerGenerator() {
-        super("integer", Integer.class);
+        super(Integer.class);
     }
 
     public static synchronized IntegerGenerator getInstance() {

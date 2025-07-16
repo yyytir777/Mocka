@@ -1,13 +1,12 @@
 package jodag.generator.primitive;
 
-import jodag.generator.AbstractGenerator;
 
-public class LongGenerator extends AbstractGenerator<Long> {
+public class LongGenerator extends AbstractPrimitiveGenerator<Long> {
 
     private static LongGenerator INSTANCE;
 
     private LongGenerator() {
-        super("long", Long.class);
+        super(Long.class);
     }
 
     public static synchronized LongGenerator getInstance() {
