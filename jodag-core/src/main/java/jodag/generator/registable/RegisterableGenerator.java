@@ -1,7 +1,7 @@
-package jodag.generator;
+package jodag.generator.registable;
 
 import jodag.exception.generator.GeneratorException;
-import jodag.generator.common.DefaultAbstractGenerator;
+import jodag.generator.AbstractGenerator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +14,7 @@ import java.util.Random;
  * 각 인스턴스틑 파일 경로를 가지며, get메서드를 통해 파일의 데이터에 랜덤 접근하여 값을 return함
  * @param <T>
  */
-public class RegisterableGenerator<T> extends DefaultAbstractGenerator<T> {
+public class RegisterableGenerator<T> extends AbstractGenerator<T> {
 
     private final List<T> data;
 

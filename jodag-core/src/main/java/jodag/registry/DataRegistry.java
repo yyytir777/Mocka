@@ -8,8 +8,11 @@ import jodag.generator.common.DefaultGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
+import jodag.generator.primitive.*;
+import jodag.generator.registable.RegisterableGenerator;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,8 +41,8 @@ public class DataRegistry {
 
     // 기본 generator 등록 로직
     private void registerDefaults() {
-//        registerPrimitive();
         registerCommon();
+        registerPrimitive();
     }
 
     // 기본 데이터 추가 (ex. 이름, 이메일 등..)
@@ -51,10 +54,16 @@ public class DataRegistry {
     }
 
     // Primitive 타입 추가 (int, string, double, 등...)
-//    private void registerPrimitive() {
-//        add(GenerateType.STRING, StringGenerator.class);
-//        add(GenerateType.INT, IntegerGenerator.class);
-//    }
+    private void registerPrimitive() {
+        add(PrimitiveType.Boolean, BooleanGenerator.class);
+        add(PrimitiveType.Byte, ByteGenerator.class);
+        add(PrimitiveType.Character, CharacterGenerator.class);
+        add(PrimitiveType.Double, DoubleGenerator.class);
+        add(PrimitiveType.Float, FloatGenerator.class);
+        add(PrimitiveType.Integer, IntegerGenerator.class);
+        add(PrimitiveType.Long, LongGenerator.class);
+        add(PrimitiveType.Short, ShortGenerator.class);
+    }
 
     /**
      * 등록할 key와 데이터파일이 담긴 resourcePath를 파라미터로 generator를 등록
@@ -76,17 +85,40 @@ public class DataRegistry {
      * @param type
      * @param generatorClass
      */
-    public void add(GenerateType type, Class<? extends Generator<?>> generatorClass) {
+    private void add(GenerateType type, Class<? extends Generator<?>> generatorClass) {
         if (registry.containsKey(type.name())) {
             throw new DuplicateGeneratorException(type.name());
         }
 
         try {
             Generator<?> generator = switch (type) {
-                case EMAIL -> EmailGenerator.getInstance(type);
-                case NAME -> NameGenerator.getInstance(type);
-                case LOREM_IPSUM -> LoremIpsumGenerator.getInstance(type);
-                default -> DefaultGenerator.getInstance(type);
+                case EMAIL -> EmailGenerator.getInstance();
+                case NAME -> NameGenerator.getInstance();
+                case LOREM_IPSUM -> LoremIpsumGenerator.getInstance();
+                default -> DefaultGenerator.getInstance();
+            };
+
+            registry.put(type.name(), generator);
+        } catch (Exception e) {
+            throw new RuntimeException("Generator 생성 실패 - " + generatorClass.getName(), e);
+        }
+    }
+
+    private void add(PrimitiveType type, Class<? extends Generator<?>> generatorClass) {
+        if (registry.containsKey(type.name())) {
+            throw new DuplicateGeneratorException(type.name());
+        }
+
+        try {
+            Generator<?> generator = switch (type) {
+                case Boolean -> BooleanGenerator.getInstance();
+                case Byte -> ByteGenerator.getInstance();
+                case Character -> CharacterGenerator.getInstance();
+                case Double -> DoubleGenerator.getInstance();
+                case Float -> FloatGenerator.getInstance();
+                case Integer -> IntegerGenerator.getInstance();
+                case Long -> LongGenerator.getInstance();
+                case Short -> ShortGenerator.getInstance();
             };
 
             registry.put(type.name(), generator);
@@ -104,6 +136,13 @@ public class DataRegistry {
 
     @SuppressWarnings("unchecked")
     public <T> Generator<T> get(GenerateType type) {
+        Generator<?> generator = registry.get(type.name());
+        if (generator == null) throw new NotFoundGeneratorException("등록된 Generator 없음: " + type.name());
+        return (Generator<T>) generator;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> Generator<T> get(PrimitiveType type) {
         Generator<?> generator = registry.get(type.name());
         if (generator == null) throw new NotFoundGeneratorException("등록된 Generator 없음: " + type.name());
         return (Generator<T>) generator;
@@ -172,11 +211,22 @@ public class DataRegistry {
         return generatorInfoList;
     }
 
-    public void clear() {
-        registry.clear();
-    }
-
     public void clearAll() {
-        registry.clear();
+
+        for (Map.Entry<String, Generator<?>> entry : registry.entrySet()) {
+
+            boolean isPrimitiveType = Arrays.stream(PrimitiveType.values())
+                    .anyMatch(type -> type.name().equals(entry.getKey()));
+
+            boolean isGenerateType = Arrays.stream(GenerateType.values())
+                    .anyMatch(type -> type.name().equals(entry.getKey()));
+
+            if(isPrimitiveType) {
+                continue;
+            } else if(isGenerateType) {
+                continue;
+            }
+            registry.remove(entry.getKey());
+        }
     }
 }
