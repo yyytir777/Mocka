@@ -128,21 +128,21 @@ public class DataRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Generator<T> get(String key) {
+    private  <T> Generator<T> get(String key) {
         Generator<?> generator = registry.get(key);
         if (generator == null) throw new NotFoundGeneratorException("등록된 Generator 없음: " + key);
         return (Generator<T>) generator;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Generator<T> get(GenerateType type) {
+    private <T> Generator<T> get(GenerateType type) {
         Generator<?> generator = registry.get(type.name());
         if (generator == null) throw new NotFoundGeneratorException("등록된 Generator 없음: " + type.name());
         return (Generator<T>) generator;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Generator<T> get(PrimitiveType type) {
+    private <T> Generator<T> get(PrimitiveType type) {
         Generator<?> generator = registry.get(type.name());
         if (generator == null) throw new NotFoundGeneratorException("등록된 Generator 없음: " + type.name());
         return (Generator<T>) generator;
@@ -163,23 +163,17 @@ public class DataRegistry {
         return get(generatetype);
     }
 
+    public <T> Generator<T> getGenerator(PrimitiveType primitivetype) {
+        return get(primitivetype);
+    }
+
     /**
      * 등록된 key로 key에 해당하는 generator를 return
      * @param key
      * @return
      */
-    public Generator<?> getGenerator(String key) {
-        Generator<?> generator = registry.get(key);
-
-        if(generator == null) {
-            try {
-                GenerateType generateType = GenerateType.valueOf(key);
-                generator = getGenerator(generateType);
-            } catch (IllegalArgumentException e) {
-                throw new NotFoundGeneratorException("Generator를 찾을 수 없습니다. ", e);
-            }
-        }
-        return generator;
+    public <T> Generator<T> getGenerator(String key) {
+        return get(key);
     }
 
     /**

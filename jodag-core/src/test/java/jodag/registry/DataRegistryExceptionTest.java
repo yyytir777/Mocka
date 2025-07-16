@@ -45,7 +45,7 @@ public class DataRegistryExceptionTest {
         // when & then
         String anotherKey = "name1";
         assertThrows(NotFoundGeneratorException.class,
-                () -> dataRegistry.get(anotherKey));
+                () -> dataRegistry.getGenerator(anotherKey));
     }
 
     @Test

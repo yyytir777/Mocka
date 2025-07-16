@@ -64,7 +64,7 @@ class DataRegistryTest {
         dataRegistry.add(key, path, String.class);
 
         // when
-        Generator<String> generator = dataRegistry.get("name");
+        Generator<String> generator = dataRegistry.getGenerator("name");
 
         // then
         assertThat(generator).isNotNull();
@@ -79,6 +79,6 @@ class DataRegistryTest {
 
         // then
         assertDoesNotThrow(() -> dataRegistry.delete(key));
-        assertThrows(NotFoundGeneratorException.class, () -> dataRegistry.get(key));
+        assertThrows(NotFoundGeneratorException.class, () -> dataRegistry.getGenerator(key));
     }
 }
