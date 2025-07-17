@@ -6,7 +6,13 @@ import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class JodagMainTest {
 
@@ -21,30 +27,47 @@ public class JodagMainTest {
         // email 반환
         EmailGenerator emailGenerator = GeneratorFactory.email();
         String email = emailGenerator.get();
-        System.out.println("email = " + email);
+        Pattern pattern = Pattern.compile("\\w+@\\w+\\.\\w+");
+        assertThat(pattern.matcher(email).matches()).isTrue();
 
         // name 반환
         NameGenerator nameGenerator = GeneratorFactory.name();
         String name = nameGenerator.get();
-        System.out.println("name = " + name);
+        assertThat(name).isNotEmpty();
 
         // lorem ipsum 반환
         LoremIpsumGenerator loremIpsumGenerator = GeneratorFactory.loremIpsum();
         String loremIpsum = loremIpsumGenerator.get();
+        assertThat(loremIpsum).isNotEmpty();
 
         PrimitiveGenerator primitiveGenerator = GeneratorFactory.primitive();
 
         Boolean bool = primitiveGenerator.getBoolean();
+        assertThat(bool).isIn(Boolean.TRUE, Boolean.FALSE);
+
         Byte b = primitiveGenerator.getByte();
+        assertThat(b).isIn(Byte.MIN_VALUE, Byte.MAX_VALUE);
+
         Short s = primitiveGenerator.getShort();
+        assertThat(s).isIn(Short.MIN_VALUE, Short.MAX_VALUE);
+
         Character c = primitiveGenerator.getCharacter();
+        assertThat(c).isIn(Character.MIN_VALUE, Character.MAX_VALUE);
+
         Integer i = primitiveGenerator.getInteger();
+        assertThat(i).isIn(Integer.MIN_VALUE, Integer.MAX_VALUE);
+
         Long l = primitiveGenerator.getLong();
+        assertThat(l).isIn(Long.MIN_VALUE, Long.MAX_VALUE);
+
         Float f = primitiveGenerator.getFloat();
+        assertThat(f).isIn(Float.MIN_VALUE, Float.MAX_VALUE);
+
         Double d = primitiveGenerator.getDouble();
+        assertThat(d).isIn(Double.MIN_VALUE, Double.MAX_VALUE);
 
         Generator<String> generator = GeneratorFactory.getRegistableGenerator("asdf", "name.txt", String.class);
         String s1 = generator.get();
-        System.out.println("s1 = " + s1);
+        assertThat(s1).isNotEmpty();
     }
 }
