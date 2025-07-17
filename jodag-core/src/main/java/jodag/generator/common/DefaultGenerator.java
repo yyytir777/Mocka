@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class DefaultGenerator extends AbstractGenerator<String> implements StringGenerator {
+public class DefaultGenerator extends AbstractGenerator<String> {
 
     private static DefaultGenerator INSTANCE;
 
@@ -21,16 +21,6 @@ public class DefaultGenerator extends AbstractGenerator<String> implements Strin
     public static synchronized DefaultGenerator getInstance() {
         if (INSTANCE == null) INSTANCE = new DefaultGenerator();
         return INSTANCE;
-    }
-
-    @Override
-    public String get(int length) {
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(randomProvider.nextCharacter(Locale.ENGLISH));
-        }
-
-        return sb.toString();
     }
 
     @Override
