@@ -43,4 +43,16 @@ class EmailGeneratorTest {
         assertThat(name2).matches(emailPattern);
         assertThat(name1).isNotEqualTo(name2);
     }
+
+    @Test
+    @DisplayName("EmailGenerator에서 1000개의 랜덤 이름을 반환합니다.")
+    void return_1000_names() {
+        Generator<String> generator = dataRegistry.getGenerator(GenerateType.EMAIL);
+        for(int i = 0; i < 1000; i++) {
+            String email = generator.get();
+            System.out.println("email = " + email);
+        }
+
+        assertThat(true).isTrue();
+    }
 }

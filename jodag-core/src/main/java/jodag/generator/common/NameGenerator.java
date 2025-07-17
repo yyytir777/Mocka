@@ -15,9 +15,9 @@ public class NameGenerator extends AbstractGenerator<String> {
 
     private NameGenerator() throws IOException {
         super("name", String.class);
-        InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("name.txt");
         if (is == null) {
-            throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
+            throw new FileNotFoundException("리소스를 찾을 수 없습니다: name.txt");
         }
 
         this.names = new BufferedReader(new InputStreamReader(is))

@@ -15,7 +15,7 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
 
     private LoremIpsumGenerator() throws IOException {
         super("lorem ipsum", String.class);
-        InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("name.txt");
         if (is == null) {
             throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
         }

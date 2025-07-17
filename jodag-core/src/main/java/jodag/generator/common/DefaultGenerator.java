@@ -2,43 +2,39 @@ package jodag.generator.common;
 
 
 import jodag.generator.AbstractGenerator;
+import jodag.generator.Generator;
+import jodag.generator.StringGenerator;
 
 import java.io.*;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class DefaultGenerator extends AbstractGenerator<String> {
+public class DefaultGenerator extends AbstractGenerator<String> implements StringGenerator {
 
     private static DefaultGenerator INSTANCE;
 
-    private final List<String> defaults;
-
-    private DefaultGenerator() throws IOException {
+    private DefaultGenerator() {
         super("defaults", String.class);
-
-        InputStream is = getClass().getClassLoader().getResourceAsStream("default.txt");
-        if (is == null) {
-            throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
-        }
-
-        this.defaults = new BufferedReader(new InputStreamReader(is))
-                .lines()
-                .collect(Collectors.toList());
     }
 
     public static synchronized DefaultGenerator getInstance() {
-        if (INSTANCE == null) {
-            try {
-                INSTANCE = new DefaultGenerator();
-            } catch (IOException e) {
-                throw new RuntimeException("DefaultGenerator 생성 실패", e);
-            }
-        }
+        if (INSTANCE == null) INSTANCE = new DefaultGenerator();
         return INSTANCE;
     }
 
     @Override
+    public String get(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(randomProvider.nextCharacter(Locale.ENGLISH));
+        }
+
+        return sb.toString();
+    }
+
+    @Override
     public String get() {
-        return defaults.get(randomProvider.nextInt(defaults.size()));
+        return randomProvider.nextCharacter(Locale.ENGLISH).toString();
     }
 }

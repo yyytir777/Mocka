@@ -32,4 +32,16 @@ class NameGeneratorTest {
         assertThat(name2).isNotNull();
         assertThat(name1).isNotEqualTo(name2);
     }
+
+    @Test
+    @DisplayName("NameGenerator에서 1000개의 랜덤 이름을 반환합니다.")
+    void return_1000_names() {
+        Generator<String> generator = dataRegistry.getGenerator(GenerateType.NAME);
+        for(int i = 0; i < 1000; i++) {
+            String name = generator.get();
+            System.out.println("name{i} = " + name);
+        }
+
+        assertThat(true).isTrue();
+    }
 }

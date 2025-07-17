@@ -2,6 +2,7 @@ package jodag.generator.common;
 
 import jodag.generator.GenerateType;
 import jodag.generator.Generator;
+import jodag.generator.StringGenerator;
 import jodag.registry.DataRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ class DefaultGeneratorTest {
     @DisplayName("DefaultGenerator 인스턴스를 반환한다")
     void return_default_generator_instance() {
         // given & when
-        Generator<String> defaultGenerator = dataRegistry.getGenerator(GenerateType.DEFAULT);
+        StringGenerator defaultGenerator = dataRegistry.getGenerator(GenerateType.DEFAULT);
 
         // then
         assertThat(defaultGenerator).isInstanceOf(DefaultGenerator.class);
@@ -37,5 +38,12 @@ class DefaultGeneratorTest {
         assertThat(name1).isNotNull();
         assertThat(name2).isNotNull();
         assertThat(name1).isNotEqualTo(name2);
+    }
+
+    @Test
+    @DisplayName("랜덤한 길이의 문자열을 반환합니다.")
+    void return_random_length_string() {
+        Generator<String> generator = dataRegistry.getGenerator(GenerateType.DEFAULT);
+        generator.get(10);
     }
 }

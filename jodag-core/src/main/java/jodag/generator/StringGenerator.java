@@ -1,4 +1,6 @@
 package jodag.generator;
 
-public class StringGenerator {
+public interface StringGenerator extends Generator<String> {
+
+    String get(int length);
 }

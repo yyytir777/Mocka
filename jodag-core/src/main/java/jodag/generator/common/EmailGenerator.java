@@ -11,34 +11,18 @@ public class EmailGenerator extends AbstractGenerator<String> {
 
     private static EmailGenerator INSTANCE;
 
-    private final List<String> emails;
-
-    private EmailGenerator() throws IOException {
+    private EmailGenerator() {
         super("email", String.class);
-        InputStream is = getClass().getClassLoader().getResourceAsStream("email.txt");
-        if (is == null) {
-            throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
-        }
-
-        this.emails = new BufferedReader(new InputStreamReader(is))
-                .lines()
-                .collect(Collectors.toList());
     }
 
     public static synchronized EmailGenerator getInstance() {
-        if (INSTANCE == null) {
-            try {
-                INSTANCE = new EmailGenerator();
-            } catch (IOException e) {
-                throw new RuntimeException("EmailGenerator 생성 실패", e);
-            }
-        }
+        if (INSTANCE == null) INSTANCE = new EmailGenerator();
         return INSTANCE;
     }
 
     @Override
     public String get() {
-        String username = randomStringWithNum(5, 10);
+        String username = randomStringWithNum(7, 10);
         String domain = randomString(3, 7);
         String tld = randomString(2, 3);
         return username + "@" + domain + "." + tld;

@@ -80,6 +80,11 @@ public class DataRegistry {
         registry.put(key, generator);
     }
 
+    public <T> void add(Generator<T> generator) {
+        registry.put(((AbstractGenerator<T>) generator).getName(), generator);
+    }
+
+
     /**
      * 기본으로 들어있는 Generator를 등록
      * @param type
@@ -189,9 +194,6 @@ public class DataRegistry {
 
     public GeneratorInfo<?> getGeneratorInfo(String key) {
         Generator<?> generator = get(key);
-        if (generator == null) {
-            throw new IllegalArgumentException("generator를 찾을 수 없습니다. key : " + key);
-        }
         return GeneratorInfo.from(generator);
     }
 
