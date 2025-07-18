@@ -3,9 +3,6 @@ package jodag.generator.common;
 
 import jodag.generator.AbstractGenerator;
 
-import java.io.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class EmailGenerator extends AbstractGenerator<String> {
 

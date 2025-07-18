@@ -39,11 +39,11 @@ public class PrimitiveGenerator extends AbstractGenerator<Object> {
     }
 
     public Integer getInteger() {
-        return Integer.MAX_VALUE;
+        return randomProvider.nextInteger();
     }
 
     public Long getLong() {
-        return Long.MAX_VALUE;
+        return randomProvider.nextLong();
     }
 
     public Float getFloat() {
