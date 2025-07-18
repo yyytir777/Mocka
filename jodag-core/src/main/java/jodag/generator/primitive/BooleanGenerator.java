@@ -19,6 +19,10 @@ public class BooleanGenerator extends AbstractGenerator<Boolean> {
 
     @Override
     public Boolean get() {
-        return true;
+        return randomProvider.nextBoolean();
+    }
+
+    public Byte getByte(Byte min, Byte max) {
+        return null;
     }
 }

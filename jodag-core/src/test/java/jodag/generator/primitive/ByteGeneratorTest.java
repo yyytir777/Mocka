@@ -29,9 +29,9 @@ public class ByteGeneratorTest {
     @Test
     @DisplayName("min ~ max 사이 byte 값 반환")
     void get_byte_in_range() {
-        byte min = 0, byte max = 30;
+        byte min = 0, max = 30;
         Byte b = primitiveGenerator.getByte(min, max);
-        assertThat(b).isLessThanOrEqualTo(min).isGreaterThanOrEqualTo(max);
+        assertThat(b).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class ByteGeneratorTest {
         Byte[] bytes = {(byte) 1, (byte) 2, (byte) 3};
         Byte b = primitiveGenerator.pickFrom(bytes);
 
-        assertThat(b).isIn(bytes);
+        assertThat(b).isIn(List.of(bytes));
         assertThat(b).isLessThanOrEqualTo(Byte.MAX_VALUE).isGreaterThanOrEqualTo(Byte.MIN_VALUE);
     }
 }

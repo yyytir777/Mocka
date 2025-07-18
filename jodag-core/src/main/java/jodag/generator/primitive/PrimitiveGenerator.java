@@ -1,13 +1,28 @@
 package jodag.generator.primitive;
 
+
 import jodag.generator.AbstractGenerator;
 
-public class PrimitiveGenerator extends AbstractGenerator<Object> {
+import java.util.List;
+
+
+public class PrimitiveGenerator extends AbstractGenerator<Integer> {
+
+    // 타입 <매개변수> 리턴타입 메서드_이름(매개변수) { ... }
 
     private static PrimitiveGenerator INSTANCE;
 
+    private final BooleanGenerator booleanGenerator = BooleanGenerator.getInstance();
+    private final ByteGenerator byteGenerator = ByteGenerator.getInstance();
+    private final ShortGenerator shortGenerator = ShortGenerator.getInstance();
+    private final IntegerGenerator integerGenerator = IntegerGenerator.getInstance();
+    private final LongGenerator longGenerator = LongGenerator.getInstance();
+    private final CharacterGenerator characterGenerator = CharacterGenerator.getInstance();
+    private final FloatGenerator floatGenerator = FloatGenerator.getInstance();
+    private final DoubleGenerator doubleGenerator = DoubleGenerator.getInstance();
+
     private PrimitiveGenerator() {
-        super("primitive", Object.class);
+        super("primitive", Integer.class);
     }
 
     public static synchronized PrimitiveGenerator getInstance() {
@@ -18,39 +33,158 @@ public class PrimitiveGenerator extends AbstractGenerator<Object> {
     }
 
     @Override
-    public Object get() {
-        return "primitive";
+    public Integer get() {
+        return 0;
     }
 
+    // BooleanGenerator
     public Boolean getBoolean() {
-        return true;
+        return booleanGenerator.get();
     }
 
+    // ByteGenerator
     public Byte getByte() {
-        return Byte.MAX_VALUE;
+        return byteGenerator.get();
     }
 
+    public Byte getByte(Byte min, Byte max) {
+        return byteGenerator.getByte(min, max);
+    }
+
+    public Byte getPositiveByte() {
+        return byteGenerator.getByte((byte) 1, Byte.MAX_VALUE);
+    }
+
+    public Byte getNegativeByte() {
+        return byteGenerator.getByte(Byte.MIN_VALUE, (byte) -1);
+    }
+
+    public Byte getEvenByte() {
+        return byteGenerator.getEvenByte();
+    }
+
+    public Byte getOddByte() {
+        return byteGenerator.getOddByte();
+    }
+
+    // ShortGenerator
     public Short getShort() {
-        return Short.MAX_VALUE;
+        return shortGenerator.get();
     }
 
-    public Character getCharacter() {
-        return Character.MAX_VALUE;
+    public Short getShort(Short min, Short max) {
+        return shortGenerator.getShort(min, max);
+    }
+
+    public Short getPositiveShort() {
+        return shortGenerator.getShort((short) 1, Short.MAX_VALUE);
+    }
+
+    public Short getNegativeShort() {
+        return shortGenerator.getShort(Short.MIN_VALUE, (short) -1);
+    }
+
+    public Short getEvenShort() {
+        return shortGenerator.getEvenShort();
+    }
+
+    public Short getOddShort() {
+        return shortGenerator.getOddShort();
     }
 
     public Integer getInteger() {
-        return randomProvider.nextInteger();
+        return integerGenerator.get();
+    }
+
+    public Integer getInteger(Integer min, Integer max) {
+        return integerGenerator.getInteger(min, max);
+    }
+
+    public Integer getPositiveInteger() {
+        return integerGenerator.getInteger(1, Integer.MAX_VALUE);
+    }
+
+    public Integer getNegativeInteger() {
+        return integerGenerator.getInteger(Integer.MIN_VALUE, -1);
+    }
+
+    public Integer getEvenInteger() {
+        return integerGenerator.getEvenInteger();
+    }
+
+    public Integer getOddInteger() {
+        return integerGenerator.getOddInteger();
     }
 
     public Long getLong() {
-        return randomProvider.nextLong();
+        return longGenerator.get();
+    }
+
+    public Long getLong(Long min, Long max) {
+        return longGenerator.getLong(min, max);
+    }
+
+    public Long getPositiveLong() {
+        return longGenerator.getLong(1L, Long.MAX_VALUE);
+    }
+
+    public Long getNegativeLong() {
+        return longGenerator.getLong(Long.MIN_VALUE, -1L);
+    }
+
+    public Long getEvenLong() {
+        return longGenerator.getEvenLong();
+    }
+
+    public Long getOddLong() {
+        return longGenerator.getOddLong();
     }
 
     public Float getFloat() {
-        return Float.MAX_VALUE;
+        return floatGenerator.get();
+    }
+
+    public Float getFloat(Float min, Float max) {
+        return floatGenerator.getFloat(min, max);
+    }
+
+    public Float getPositiveFloat() {
+        return floatGenerator.getFloat(0, Float.MAX_VALUE);
+    }
+
+    public Float getNegativeFloat() {
+        return floatGenerator.getFloat(-Float.MAX_VALUE, 0);
     }
 
     public Double getDouble() {
-        return Double.MAX_VALUE;
+        return doubleGenerator.get();
+    }
+
+    public Double getDouble(Double min, Double max) {
+        return doubleGenerator.getDouble(min, max);
+    }
+
+    public Double getPositiveDouble() {
+        return doubleGenerator.getDouble(0, Double.MAX_VALUE);
+    }
+
+    public Double getNegativeDouble() {
+        return doubleGenerator.getDouble(-Double.MAX_VALUE, 0);
+    }
+
+    public Character getCharacter() {
+        return characterGenerator.get();
+    }
+
+    public Character getCharacter(Character min, Character max) {
+        return characterGenerator.getCharacter(min, max);
+    }
+
+    public <T> T pickFrom(List<T> list) {
+        return list.get(randomProvider.nextInt(list.size()));
+    }
+
+    public <T> T pickFrom(T[] array) {
+        return array[randomProvider.nextInt(array.length)];
     }
 }

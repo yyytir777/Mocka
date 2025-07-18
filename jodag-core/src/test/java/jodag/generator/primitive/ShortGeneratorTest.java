@@ -78,7 +78,7 @@ public class ShortGeneratorTest {
         Short[] shorts = {(short) 1, (short) 2, (short) 3};
         Short s = primitiveGenerator.pickFrom(shorts);
 
-        assertThat(s).isIn(shorts);
+        assertThat(s).isIn(List.of(shorts));
         assertThat(s).isLessThanOrEqualTo(Byte.MAX_VALUE).isGreaterThanOrEqualTo(Byte.MIN_VALUE);
     }
 }

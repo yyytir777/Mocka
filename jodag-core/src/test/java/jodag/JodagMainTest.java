@@ -46,25 +46,25 @@ public class JodagMainTest {
         assertThat(bool).isIn(Boolean.TRUE, Boolean.FALSE);
 
         Byte b = primitiveGenerator.getByte();
-        assertThat(b).isIn(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
 
         Short s = primitiveGenerator.getShort();
-        assertThat(s).isIn(Short.MIN_VALUE, Short.MAX_VALUE);
+        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
 
         Character c = primitiveGenerator.getCharacter();
-        assertThat(c).isIn(Character.MIN_VALUE, Character.MAX_VALUE);
+        assertThat(c).isBetween(Character.MIN_VALUE, Character.MAX_VALUE);
 
         Integer i = primitiveGenerator.getInteger();
-        assertThat(i).isIn(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        assertThat(i).isBetween(Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         Long l = primitiveGenerator.getLong();
-        assertThat(l).isIn(Long.MIN_VALUE, Long.MAX_VALUE);
+        assertThat(l).isBetween(Long.MIN_VALUE, Long.MAX_VALUE);
 
         Float f = primitiveGenerator.getFloat();
-        assertThat(f).isIn(Float.MIN_VALUE, Float.MAX_VALUE);
+        assertThat(f).isBetween(Float.MIN_VALUE, Float.MAX_VALUE);
 
         Double d = primitiveGenerator.getDouble();
-        assertThat(d).isIn(Double.MIN_VALUE, Double.MAX_VALUE);
+        assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
 
         Generator<String> generator = GeneratorFactory.getRegistableGenerator("asdf", "name.txt", String.class);
         String s1 = generator.get();

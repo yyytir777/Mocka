@@ -31,7 +31,7 @@ public class IntegerGeneratorTest {
     void get_integer_in_range() {
         int min = 0, max = 30;
         Integer integer = primitiveGenerator.getInteger(min, max);
-        assertThat(integer).isLessThanOrEqualTo(min).isGreaterThanOrEqualTo(max);
+        assertThat(integer).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class IntegerGeneratorTest {
         Integer[] integers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Integer integer = primitiveGenerator.pickFrom(integers);
 
-        assertThat(integer).isIn(integers);
+        assertThat(integer).isIn(List.of(integers));
         assertThat(integer).isGreaterThanOrEqualTo(Integer.MIN_VALUE).isLessThanOrEqualTo(Integer.MAX_VALUE);
     }
 }

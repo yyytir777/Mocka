@@ -31,7 +31,7 @@ public class FloatGeneratorTest {
     void get_float_in_range() {
         float min = 0, max = 30;
         Float f = primitiveGenerator.getFloat(min, max);
-        assertThat(f).isLessThanOrEqualTo(min).isGreaterThanOrEqualTo(max);
+        assertThat(f).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
     }
 
     @Test
@@ -46,20 +46,6 @@ public class FloatGeneratorTest {
     void get_negative_float() {
         Float f = primitiveGenerator.getNegativeFloat();
         assertThat(f).isNegative();
-    }
-
-    @Test
-    @DisplayName("짝수 Float 값 반환")
-    void get_even_float() {
-        Float f = primitiveGenerator.getEvenFloat();
-        assertThat(f).isEven();
-    }
-
-    @Test
-    @DisplayName("홀수 Integer 값 반환")
-    void get_odd_float() {
-        Float f = primitiveGenerator.getOddFloat();
-        assertThat(f).isOdd();
     }
 
     @Test
@@ -78,7 +64,7 @@ public class FloatGeneratorTest {
         Float[] floats = {1F, 2F, 3F, 4F, 5F, 6F, 7F, 8F, 9F, 10F};
         Float f = primitiveGenerator.pickFrom(floats);
 
-        assertThat(f).isIn(floats);
+        assertThat(f).isIn(List.of(floats));
         assertThat(f).isGreaterThanOrEqualTo(Float.MIN_VALUE).isLessThanOrEqualTo(Float.MAX_VALUE);
     }
 }

@@ -19,6 +19,15 @@ public class FloatGenerator extends AbstractGenerator<Float> {
 
     @Override
     public Float get() {
-        return 0f;
+        return getFloat();
+    }
+
+    public Float getFloat() {
+        return getFloat(Float.MIN_VALUE, Float.MAX_VALUE);
+    }
+
+    public Float getFloat(float min, float max) {
+        float range = (max - min) + 1;
+        return randomProvider.nextFloat(range) + min;
     }
 }

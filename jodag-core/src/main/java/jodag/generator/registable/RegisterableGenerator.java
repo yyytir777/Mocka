@@ -32,20 +32,6 @@ public class RegisterableGenerator<T> extends AbstractGenerator<T> {
                 .lines().collect(Collectors.toList());
     }
 
-    @SuppressWarnings("unchecked")
-    public RegisterableGenerator(String key, String resourcePath, Class<T> type, Random random) {
-        super(key, type, random);
-        try {
-            this.data = (List<T>) Files.readAllLines(Path.of(resourcePath));
-        } catch (IOException e) {
-            throw new GeneratorException("해당 경로의 파일을 찾을 수 없습니다. ", e);
-        } catch (ClassCastException e) {
-            throw new GeneratorException("주어진 타입으로의 변환을 실패했습니다. ", e);
-        } catch (Exception e) {
-            throw new GeneratorException("Generator 생성 실패했습니다.", e);
-        }
-    }
-
     @Override
     public T get() {
         return data.get(randomProvider.nextInt(data.size()));

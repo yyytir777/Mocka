@@ -2,6 +2,8 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class CharacterGenerator extends AbstractGenerator<Character> {
 
     private static CharacterGenerator INSTANCE;
@@ -19,6 +21,15 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
 
     @Override
     public Character get() {
-        return null;
+        return randomProvider.nextBoolean() ? getCharacter('a', 'z') : getCharacter('A', 'Z');
+    }
+
+    public Character getCharacter() {
+        return getCharacter((char) 0x0000, (char) 0xFFFF);
+    }
+
+    public Character getCharacter(char min, char max) {
+        int range = (max - min) + 1;
+        return (char) (ThreadLocalRandom.current().nextInt(range) + min);
     }
 }

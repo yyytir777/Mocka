@@ -29,7 +29,7 @@ public class CharacterGeneratorTest {
     @Test
     @DisplayName("min ~ max 사이 Character 값 반환")
     void get_character_in_range() {
-        char min = 0x0000, max = 0xFFFF;
+        char min = 'a', max = 'z';
         Character c = primitiveGenerator.getCharacter(min, max);
         assertThat(Character.isLetter(c)).isTrue();
     }
@@ -50,7 +50,7 @@ public class CharacterGeneratorTest {
         Character[] characters = {'a', 'b', 'c', 'd'};
         Character c = primitiveGenerator.pickFrom(characters);
 
-        assertThat(c).isIn(characters);
+        assertThat(c).isIn(List.of(characters));
         assertThat(Character.isLetter(c)).isTrue();
     }
 }

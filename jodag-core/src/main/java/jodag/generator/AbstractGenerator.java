@@ -2,7 +2,7 @@ package jodag.generator;
 
 import jodag.random.RandomProvider;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public abstract class AbstractGenerator<T> implements Generator<T> {
@@ -15,18 +15,6 @@ public abstract class AbstractGenerator<T> implements Generator<T> {
         this.name = name;
         this.type = type;
         this.randomProvider = new RandomProvider();
-    }
-
-    public AbstractGenerator(String name, Class<T> type, Random random) {
-        this.name = name;
-        this.type = type;
-        this.randomProvider = new RandomProvider(random);
-    }
-
-    public AbstractGenerator(String name, Class<T> type, long seed) {
-        this.name = name;
-        this.type = type;
-        this.randomProvider = new RandomProvider(new Random(seed));
     }
 
     public String getName() {
