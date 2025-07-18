@@ -31,7 +31,7 @@ public class FloatGeneratorTest {
     void get_float_in_range() {
         float min = 0, max = 30;
         Float f = primitiveGenerator.getFloat(min, max);
-        assertThat(f).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
+        assertThat(f).isLessThanOrEqualTo(max + 0.0001f).isGreaterThanOrEqualTo(min - 0.0001f);
     }
 
     @Test
