@@ -5,6 +5,7 @@ import jodag.generator.AbstractGenerator;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class NameGenerator extends AbstractGenerator<String> {
@@ -38,6 +39,6 @@ public class NameGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        return names.get(randomProvider.nextInt(names.size()));
+        return names.get(ThreadLocalRandom.current().nextInt(names.size()));
     }
 }

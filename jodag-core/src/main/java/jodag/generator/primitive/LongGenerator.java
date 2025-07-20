@@ -32,6 +32,10 @@ public class LongGenerator extends AbstractGenerator<Long> {
         return ThreadLocalRandom.current().nextLong(min, max);
     }
 
+    public Long getNextLong(Long l) {
+        return ThreadLocalRandom.current().nextLong(l);
+    }
+
     public Long getEvenLong() {
         long value = getLong();
         if(value == Long.MAX_VALUE) value--;

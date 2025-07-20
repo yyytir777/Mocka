@@ -3,6 +3,8 @@ package jodag.generator.common;
 
 import jodag.generator.AbstractGenerator;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class EmailGenerator extends AbstractGenerator<String> {
 
@@ -26,7 +28,7 @@ public class EmailGenerator extends AbstractGenerator<String> {
     }
 
     private String randomStringWithNum(int min, int max) {
-        int length = randomProvider.nextInt(max - min + 1) + min;
+        int length = min + ThreadLocalRandom.current().nextInt(max - min + 1);
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < length; i++) {
             sb.append(randomProvider.nextAlphanum());
@@ -35,7 +37,7 @@ public class EmailGenerator extends AbstractGenerator<String> {
     }
 
     private String randomString(int min, int max) {
-        int length = randomProvider.nextInt(max - min + 1) + min;
+        int length = min + ThreadLocalRandom.current().nextInt(max - min + 1);
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < length; i++) {
             sb.append(randomProvider.nextAlphabet());

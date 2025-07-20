@@ -21,7 +21,7 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
 
     @Override
     public Character get() {
-        return randomProvider.nextBoolean() ? getCharacter('a', 'z') : getCharacter('A', 'Z');
+        return ThreadLocalRandom.current().nextBoolean() ? getCharacter('a', 'z') : getCharacter('A', 'Z');
     }
 
     public Character getCharacter() {

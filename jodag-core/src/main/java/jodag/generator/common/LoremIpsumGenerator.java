@@ -5,6 +5,7 @@ import jodag.generator.AbstractGenerator;
 
 import java.io.*;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class LoremIpsumGenerator extends AbstractGenerator<String> {
@@ -38,6 +39,6 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        return loremIpsum.get(randomProvider.nextInt(loremIpsum.size()));
+        return loremIpsum.get(ThreadLocalRandom.current().nextInt(loremIpsum.size()));
     }
 }

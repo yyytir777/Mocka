@@ -2,6 +2,8 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class BooleanGenerator extends AbstractGenerator<Boolean> {
 
     private static BooleanGenerator INSTANCE;
@@ -19,7 +21,7 @@ public class BooleanGenerator extends AbstractGenerator<Boolean> {
 
     @Override
     public Boolean get() {
-        return randomProvider.nextBoolean();
+        return ThreadLocalRandom.current().nextBoolean();
     }
 
     public Byte getByte(Byte min, Byte max) {

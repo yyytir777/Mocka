@@ -4,6 +4,7 @@ package jodag.generator.primitive;
 import jodag.generator.AbstractGenerator;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class PrimitiveGenerator extends AbstractGenerator<Integer> {
@@ -181,10 +182,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
     }
 
     public <T> T pickFrom(List<T> list) {
-        return list.get(randomProvider.nextInt(list.size()));
+        return list.get(ThreadLocalRandom.current().nextInt(list.size()));
     }
 
     public <T> T pickFrom(T[] array) {
-        return array[randomProvider.nextInt(array.length)];
+        return array[ThreadLocalRandom.current().nextInt(array.length)];
     }
 }

@@ -11,27 +11,6 @@ public class RandomProvider {
     private static final char[] NUMERIC = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final char[] DIGIT = "0123456789".toCharArray();
 
-
-    public Boolean nextBoolean() {
-        return ThreadLocalRandom.current().nextBoolean();
-    }
-
-    public Integer nextInt(int n) {
-        return ThreadLocalRandom.current().nextInt(n);
-    }
-
-    public Long nextLong(long n) {
-        return ThreadLocalRandom.current().nextLong(n);
-    }
-
-    public Double nextDouble(double n) {
-        return ThreadLocalRandom.current().nextDouble(n);
-    }
-
-    public Float nextFloat(float n) {
-        return ThreadLocalRandom.current().nextFloat(n);
-    }
-
     public Character nextCharacter(Locale locale) {
         if(locale == Locale.ENGLISH) {
             return nextEnglish();

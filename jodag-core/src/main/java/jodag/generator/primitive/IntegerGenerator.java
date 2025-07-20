@@ -32,6 +32,10 @@ public class IntegerGenerator extends AbstractGenerator<Integer> {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
+    public Integer getNextInteger(Integer n) {
+        return ThreadLocalRandom.current().nextInt(n);
+    }
+
     public Integer getEvenInteger() {
         int value = getInteger();
         if(value == Integer.MAX_VALUE) value--;
