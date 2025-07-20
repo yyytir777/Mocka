@@ -11,7 +11,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
 
     // 타입 <매개변수> 리턴타입 메서드_이름(매개변수) { ... }
 
-    private static PrimitiveGenerator INSTANCE;
+    private static final PrimitiveGenerator INSTANCE = new PrimitiveGenerator();
 
     private final BooleanGenerator booleanGenerator = BooleanGenerator.getInstance();
     private final ByteGenerator byteGenerator = ByteGenerator.getInstance();
@@ -26,10 +26,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         super("primitive", Integer.class);
     }
 
-    public static synchronized PrimitiveGenerator getInstance() {
-        if(INSTANCE == null) {
-            INSTANCE = new PrimitiveGenerator();
-        }
+    public static PrimitiveGenerator getInstance() {
         return INSTANCE;
     }
 
@@ -182,10 +179,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
     }
 
     public <T> T pickFrom(List<T> list) {
-        return list.get(ThreadLocalRandom.current().nextInt(list.size()));
+        return list.get(randomProvider.getNextIdx(list.size()));
     }
 
     public <T> T pickFrom(T[] array) {
-        return array[ThreadLocalRandom.current().nextInt(array.length)];
+        return array[randomProvider.getNextIdx(array.length)];
     }
 }
