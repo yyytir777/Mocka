@@ -1,29 +1,45 @@
 package jodag;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
+import jodag.generator.Generate;
+import jodag.generator.SpringGeneratorFactory;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//@Component
-public class EntityScanner {
+/**
+ * GenerateAnnotationProcessor 클래스 설명
+ *  1. Spring Boot 애플리케이션 실행
+ *  2. Spring이 @Component 클래스 스캔
+ *  3. GenerateAnnotationProcessor 빈 생성
+ *  4. @PostConstruct 메서드 실행
+ *  5. beanFactory를 통해 basePackage get
+ *  6. basePackage와 scanner를 통해 애노테이션 필터 처리 -> @Entity와 @Generate 붙은 클래스 gets
+ */
+@Component
+public class EntityScanner implements BeanFactoryAware {
+
+    private BeanFactory beanFactory;
+
+    @Override
+    public void setBeanFactory(@Nonnull BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 
     @PostConstruct
-    public List<Map<String, String>> analyzeEntity() {
+    public void processGenerateAnnotation() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-
-        String basePackage = EntityScanner.class.getPackage().getName();
-
-        Set<Class<?>> entityClasses = scanner.findCandidateComponents(basePackage)
+        String basePackage = AutoConfigurationPackages.get(beanFactory).get(0);
+        Set<Class<?>> candidates = scanner.findCandidateComponents(basePackage)
                 .stream().map(def -> {
                     try {
                         return Class.forName(def.getBeanClassName());
@@ -32,13 +48,12 @@ public class EntityScanner {
                     }
                 }).collect(Collectors.toSet());
 
-        List<Map<String, String>> result = new ArrayList<>();
-        for (Class<?> entityClass : entityClasses) {
-            System.out.println("Entity = " + entityClass.getSimpleName());
-            for (Field field : entityClass.getDeclaredFields()) {
-                result.add(Map.of(field.getName(), field.getType().getSimpleName()));
-                System.out.println("  Field: " + field.getName() + " (" + field.getType().getSimpleName() + ")");            }
+        for(Class<?> clazz : candidates) {
+            if(!clazz.isAnnotationPresent(Generate.class)) {
+                System.out.println("@generate애노테이션이 아닙니다. = " + clazz.getName());
+                continue;
+            }
+            SpringGeneratorFactory.add(clazz);
         }
-        return result;
     }
 }

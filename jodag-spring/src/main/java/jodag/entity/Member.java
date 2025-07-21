@@ -15,11 +15,23 @@ public class Member {
 
     }
 
+    public Long getId() {
+        return this.id;
+    }
+    public String getName() {
+        return this.name;
+    }
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 '}';
     }
 }
