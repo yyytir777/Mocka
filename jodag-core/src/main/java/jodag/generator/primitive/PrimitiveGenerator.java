@@ -4,6 +4,7 @@ package jodag.generator.primitive;
 import jodag.generator.AbstractGenerator;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class PrimitiveGenerator extends AbstractGenerator<Integer> {
@@ -175,6 +176,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
 
     public Character getCharacter() {
         return characterGenerator.get();
+    }
+
+    public Character getCharacter(Locale locale) {
+        return characterGenerator.getCharacter(locale);
     }
 
     public Character getCharacter(Character min, Character max) {

@@ -34,4 +34,13 @@ public class StringGenerator extends AbstractGenerator<String> {
         }
         return sb.toString();
     }
+
+    public String get(int min, int max) {
+        int length = ThreadLocalRandom.current().nextInt(min, max + 1);
+        StringBuilder sb = new StringBuilder(length);
+        for(int i = 0; i < length; i++) {
+            sb.append(PrimitiveGenerator.getInstance().getCharacter());
+        }
+        return sb.toString();
+    }
 }

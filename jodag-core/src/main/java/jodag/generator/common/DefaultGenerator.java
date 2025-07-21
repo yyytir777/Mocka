@@ -2,8 +2,8 @@ package jodag.generator.common;
 
 
 import jodag.generator.AbstractGenerator;
+import jodag.generator.StringGenerator;
 
-import java.util.Locale;
 
 public class DefaultGenerator extends AbstractGenerator<String> {
 
@@ -19,6 +19,6 @@ public class DefaultGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        return randomProvider.nextCharacter(Locale.ENGLISH).toString();
+        return StringGenerator.getInstance().get();
     }
 }
