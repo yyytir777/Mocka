@@ -1,4 +1,4 @@
-package jodag;
+package jodag.scanner;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.PostConstruct;
@@ -16,13 +16,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * GenerateAnnotationProcessor 클래스 설명
- *  1. Spring Boot 애플리케이션 실행
- *  2. Spring이 @Component 클래스 스캔
- *  3. GenerateAnnotationProcessor 빈 생성
- *  4. @PostConstruct 메서드 실행
- *  5. beanFactory를 통해 basePackage get
- *  6. basePackage와 scanner를 통해 애노테이션 필터 처리 -> @Entity와 @Generate 붙은 클래스 gets
+ * GenerateAnnotationProcessor 클래스 설명 <br>
+ *  1. Spring Boot 애플리케이션 실행 <br>
+ *  2. Spring이 @Component 클래스 스캔 <br>
+ *  3. GenerateAnnotationProcessor 빈 생성 <br>
+ *  4. @PostConstruct 메서드 실행 <br>
+ *  5. beanFactory를 통해 basePackage get <br>
+ *  6. basePackage와 scanner를 통해 애노테이션 필터 처리 -> @Entity와 @Generate 붙은 클래스 get <br>
  */
 @Component
 public class EntityScanner implements BeanFactoryAware {
@@ -50,7 +50,7 @@ public class EntityScanner implements BeanFactoryAware {
 
         for(Class<?> clazz : candidates) {
             if(!clazz.isAnnotationPresent(Generate.class)) {
-                System.out.println("@generate애노테이션이 아닙니다. = " + clazz.getName());
+                System.out.println("@Generate애노테이션이 아닙니다. = " + clazz.getName());
                 continue;
             }
             SpringGeneratorFactory.add(clazz);
