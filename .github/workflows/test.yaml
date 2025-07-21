@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  test-jodag-core:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Code
@@ -17,5 +17,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run Tests
-        run: ./gradlew clean test
+      - name: Run jodag-core tests
+        run: ./gradlew clean :jodag-core:test
+
+  test-jodag-spring:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run jodag-spring tests
+        run: ./gradlew clean :jodag-spring:test

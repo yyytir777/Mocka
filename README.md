@@ -23,6 +23,38 @@ Jodag-spring
 - It allows you to generate countless Entity instances fit perfectly into your project.
 - Ideal for creating dummy test data or prepopulating your database.
 
+How To Use
+===
+
+## Import Library
+
+### Gradle
+
+```groovy
+dependencies {
+    implementation 'io.github.yyytir777:jodag-core:0.0.2'
+    implementation 'io.github.yyytir777:jodag-spring:0.0.2'
+}
+```
+
+### Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.github.yyytir777</groupId>
+        <artifactId>jodag-core</artifactId>
+        <version>0.0.2</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.yyytir777</groupId>
+        <artifactId>jodag-spring</artifactId>
+        <version>0.0.2</version>
+    </dependency>
+</dependencies>
+```
+
+
 Example Test Codes
 ===
 ```java
