@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatGenerator extends AbstractGenerator<Float> {
 
-    private static FloatGenerator INSTANCE;
+    private static final FloatGenerator INSTANCE = new FloatGenerator();
 
     private FloatGenerator() {
         super("float", Float.class);
     }
 
-    public static synchronized FloatGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new FloatGenerator();
-        }
+    public static FloatGenerator getInstance() {
         return INSTANCE;
     }
 

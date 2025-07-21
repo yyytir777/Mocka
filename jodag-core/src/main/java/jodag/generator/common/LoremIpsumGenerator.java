@@ -10,9 +10,18 @@ import java.util.stream.Collectors;
 
 public class LoremIpsumGenerator extends AbstractGenerator<String> {
 
-    private static LoremIpsumGenerator INSTANCE;
+    private static final LoremIpsumGenerator INSTANCE;
 
     private final List<String> loremIpsum;
+
+    static {
+        try {
+            INSTANCE = new LoremIpsumGenerator();
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError("Lorem Ipsum Generator 초기화 실패" + e);
+        }
+    }
+
 
     private LoremIpsumGenerator() throws IOException {
         super("lorem ipsum", String.class);
@@ -26,14 +35,7 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
                 .collect(Collectors.toList());
     }
 
-    public static synchronized LoremIpsumGenerator getInstance() {
-        if (INSTANCE == null) {
-            try {
-                INSTANCE = new LoremIpsumGenerator();
-            } catch (IOException e) {
-                throw new RuntimeException("LoremIpsumGenerator 생성 실패", e);
-            }
-        }
+    public static LoremIpsumGenerator getInstance() {
         return INSTANCE;
     }
 

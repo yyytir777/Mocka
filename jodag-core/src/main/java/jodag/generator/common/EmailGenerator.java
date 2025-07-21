@@ -8,14 +8,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EmailGenerator extends AbstractGenerator<String> {
 
-    private static EmailGenerator INSTANCE;
+    private static final EmailGenerator INSTANCE =  new EmailGenerator();
 
     private EmailGenerator() {
         super("email", String.class);
     }
 
-    public static synchronized EmailGenerator getInstance() {
-        if (INSTANCE == null) INSTANCE = new EmailGenerator();
+    public static EmailGenerator getInstance() {
         return INSTANCE;
     }
 

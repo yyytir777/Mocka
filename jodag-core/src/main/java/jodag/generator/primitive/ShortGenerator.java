@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ShortGenerator extends AbstractGenerator<Short> {
 
-    private static ShortGenerator INSTANCE;
+    private static final ShortGenerator INSTANCE = new ShortGenerator();
 
     private ShortGenerator() {
         super("short", Short.class);
     }
 
-    public static synchronized ShortGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ShortGenerator();
-        }
+    public static ShortGenerator getInstance() {
         return INSTANCE;
     }
 

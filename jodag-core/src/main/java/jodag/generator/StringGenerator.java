@@ -1,17 +1,17 @@
 package jodag.generator;
 
+import java.util.Random;
+
 public class StringGenerator extends AbstractGenerator<String> {
 
-    private static StringGenerator INSTANCE;
+    private static final StringGenerator INSTANCE = new StringGenerator();
+    private final Random random = new Random();
 
     private StringGenerator() {
         super("string", String.class);
     }
 
-    public static synchronized StringGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new StringGenerator();
-        }
+    public static StringGenerator getInstance() {
         return INSTANCE;
     }
 

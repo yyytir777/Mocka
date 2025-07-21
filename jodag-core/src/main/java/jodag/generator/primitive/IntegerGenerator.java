@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class IntegerGenerator extends AbstractGenerator<Integer> {
 
-    private static IntegerGenerator INSTANCE;
+    private static final IntegerGenerator INSTANCE = new IntegerGenerator();
 
     private IntegerGenerator() {
         super("integer", Integer.class);
     }
 
-    public static synchronized IntegerGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new IntegerGenerator();
-        }
+    public static IntegerGenerator getInstance() {
         return INSTANCE;
     }
 

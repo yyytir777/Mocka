@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class LongGenerator extends AbstractGenerator<Long> {
 
-    private static LongGenerator INSTANCE;
+    private static final LongGenerator INSTANCE = new LongGenerator() {};
 
     private LongGenerator() {
         super("long", Long.class);
     }
 
-    public static synchronized LongGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new LongGenerator();
-        }
+    public static LongGenerator getInstance() {
         return INSTANCE;
     }
 

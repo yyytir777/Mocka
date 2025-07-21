@@ -7,14 +7,13 @@ import java.util.Locale;
 
 public class DefaultGenerator extends AbstractGenerator<String> {
 
-    private static DefaultGenerator INSTANCE;
+    private static final DefaultGenerator INSTANCE = new DefaultGenerator();
 
     private DefaultGenerator() {
         super("defaults", String.class);
     }
 
-    public static synchronized DefaultGenerator getInstance() {
-        if (INSTANCE == null) INSTANCE = new DefaultGenerator();
+    public static DefaultGenerator getInstance() {
         return INSTANCE;
     }
 

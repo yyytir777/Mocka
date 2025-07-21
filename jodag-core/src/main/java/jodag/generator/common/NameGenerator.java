@@ -14,6 +14,14 @@ public class NameGenerator extends AbstractGenerator<String> {
 
     private final List<String> names;
 
+    static {
+        try {
+            INSTANCE = new NameGenerator();
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError("Name Generator 초기화 실패" + e);
+        }
+    }
+
     private NameGenerator() throws IOException {
         super("name", String.class);
         InputStream is = getClass().getClassLoader().getResourceAsStream("name.txt");
@@ -26,14 +34,7 @@ public class NameGenerator extends AbstractGenerator<String> {
                 .collect(Collectors.toList());
     }
 
-    public static synchronized NameGenerator getInstance() {
-        if(INSTANCE == null) {
-            try {
-                INSTANCE = new NameGenerator();
-            } catch (IOException e) {
-                throw new RuntimeException("NameGenerator 생성 실패", e);
-            }
-        }
+    public static NameGenerator getInstance() {
         return INSTANCE;
     }
 

@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class DoubleGenerator extends AbstractGenerator<Double> {
 
-    private static DoubleGenerator INSTANCE;
+    private static final DoubleGenerator INSTANCE = new DoubleGenerator();
 
     private DoubleGenerator() {
         super("double", Double.class);
     }
 
-    public static synchronized DoubleGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new DoubleGenerator();
-        }
+    public static DoubleGenerator getInstance() {
         return INSTANCE;
     }
 

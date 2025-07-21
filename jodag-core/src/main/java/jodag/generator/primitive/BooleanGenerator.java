@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class BooleanGenerator extends AbstractGenerator<Boolean> {
 
-    private static BooleanGenerator INSTANCE;
+    private static final BooleanGenerator INSTANCE =  new BooleanGenerator();
 
     private BooleanGenerator() {
         super("boolean", Boolean.class);
     }
 
-    public static synchronized BooleanGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BooleanGenerator();
-        }
+    public static BooleanGenerator getInstance() {
         return INSTANCE;
     }
 

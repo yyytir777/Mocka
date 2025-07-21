@@ -10,6 +10,7 @@ public class Member {
     @Id
     private Long id;
     private String name;
+    private String email;
 
     public Member() {
 
@@ -22,16 +23,18 @@ public class Member {
         return this.name;
     }
 
-    public Member(Long id, String name) {
+    public Member(Long id, String name, String email) {
         this.id = id;
         this.name = name;
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return "Member{" +
                 "id=" + id +
-                ", name='" + name +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

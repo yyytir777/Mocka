@@ -6,16 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CharacterGenerator extends AbstractGenerator<Character> {
 
-    private static CharacterGenerator INSTANCE;
+    private static final CharacterGenerator INSTANCE = new CharacterGenerator();
 
     private CharacterGenerator() {
         super("character", Character.class);
     }
 
-    public static synchronized CharacterGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CharacterGenerator();
-        }
+    public static CharacterGenerator getInstance() {
         return INSTANCE;
     }
 
