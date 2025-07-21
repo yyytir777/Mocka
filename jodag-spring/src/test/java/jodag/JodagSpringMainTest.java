@@ -3,11 +3,14 @@ package jodag;
 import jodag.entity.Member;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest(classes = TestConfig.class)
@@ -18,12 +21,13 @@ public class JodagSpringMainTest {
     void test() {
         Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
 
-        for(int i = 0; i < 10; i++) {
-            Member member = generator.get();
-            System.out.println("member = " + member.toString());
-        }
+        Member member = generator.get();
+        System.out.println("member : " + member.toString());
+        assertThat(member.getId()).isNotNull();
+        assertThat(member.getName()).isNotNull();
 
         List<String> generatorNames = SpringGeneratorFactory.getGeneratorNames();
-        System.out.println("generatorNames = " + generatorNames);
+        System.out.println("generatorNames : " + generatorNames);
+        assertThat("Member").isIn(generatorNames);
     }
 }
