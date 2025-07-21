@@ -1,5 +1,6 @@
 package jodag.generator;
 
+import jodag.generator.common.DefaultGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;

@@ -20,8 +20,4 @@ public class BooleanGenerator extends AbstractGenerator<Boolean> {
     public Boolean get() {
         return ThreadLocalRandom.current().nextBoolean();
     }
-
-    public Byte getByte(Byte min, Byte max) {
-        return null;
-    }
 }

@@ -1,11 +1,12 @@
 package jodag.generator;
 
-import java.util.Random;
+import jodag.generator.primitive.PrimitiveGenerator;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class StringGenerator extends AbstractGenerator<String> {
 
     private static final StringGenerator INSTANCE = new StringGenerator();
-    private final Random random = new Random();
 
     private StringGenerator() {
         super("string", String.class);
@@ -15,7 +16,22 @@ public class StringGenerator extends AbstractGenerator<String> {
         return INSTANCE;
     }
 
+    @Override
     public String get() {
-        return "demo";
+        int length = (int) ThreadLocalRandom.current().nextGaussian(7, 2);
+        return get(length);
+    }
+
+    /**
+     * 특정 길이의 문자열을 반환
+     * @param length 반환할 문자열의 길이
+     * @return length길이의 문자열
+     */
+    public String get(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for(int i = 0; i < length; i++) {
+            sb.append(PrimitiveGenerator.getInstance().getCharacter());
+        }
+        return sb.toString();
     }
 }

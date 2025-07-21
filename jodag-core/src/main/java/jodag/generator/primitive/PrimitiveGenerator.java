@@ -89,6 +89,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return shortGenerator.getOddShort();
     }
 
+    // IntegerGenerator
     public Integer getInteger() {
         return integerGenerator.get();
     }
@@ -113,6 +114,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return integerGenerator.getOddInteger();
     }
 
+    // LongGenerator
     public Long getLong() {
         return longGenerator.get();
     }
@@ -137,6 +139,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return longGenerator.getOddLong();
     }
 
+    // FloatGenerator
     public Float getFloat() {
         return floatGenerator.get();
     }
@@ -153,6 +156,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return floatGenerator.getFloat(-Float.MAX_VALUE, 0);
     }
 
+    // DoubleGenerator
     public Double getDouble() {
         return doubleGenerator.get();
     }

@@ -8,13 +8,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomProvider {
 
+    private static final RandomProvider INSTANCE = new RandomProvider();
+
     private final RandomIndexProvider randomIndexProvider;
     private static final char[] ALPHANUM = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
     private static final char[] NUMERIC = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final char[] DIGIT = "0123456789".toCharArray();
 
-    public RandomProvider() {
+    private RandomProvider() {
         this.randomIndexProvider = ThreadLocalRandomIndexProvider.getInstance();
+    }
+
+    public static RandomProvider getInstance() {
+        return INSTANCE;
     }
 
     public Character nextCharacter(Locale locale) {
