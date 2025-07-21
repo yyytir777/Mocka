@@ -4,7 +4,6 @@ package jodag.generator.primitive;
 import jodag.generator.AbstractGenerator;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class PrimitiveGenerator extends AbstractGenerator<Integer> {

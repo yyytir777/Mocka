@@ -4,8 +4,6 @@ import jodag.random.index.RandomIndexProvider;
 import jodag.random.index.ThreadLocalRandomIndexProvider;
 
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomProvider {
