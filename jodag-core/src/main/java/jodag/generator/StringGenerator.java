@@ -2,7 +2,6 @@ package jodag.generator;
 
 import jodag.generator.primitive.PrimitiveGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class StringGenerator extends AbstractGenerator<String> {
 

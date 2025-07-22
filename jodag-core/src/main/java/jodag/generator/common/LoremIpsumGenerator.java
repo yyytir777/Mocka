@@ -11,16 +11,15 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
 
     private static final LoremIpsumGenerator INSTANCE;
 
-    private final List<String> loremIpsum;
-
     static {
         try {
             INSTANCE = new LoremIpsumGenerator();
         } catch (IOException e) {
-            throw new ExceptionInInitializerError("Lorem Ipsum Generator 초기화 실패" + e);
+            throw new RuntimeException(e);
         }
     }
 
+    private final List<String> loremIpsum;
 
     private LoremIpsumGenerator() throws IOException {
         super("lorem ipsum", String.class);

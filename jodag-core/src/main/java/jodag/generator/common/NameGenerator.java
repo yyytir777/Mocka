@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class NameGenerator extends AbstractGenerator<String> {
 
-    private static NameGenerator INSTANCE;
+    private static final NameGenerator INSTANCE;
 
     private final List<String> names;
 

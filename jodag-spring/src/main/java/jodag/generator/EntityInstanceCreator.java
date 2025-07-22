@@ -36,7 +36,7 @@ public class EntityInstanceCreator {
             Map.entry(String.class, () -> GeneratorFactory.string().get())
     );
 
-    public static <T> T create(Class<T> clazz) throws NoSuchMethodException {
+    public static <T> T create(Class<T> clazz) {
         Constructor<T> constructor = getAllArgsConstructor(clazz);
         constructor.setAccessible(true);
 

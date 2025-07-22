@@ -3,7 +3,6 @@ package jodag.generator.primitive;
 import jodag.generator.AbstractGenerator;
 
 import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class CharacterGenerator extends AbstractGenerator<Character> {
 

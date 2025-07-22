@@ -4,11 +4,7 @@ import jodag.exception.generator.GeneratorException;
 import jodag.generator.AbstractGenerator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
