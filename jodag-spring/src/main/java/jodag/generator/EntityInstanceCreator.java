@@ -1,6 +1,7 @@
 package jodag.generator;
 
 import jodag.generator.primitive.PrimitiveGenerator;
+import jodag.random.RandomProvider;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -58,23 +59,27 @@ public class EntityInstanceCreator {
     private static <T> T generateValue(Class<T> parameterType) {
 
         // primitive & wrapper handler
-        Class<?> wrapperType = primitiveToWrapperMap.get(parameterType);
-        Supplier<Object> supplier = defaultValueMap.get(wrapperType);
+        if(parameterType.isPrimitive() || primitiveToWrapperMap.containsValue(parameterType)) {
+            Class<?> effectiveType = primitiveToWrapperMap.getOrDefault(parameterType, parameterType);
+            Supplier<Object> supplier = defaultValueMap.get(effectiveType);
 
-//        if (supplier == null) {
-//            throw new UnsupportedOperationException("지원하지 않는 파라미터 타입 : " + parameterType.getName());
-//        }
-//
-//        // enum handler
-//        if(parameterType.isEnum()) {
-//            T[] enumValues = parameterType.getEnumConstants();
-//            if(e)
-//        }
+            if (supplier == null) {
+                throw new UnsupportedOperationException("지원하지 않는 파라미터 타입 : " + parameterType.getName());
+            }
 
-        // date handler
-
-        //
-        return (T) supplier.get();
+            return (T) supplier.get();
+        } else if(parameterType.equals(String.class)) {
+            return (T) GeneratorFactory.string().get();
+        } else if(parameterType.isEnum()) {
+            T[] enumValues = parameterType.getEnumConstants();
+            if(enumValues .length > 0 && enumValues[0] instanceof Enum) {
+                return enumValues[RandomProvider.getInstance().getInt(enumValues.length)];
+            }
+            throw new UnsupportedOperationException("지원하지 않는 enum 타입");
+        }
+        else {
+            throw new UnsupportedOperationException("지원하지 않는 클래스 타입입니다.");
+        }
     }
 
     @SuppressWarnings("unchecked")

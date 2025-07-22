@@ -5,7 +5,6 @@ import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
 import jodag.generator.registable.RegisterableGenerator;
-import jodag.random.RandomProvider;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
