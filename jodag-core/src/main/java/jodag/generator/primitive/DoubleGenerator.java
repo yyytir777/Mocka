@@ -2,7 +2,6 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class DoubleGenerator extends AbstractGenerator<Double> {
 
@@ -26,6 +25,6 @@ public class DoubleGenerator extends AbstractGenerator<Double> {
     }
 
     public Double getDouble(double min, double max) {
-        return ThreadLocalRandom.current().nextDouble(min, max);
+        return randomProvider.getDouble(min, max);
     }
 }

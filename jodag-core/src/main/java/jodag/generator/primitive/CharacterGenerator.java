@@ -24,7 +24,7 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
 
     public Character getCharacter(Locale locale) {
         if(locale == Locale.ENGLISH) {
-            return ThreadLocalRandom.current().nextBoolean() ? getCharacter('a', 'z') : getCharacter('A', 'Z');
+            return randomProvider.getBoolean() ? getCharacter('a', 'z') : getCharacter('A', 'Z');
         } else if(locale == Locale.KOREAN) {
             return getCharacter((char) 0xAC00, (char) 0xD7A3); // 한글 완성형 범위
         } else return getCharacter();
@@ -36,6 +36,6 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
 
     public Character getCharacter(char min, char max) {
         int range = (max - min) + 1;
-        return (char) (ThreadLocalRandom.current().nextInt(range) + min);
+        return (char) (randomProvider.getInt(range) + min);
     }
 }

@@ -26,7 +26,7 @@ public class ByteGenerator extends AbstractGenerator<Byte> {
     }
 
     public Byte getByte(byte min, byte max) {
-        return (byte) ThreadLocalRandom.current().nextInt(min, max);
+        return (byte) randomProvider.getInt(min, max);
     }
 
     public Byte getEvenByte() {

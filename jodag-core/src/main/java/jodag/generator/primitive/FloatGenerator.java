@@ -2,7 +2,6 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FloatGenerator extends AbstractGenerator<Float> {
 
@@ -26,6 +25,6 @@ public class FloatGenerator extends AbstractGenerator<Float> {
     }
 
     public Float getFloat(float min, float max) {
-        return ThreadLocalRandom.current().nextFloat(min, max);
+        return randomProvider.getFloat(min, max);
     }
 }

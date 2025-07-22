@@ -35,6 +35,6 @@ public class RegisterableGenerator<T> extends AbstractGenerator<T> {
 
     @Override
     public T get() {
-        return data.get(ThreadLocalRandom.current().nextInt(data.size()));
+        return data.get(randomProvider.getInt(data.size()));
     }
 }

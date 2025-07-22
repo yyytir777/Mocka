@@ -18,6 +18,6 @@ public class BooleanGenerator extends AbstractGenerator<Boolean> {
 
     @Override
     public Boolean get() {
-        return ThreadLocalRandom.current().nextBoolean();
+        return randomProvider.getBoolean();
     }
 }

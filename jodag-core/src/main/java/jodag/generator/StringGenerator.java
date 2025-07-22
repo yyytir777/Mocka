@@ -18,7 +18,7 @@ public class StringGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        return get((int) ThreadLocalRandom.current().nextGaussian(7, 2));
+        return get((int) randomProvider.getGaussian(7, 2));
     }
 
     /**
@@ -31,7 +31,7 @@ public class StringGenerator extends AbstractGenerator<String> {
     }
 
     public String get(int min, int max) {
-        return getString(ThreadLocalRandom.current().nextInt(min, max + 1));
+        return getString(randomProvider.getInt(min, max + 1));
     }
 
     private String getString(int length) {

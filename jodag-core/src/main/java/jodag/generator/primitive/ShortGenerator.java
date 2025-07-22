@@ -26,7 +26,7 @@ public class ShortGenerator extends AbstractGenerator<Short> {
     }
 
     public Short getShort(Short min, Short max) {
-        return (short) ThreadLocalRandom.current().nextInt(min, max);
+        return (short) randomProvider.getInt(min, max);
     }
 
     public Short getEvenShort() {
