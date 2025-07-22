@@ -5,7 +5,7 @@ import jodag.generator.AbstractGenerator;
 
 public class LongGenerator extends AbstractGenerator<Long> {
 
-    private static final LongGenerator INSTANCE = new LongGenerator() {};
+    private static final LongGenerator INSTANCE = new LongGenerator();
 
     private LongGenerator() {
         super("long", Long.class);
