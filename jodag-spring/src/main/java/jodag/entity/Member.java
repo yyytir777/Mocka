@@ -11,6 +11,7 @@ public class Member {
     private Long id;
     private String name;
     private String email;
+    private MemberType type;
 
     public Member() {
 
@@ -23,10 +24,11 @@ public class Member {
         return this.name;
     }
 
-    public Member(Long id, String name, String email) {
+    public Member(Long id, String name, String email, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.type = type;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class Member {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", type=" + type +
                 '}';
     }
 }
