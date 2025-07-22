@@ -18,8 +18,7 @@ public class StringGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        int length = (int) ThreadLocalRandom.current().nextGaussian(7, 2);
-        return get(length);
+        return get((int) ThreadLocalRandom.current().nextGaussian(7, 2));
     }
 
     /**
@@ -28,15 +27,14 @@ public class StringGenerator extends AbstractGenerator<String> {
      * @return length길이의 문자열
      */
     public String get(int length) {
-        StringBuilder sb = new StringBuilder(length);
-        for(int i = 0; i < length; i++) {
-            sb.append(PrimitiveGenerator.getInstance().getCharacter());
-        }
-        return sb.toString();
+        return getString(length);
     }
 
     public String get(int min, int max) {
-        int length = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return getString(ThreadLocalRandom.current().nextInt(min, max + 1));
+    }
+
+    private String getString(int length) {
         StringBuilder sb = new StringBuilder(length);
         for(int i = 0; i < length; i++) {
             sb.append(PrimitiveGenerator.getInstance().getCharacter());
