@@ -1,17 +1,19 @@
 package jodag.generator.primitive;
 
 
-import jodag.generator.AbstractGenerator;
+import jodag.random.RandomProvider;
 
 import java.util.List;
 import java.util.Locale;
 
 
-public class PrimitiveGenerator extends AbstractGenerator<Integer> {
+public class PrimitiveGenerator {
 
     // 타입 <매개변수> 리턴타입 메서드_이름(매개변수) { ... }
 
     private static final PrimitiveGenerator INSTANCE = new PrimitiveGenerator();
+
+    private final RandomProvider randomProvider = RandomProvider.getInstance();
 
     private final BooleanGenerator booleanGenerator = BooleanGenerator.getInstance();
     private final ByteGenerator byteGenerator = ByteGenerator.getInstance();
@@ -22,17 +24,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
     private final FloatGenerator floatGenerator = FloatGenerator.getInstance();
     private final DoubleGenerator doubleGenerator = DoubleGenerator.getInstance();
 
-    private PrimitiveGenerator() {
-        super("primitive", Integer.class);
-    }
+    private PrimitiveGenerator() {}
 
     public static PrimitiveGenerator getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public Integer get() {
-        return 0;
     }
 
     // BooleanGenerator
