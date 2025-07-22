@@ -2,14 +2,13 @@ package jodag;
 
 import jodag.generator.Generator;
 import jodag.generator.GeneratorFactory;
+import jodag.generator.StringGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.*;
@@ -18,10 +17,12 @@ public class JodagMainTest {
 
     @Test
     void test() {
-        // string 반환
-//        StringGenerator stringGenerator = GeneratorFactory.string();
-//        String string = stringGenerator.get();
-//        String string = stringGenerator.get(10);
+//         string 반환
+        StringGenerator stringGenerator = GeneratorFactory.string();
+        String string = stringGenerator.get();
+        System.out.println("string = " + string);
+        String string1 = stringGenerator.get(15);
+        System.out.println("string1 = " + string1);
 
 
         // email 반환
