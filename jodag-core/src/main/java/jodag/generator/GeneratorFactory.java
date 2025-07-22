@@ -1,18 +1,20 @@
 package jodag.generator;
 
-import jodag.generator.common.DefaultGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
 import jodag.generator.registable.RegisterableGenerator;
+import jodag.random.RandomProvider;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static jodag.generator.StringGenerator.getInstance;
+
 public class GeneratorFactory {
 
-    private static final StringGenerator stringGenerator = StringGenerator.getInstance();
+    private static final StringGenerator stringGenerator = getInstance();
     private static final EmailGenerator emailGenerator = EmailGenerator.getInstance();
     private static final NameGenerator nameGenerator = NameGenerator.getInstance();
     private static final LoremIpsumGenerator loremIpsumGenerator = LoremIpsumGenerator.getInstance();
@@ -49,5 +51,9 @@ public class GeneratorFactory {
             registableGenerator.put(key, generator);
         }
         return generator;
+    }
+
+    public static GeneratorInfo<?> getRandomProvider() {
+        return GeneratorInfo.from(getInstance());
     }
 }

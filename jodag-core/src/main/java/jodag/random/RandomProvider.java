@@ -10,6 +10,8 @@ public class RandomProvider {
 
     private final RandomIndexProvider randomIndexProvider = ThreadLocalRandomIndexProvider.getInstance();
 
+    private RandomProvider() {}
+
     public static RandomProvider getInstance() {
         return INSTANCE;
     }
