@@ -23,7 +23,7 @@ public class LongGeneratorTest {
     @DisplayName("Long 값 반환")
     void get_long() {
         Long l = primitiveGenerator.getLong();
-        assertThat(l).isLessThanOrEqualTo(Long.MAX_VALUE).isGreaterThanOrEqualTo(Long.MIN_VALUE);
+        assertThat(l).isBetween(Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class LongGeneratorTest {
     void get_long_in_range() {
         long min = 0, max = 30;
         Long l = primitiveGenerator.getLong(min, max);
-        assertThat(l).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
+        assertThat(l).isBetween(min, max);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class LongGeneratorTest {
         Long l = primitiveGenerator.pickFrom(list);
 
         assertThat(l).isIn(list);
-        assertThat(l).isGreaterThanOrEqualTo(Long.MIN_VALUE).isLessThanOrEqualTo(Long.MAX_VALUE);
+        assertThat(l).isBetween(Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
     @Test
@@ -79,6 +79,6 @@ public class LongGeneratorTest {
         Long l = primitiveGenerator.pickFrom(longs);
 
         assertThat(l).isIn(List.of(longs));
-        assertThat(l).isGreaterThanOrEqualTo(Long.MIN_VALUE).isLessThanOrEqualTo(Long.MAX_VALUE);
+        assertThat(l).isBetween(Long.MIN_VALUE, Long.MAX_VALUE);
     }
 }

@@ -65,6 +65,6 @@ public class CharacterGeneratorTest {
         assertThat(c1).isBetween('가', '힣');
 
         Character c2 = primitiveGenerator.getCharacter((char) 0x0000, (char) 0xFFFF);
-        assertThat(c2).isGreaterThanOrEqualTo((char) 0x0000).isLessThan((char) 0xFFFF);
+        assertThat(c2).isBetween((char) 0x0000, (char) 0xFFFF);
     }
 }
