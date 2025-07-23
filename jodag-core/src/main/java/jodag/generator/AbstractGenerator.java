@@ -16,7 +16,7 @@ public abstract class AbstractGenerator<T> implements Generator<T> {
         this.randomProvider = RandomProvider.getInstance();
     }
 
-    public String getName() {
+    protected String getName() {
         return this.name;
     }
 

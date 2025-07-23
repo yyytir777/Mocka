@@ -23,6 +23,4 @@ public interface RandomIndexProvider {
     double getDouble(double min, double max);
 
     double getGaussian(double mean, double stdev);
-
-
 }

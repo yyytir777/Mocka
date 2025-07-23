@@ -41,4 +41,12 @@ public class NameGenerator extends AbstractGenerator<String> {
     public String get() {
         return names.get(randomProvider.getInt(names.size()));
     }
+
+    public String firstName() {
+        return names.get(randomProvider.getInt(names.size())).split(" ")[0];
+    }
+
+    public String lastName() {
+        return names.get(randomProvider.getInt(names.size())).split(" ")[1];
+    }
 }

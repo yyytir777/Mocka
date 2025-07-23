@@ -23,9 +23,9 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
 
     private LoremIpsumGenerator() throws IOException {
         super("lorem ipsum", String.class);
-        InputStream is = getClass().getClassLoader().getResourceAsStream("name.txt");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("lorem_ipsum.txt");
         if (is == null) {
-            throw new FileNotFoundException("리소스를 찾을 수 없습니다: email.txt");
+            throw new FileNotFoundException("리소스를 찾을 수 없습니다: lorem_ipsum.txt");
         }
 
         this.loremIpsum = new BufferedReader(new InputStreamReader(is))
@@ -37,8 +37,28 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
         return INSTANCE;
     }
 
+    // 무작위 길이의 lorem ipsum 반환
     @Override
     public String get() {
-        return loremIpsum.get(randomProvider.getInt(loremIpsum.size()));
+        int length = (int) randomProvider.getGaussian(300, 20);
+        return generate(length);
+    }
+
+    public String get(int length) {
+        return generate(length);
+    }
+
+    public String get(int mean, int stdev) {
+        int length = (int) randomProvider.getGaussian(mean, stdev);
+        return generate(length);
+    }
+
+    private String generate(int length) {
+        int idx = 0;
+        StringBuilder sb = new StringBuilder(length);
+        while(sb.length() < length) {
+            sb.append(loremIpsum.get(idx++ % loremIpsum.size())).append(' ');
+        }
+        return sb.substring(0, length);
     }
 }
