@@ -1,16 +1,19 @@
 package jodag.generator.primitive;
 
 
-import jodag.generator.AbstractGenerator;
+import jodag.random.RandomProvider;
 
 import java.util.List;
+import java.util.Locale;
 
 
-public class PrimitiveGenerator extends AbstractGenerator<Integer> {
+public class PrimitiveGenerator {
 
     // 타입 <매개변수> 리턴타입 메서드_이름(매개변수) { ... }
 
     private static final PrimitiveGenerator INSTANCE = new PrimitiveGenerator();
+
+    private final RandomProvider randomProvider = RandomProvider.getInstance();
 
     private final BooleanGenerator booleanGenerator = BooleanGenerator.getInstance();
     private final ByteGenerator byteGenerator = ByteGenerator.getInstance();
@@ -21,17 +24,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
     private final FloatGenerator floatGenerator = FloatGenerator.getInstance();
     private final DoubleGenerator doubleGenerator = DoubleGenerator.getInstance();
 
-    private PrimitiveGenerator() {
-        super("primitive", Integer.class);
-    }
+    private PrimitiveGenerator() {}
 
     public static PrimitiveGenerator getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public Integer get() {
-        return 0;
     }
 
     // BooleanGenerator
@@ -89,6 +85,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return shortGenerator.getOddShort();
     }
 
+    // IntegerGenerator
     public Integer getInteger() {
         return integerGenerator.get();
     }
@@ -113,6 +110,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return integerGenerator.getOddInteger();
     }
 
+    // LongGenerator
     public Long getLong() {
         return longGenerator.get();
     }
@@ -137,6 +135,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return longGenerator.getOddLong();
     }
 
+    // FloatGenerator
     public Float getFloat() {
         return floatGenerator.get();
     }
@@ -153,6 +152,7 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
         return floatGenerator.getFloat(-Float.MAX_VALUE, 0);
     }
 
+    // DoubleGenerator
     public Double getDouble() {
         return doubleGenerator.get();
     }
@@ -171,6 +171,10 @@ public class PrimitiveGenerator extends AbstractGenerator<Integer> {
 
     public Character getCharacter() {
         return characterGenerator.get();
+    }
+
+    public Character getCharacter(Locale locale) {
+        return characterGenerator.getCharacter(locale);
     }
 
     public Character getCharacter(Character min, Character max) {

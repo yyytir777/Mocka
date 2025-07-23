@@ -23,7 +23,7 @@ public class DoubleGeneratorTest {
     @DisplayName("Double 값 반환")
     void get_double() {
         Double d = primitiveGenerator.getDouble();
-        assertThat(d).isLessThanOrEqualTo(Double.MAX_VALUE).isGreaterThanOrEqualTo(Double.MIN_VALUE);
+        assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class DoubleGeneratorTest {
     void get_double_in_range() {
         double min = 0, max = 30;
         Double d = primitiveGenerator.getDouble(min, max);
-        assertThat(d).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
+        assertThat(d).isBetween(min, max);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DoubleGeneratorTest {
         Double d = primitiveGenerator.pickFrom(list);
 
         assertThat(d).isIn(list);
-        assertThat(d).isGreaterThanOrEqualTo(Double.MIN_VALUE).isLessThanOrEqualTo(Double.MAX_VALUE);
+        assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
     @Test
@@ -65,6 +65,6 @@ public class DoubleGeneratorTest {
         Double d = primitiveGenerator.pickFrom(doubles);
 
         assertThat(d).isIn(List.of(doubles));
-        assertThat(d).isGreaterThanOrEqualTo(Double.MIN_VALUE).isLessThanOrEqualTo(Double.MAX_VALUE);
+        assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 }

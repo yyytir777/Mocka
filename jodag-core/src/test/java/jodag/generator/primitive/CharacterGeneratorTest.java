@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,5 +53,18 @@ public class CharacterGeneratorTest {
 
         assertThat(c).isIn(List.of(characters));
         assertThat(Character.isLetter(c)).isTrue();
+    }
+
+    @Test
+    @DisplayName("character 반환")
+    void get_english_character() {
+        Character c = primitiveGenerator.getCharacter(Locale.ENGLISH);
+        assertThat(Character.isAlphabetic(c)).isTrue();
+
+        Character c1 = primitiveGenerator.getCharacter(Locale.KOREAN);
+        assertThat(c1).isBetween('가', '힣');
+
+        Character c2 = primitiveGenerator.getCharacter((char) 0x0000, (char) 0xFFFF);
+        assertThat(c2).isBetween((char) 0x0000, (char) 0xFFFF);
     }
 }

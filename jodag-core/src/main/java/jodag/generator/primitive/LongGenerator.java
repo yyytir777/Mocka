@@ -2,20 +2,16 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class LongGenerator extends AbstractGenerator<Long> {
 
-    private static LongGenerator INSTANCE;
+    private static final LongGenerator INSTANCE = new LongGenerator();
 
     private LongGenerator() {
         super("long", Long.class);
     }
 
-    public static synchronized LongGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new LongGenerator();
-        }
+    public static LongGenerator getInstance() {
         return INSTANCE;
     }
 
@@ -29,11 +25,11 @@ public class LongGenerator extends AbstractGenerator<Long> {
     }
 
     public Long getLong(Long min, Long max) {
-        return ThreadLocalRandom.current().nextLong(min, max);
+        return randomProvider.getLong(min, max);
     }
 
     public Long getNextLong(Long l) {
-        return ThreadLocalRandom.current().nextLong(l);
+        return randomProvider.getLong(l);
     }
 
     public Long getEvenLong() {

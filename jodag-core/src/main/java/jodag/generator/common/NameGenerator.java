@@ -5,14 +5,21 @@ import jodag.generator.AbstractGenerator;
 
 import java.io.*;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class NameGenerator extends AbstractGenerator<String> {
 
-    private static NameGenerator INSTANCE;
+    private static final NameGenerator INSTANCE;
 
     private final List<String> names;
+
+    static {
+        try {
+            INSTANCE = new NameGenerator();
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError("Name Generator 초기화 실패" + e);
+        }
+    }
 
     private NameGenerator() throws IOException {
         super("name", String.class);
@@ -26,19 +33,20 @@ public class NameGenerator extends AbstractGenerator<String> {
                 .collect(Collectors.toList());
     }
 
-    public static synchronized NameGenerator getInstance() {
-        if(INSTANCE == null) {
-            try {
-                INSTANCE = new NameGenerator();
-            } catch (IOException e) {
-                throw new RuntimeException("NameGenerator 생성 실패", e);
-            }
-        }
+    public static NameGenerator getInstance() {
         return INSTANCE;
     }
 
     @Override
     public String get() {
-        return names.get(ThreadLocalRandom.current().nextInt(names.size()));
+        return names.get(randomProvider.getInt(names.size()));
+    }
+
+    public String firstName() {
+        return names.get(randomProvider.getInt(names.size())).split(" ")[0];
+    }
+
+    public String lastName() {
+        return names.get(randomProvider.getInt(names.size())).split(" ")[1];
     }
 }

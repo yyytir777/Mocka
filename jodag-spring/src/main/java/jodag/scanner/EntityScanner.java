@@ -1,9 +1,10 @@
-package jodag.registry;
+package jodag.scanner;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
 import jodag.generator.Generate;
+import jodag.generator.SpringGeneratorFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
@@ -14,16 +15,19 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+/**
+ * GenerateAnnotationProcessor 클래스 설명 <br>
+ *  1. Spring Boot 애플리케이션 실행 <br>
+ *  2. Spring이 @Component 클래스 스캔 <br>
+ *  3. GenerateAnnotationProcessor 빈 생성 <br>
+ *  4. @PostConstruct 메서드 실행 <br>
+ *  5. beanFactory를 통해 basePackage get <br>
+ *  6. basePackage와 scanner를 통해 애노테이션 필터 처리 -> @Entity와 @Generate 붙은 클래스 get <br>
+ */
 @Component
-public class GenerateAnnotationProcessor implements BeanFactoryAware {
+public class EntityScanner implements BeanFactoryAware {
 
     private BeanFactory beanFactory;
-    private final SpringDataRegistry dataRegistry;
-
-    public GenerateAnnotationProcessor(SpringDataRegistry dataRegistry) {
-        this.dataRegistry = dataRegistry;
-    }
 
     @Override
     public void setBeanFactory(@Nonnull BeanFactory beanFactory) {
@@ -33,7 +37,7 @@ public class GenerateAnnotationProcessor implements BeanFactoryAware {
     @PostConstruct
     public void processGenerateAnnotation() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Generate.class));
+        scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
         String basePackage = AutoConfigurationPackages.get(beanFactory).get(0);
         Set<Class<?>> candidates = scanner.findCandidateComponents(basePackage)
                 .stream().map(def -> {
@@ -45,9 +49,11 @@ public class GenerateAnnotationProcessor implements BeanFactoryAware {
                 }).collect(Collectors.toSet());
 
         for(Class<?> clazz : candidates) {
-            if(!clazz.isAnnotationPresent(Entity.class)) continue;
-            System.out.println("clazz = " + clazz);
-            dataRegistry.add(clazz);
+            if(!clazz.isAnnotationPresent(Generate.class)) {
+                System.out.println("@Generate애노테이션이 아닙니다. = " + clazz.getName());
+                continue;
+            }
+            SpringGeneratorFactory.add(clazz);
         }
     }
 }

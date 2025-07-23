@@ -23,7 +23,7 @@ public class ShortGeneratorTest {
     @DisplayName("Short 값 반환")
     void get_short() {
         Short s = primitiveGenerator.getShort();
-        assertThat(s).isLessThanOrEqualTo(Short.MAX_VALUE).isGreaterThanOrEqualTo(Short.MIN_VALUE);
+        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ShortGeneratorTest {
     void get_short_in_range() {
         short min = 0, max = 30;
         Short s = primitiveGenerator.getShort(min, max);
-        assertThat(s).isLessThanOrEqualTo(Short.MAX_VALUE).isGreaterThanOrEqualTo(Short.MIN_VALUE);
+        assertThat(s).isBetween(min, max);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ShortGeneratorTest {
         Short s = primitiveGenerator.pickFrom(list);
 
         assertThat(s).isIn(list);
-        assertThat(s).isLessThanOrEqualTo(Short.MAX_VALUE).isGreaterThanOrEqualTo(Short.MIN_VALUE);
+        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
     }
 
     @Test
@@ -79,6 +79,6 @@ public class ShortGeneratorTest {
         Short s = primitiveGenerator.pickFrom(shorts);
 
         assertThat(s).isIn(List.of(shorts));
-        assertThat(s).isLessThanOrEqualTo(Byte.MAX_VALUE).isGreaterThanOrEqualTo(Byte.MIN_VALUE);
+        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
     }
 }

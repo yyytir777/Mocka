@@ -2,20 +2,16 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class IntegerGenerator extends AbstractGenerator<Integer> {
 
-    private static IntegerGenerator INSTANCE;
+    private static final IntegerGenerator INSTANCE = new IntegerGenerator();
 
     private IntegerGenerator() {
         super("integer", Integer.class);
     }
 
-    public static synchronized IntegerGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new IntegerGenerator();
-        }
+    public static IntegerGenerator getInstance() {
         return INSTANCE;
     }
 
@@ -29,11 +25,11 @@ public class IntegerGenerator extends AbstractGenerator<Integer> {
     }
 
     public Integer getInteger(Integer min, Integer max) {
-        return ThreadLocalRandom.current().nextInt(min, max);
+        return randomProvider.getInt(min, max);
     }
 
     public Integer getNextInteger(Integer n) {
-        return ThreadLocalRandom.current().nextInt(n);
+        return randomProvider.getInt(n);
     }
 
     public Integer getEvenInteger() {

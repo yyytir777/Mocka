@@ -2,20 +2,16 @@ package jodag.generator.primitive;
 
 import jodag.generator.AbstractGenerator;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ShortGenerator extends AbstractGenerator<Short> {
 
-    private static ShortGenerator INSTANCE;
+    private static final ShortGenerator INSTANCE = new ShortGenerator();
 
     private ShortGenerator() {
         super("short", Short.class);
     }
 
-    public static synchronized ShortGenerator getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ShortGenerator();
-        }
+    public static ShortGenerator getInstance() {
         return INSTANCE;
     }
 
@@ -29,7 +25,7 @@ public class ShortGenerator extends AbstractGenerator<Short> {
     }
 
     public Short getShort(Short min, Short max) {
-        return (short) ThreadLocalRandom.current().nextInt(min, max);
+        return (short) randomProvider.getInt(min, max);
     }
 
     public Short getEvenShort() {

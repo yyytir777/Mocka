@@ -4,11 +4,7 @@ import jodag.exception.generator.GeneratorException;
 import jodag.generator.AbstractGenerator;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +31,6 @@ public class RegisterableGenerator<T> extends AbstractGenerator<T> {
 
     @Override
     public T get() {
-        return data.get(ThreadLocalRandom.current().nextInt(data.size()));
+        return data.get(randomProvider.getInt(data.size()));
     }
 }
