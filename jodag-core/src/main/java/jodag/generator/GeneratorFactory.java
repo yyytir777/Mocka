@@ -1,8 +1,11 @@
 package jodag.generator;
 
+import jodag.generator.array.ArrayGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
+import jodag.generator.datetime.CommonDateGenerator;
+import jodag.generator.numeric.NumericGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
 import jodag.generator.registable.RegisterableGenerator;
 
@@ -17,7 +20,11 @@ public class GeneratorFactory {
     private static final EmailGenerator emailGenerator = EmailGenerator.getInstance();
     private static final NameGenerator nameGenerator = NameGenerator.getInstance();
     private static final LoremIpsumGenerator loremIpsumGenerator = LoremIpsumGenerator.getInstance();
+
     private static final PrimitiveGenerator primitiveGenerator = PrimitiveGenerator.getInstance();
+    private static final NumericGenerator numericGenerator = NumericGenerator.getInstance();
+    private static final CommonDateGenerator commonDateGenerator = CommonDateGenerator.getInstance();
+    private static final ArrayGenerator arrayGenerator = ArrayGenerator.getInstance();
 
     private static final Map<String, Generator<?>> registableGenerator = new ConcurrentHashMap<>();
 
@@ -41,6 +48,13 @@ public class GeneratorFactory {
     public static PrimitiveGenerator primitive() {
         return primitiveGenerator;
     }
+
+    public static NumericGenerator numeric() {return numericGenerator;}
+
+    public static CommonDateGenerator dateTime() {return commonDateGenerator;}
+
+    public static ArrayGenerator array() {return arrayGenerator;}
+
 
     @SuppressWarnings("unchecked")
     public static <T> Generator<T> getRegistableGenerator(String key, String path, Class<T> type) {
