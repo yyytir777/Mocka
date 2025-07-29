@@ -62,4 +62,25 @@ public class CommonDateGenerator {
     public java.sql.Timestamp getSqlTimestamp() {
         return sqlDateGenerator.getTimestamp();
     }
+
+    public Object get(Class<?> type) {
+        // java.time
+        if (type.equals(LocalDate.class)) return getLocalDate();
+        if (type.equals(LocalTime.class)) return getLocalTime();
+        if (type.equals(LocalDateTime.class)) return getLocalDateTime();
+        if (type.equals(OffsetTime.class)) return getOffsetTime();
+        if (type.equals(OffsetDateTime.class)) return getOffsetDateTime();
+        if (type.equals(Instant.class)) return getInstant();
+
+        // java.util
+        if (type.equals(java.util.Date.class)) return getUtilDate();
+        if (type.equals(java.util.Calendar.class)) return getCalendar();
+
+        // java.sql
+        if (type.equals(java.sql.Date.class)) return getSqlDate();
+        if (type.equals(java.sql.Time.class)) return getSqlTime();
+        if (type.equals(java.sql.Timestamp.class)) return getSqlTimestamp();
+
+        throw new UnsupportedOperationException("지원하지 않는 타입");
+    }
 }

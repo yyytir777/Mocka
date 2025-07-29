@@ -5,8 +5,11 @@ import jodag.exception.generator.GeneratorException;
 
 public class EntityGenerator<T> extends AbstractGenerator<T> {
 
-    public EntityGenerator(Class<T> entity) {
+    private final EntityInstanceCreator entityInstanceCreator;
+
+    public EntityGenerator(Class<T> entity, EntityInstanceCreator entityInstanceCreator) {
         super(entity.getName(), entity);
+        this.entityInstanceCreator = entityInstanceCreator;
     }
 
     /**
@@ -16,7 +19,7 @@ public class EntityGenerator<T> extends AbstractGenerator<T> {
     @Override
     public T get() {
         try {
-            return EntityInstanceCreator.create(type);
+            return entityInstanceCreator.create(type);
         } catch (Exception e) {
             throw new GeneratorException("entity를 생성할 수 없습니다.", e);
         }
