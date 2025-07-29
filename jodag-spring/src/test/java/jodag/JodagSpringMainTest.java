@@ -1,13 +1,11 @@
 package jodag;
 
-import jodag.entity.Experience;
 import jodag.entity.Member;
 import jodag.entity.TestEntity;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
