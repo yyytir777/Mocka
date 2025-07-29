@@ -1,17 +1,64 @@
 package jodag.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jodag.annotation.Email;
 import jodag.generator.Generate;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.*;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Generate
 public class Member {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // primitive
+    @Column(length = 10, nullable = false)
     private String name;
+
+    @Email
+    @Column(length = 20, nullable = false, unique = true)
     private String email;
+
+
+//     java.math
+    private BigInteger balance;
+    private BigDecimal amount;
+
+
+    // java.time
+    private LocalDate localDate;
+    private LocalTime localTime;
+    private LocalDateTime localDateTime;
+    private OffsetDateTime offsetDateTime;
+    private OffsetTime offsetTime;
+    private Instant instant;
+
+
+    // java.util
+    private Date date;
+    private Calendar calendar;
+
+
+    // java.sql
+    private Time time;
+    private java.sql.Date  sqlDate;
+    private Timestamp  timestamp;
+
+    // java.enumerated
+    @Enumerated(EnumType.STRING)
     private MemberType type;
+
+
+    // Serializable
 
     public Member() {
 
@@ -23,11 +70,32 @@ public class Member {
     public String getName() {
         return this.name;
     }
+    public String getEmail() {return this.email;}
 
     public Member(Long id, String name, String email, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.type = type;
+    }
+
+    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, MemberType type) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.balance = balance;
+        this.amount = amount;
+        this.localDate = localDate;
+        this.localTime = localTime;
+        this.localDateTime = localDateTime;
+        this.offsetDateTime = offsetDateTime;
+        this.offsetTime = offsetTime;
+        this.instant = instant;
+        this.date = date;
+        this.calendar = calendar;
+        this.time = time;
+        this.sqlDate = sqlDate;
+        this.timestamp = timestamp;
         this.type = type;
     }
 
