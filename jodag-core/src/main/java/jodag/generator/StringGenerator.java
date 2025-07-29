@@ -33,6 +33,12 @@ public class StringGenerator extends AbstractGenerator<String> {
         return getString(randomProvider.getInt(min, max + 1));
     }
 
+    public String getUpTo(int max) {
+        double biased = Math.pow(randomProvider.getDouble(1), 2); // 작은 값에 편향
+        int length = 1 + (int)(biased * (max - 1)); // 최소 1, 최대 max
+        return getString(length);
+    }
+
     private String getString(int length) {
         StringBuilder sb = new StringBuilder(length);
         for(int i = 0; i < length; i++) {

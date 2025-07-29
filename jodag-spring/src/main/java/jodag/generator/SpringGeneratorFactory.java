@@ -13,7 +13,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
     private static final Map<String, Generator<?>> entityGenerators = new ConcurrentHashMap<>();
 
     public static <T> void add(Class<T> clazz) {
-        entityGenerators.put(clazz.getSimpleName(), new EntityGenerator<>(clazz));
+        entityGenerators.put(clazz.getSimpleName(), new EntityGenerator<>(clazz, EntityInstanceCreator.getInstance()));
     }
 
     @SuppressWarnings("unchecked")

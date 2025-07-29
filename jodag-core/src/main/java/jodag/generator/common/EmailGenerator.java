@@ -4,6 +4,7 @@ package jodag.generator.common;
 import jodag.generator.AbstractGenerator;
 import jodag.generator.StringGenerator;
 
+import java.util.UUID;
 
 
 public class EmailGenerator extends AbstractGenerator<String> {
@@ -24,5 +25,14 @@ public class EmailGenerator extends AbstractGenerator<String> {
         String domain = StringGenerator.getInstance().get(3, 7);
         String tld = StringGenerator.getInstance().get(2, 3);
         return username + "@" + domain + "." + tld;
+    }
+
+    public String get(boolean unique) {
+        String email = get();
+        if(unique) {
+            return email + UUID.randomUUID();
+        } else {
+            return email;
+        }
     }
 }
