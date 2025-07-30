@@ -7,6 +7,7 @@ import jodag.random.RandomProvider;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -109,7 +110,31 @@ public class FieldValueGenerator {
             return GeneratorFactory.dateTime().get(type);
         }
 
+        if(type == String.class) {
+            return GeneratorFactory.string().get();
+        }
+
+        if(hasAnnotation(field, Embedded.class) &&
+        field.getType().isAnnotationPresent(Embeddable.class)) {
+            return createEmbeddableInstance(field.getType());
+        }
+
         throw new UnsupportedOperationException("지원하지 않는 타입입니다.");
+    }
+
+    private Object createEmbeddableInstance(Class<?> type) {
+        try {
+            Object instance = type.getDeclaredConstructor().newInstance();
+            for(Field field : type.getDeclaredFields()) {
+                field.setAccessible(true);
+                Object object = get(field);
+                System.out.println("object = " + object);
+                field.set(instance, object);
+            }
+            return instance;
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isDateTimeType(Class<?> type) {
