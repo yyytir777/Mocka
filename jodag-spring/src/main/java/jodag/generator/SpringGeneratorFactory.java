@@ -1,5 +1,6 @@
 package jodag.generator;
 
+import jodag.exception.MissingRequiredAnnotationException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
     public static <T> Generator<T> getGenerator(Class<T> clazz) {
         Generator<?> generator = entityGenerators.get(clazz.getSimpleName());
         if (generator == null) {
-            throw new IllegalStateException("No generator for class " + clazz.getName());
+            throw new MissingRequiredAnnotationException("No @Generate annotation for target class " + clazz.getSimpleName());
         }
         return (Generator<T>) generator;
     }

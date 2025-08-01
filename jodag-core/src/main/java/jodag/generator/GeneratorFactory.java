@@ -65,8 +65,4 @@ public class GeneratorFactory {
         }
         return generator;
     }
-
-    public static GeneratorInfo<?> getRandomProvider() {
-        return GeneratorInfo.from(getInstance());
-    }
 }

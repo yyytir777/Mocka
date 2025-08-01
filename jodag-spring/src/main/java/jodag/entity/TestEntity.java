@@ -1,6 +1,7 @@
 package jodag.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
 import jodag.generator.Generate;
@@ -24,27 +25,37 @@ public class TestEntity {
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
+    @Embedded
+    private EmbeddableClass embeddableClass;
+
     public TestEntity() {
 
     }
 
-    public TestEntity(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public TestEntity(Long id, String name, String email) {
-        this.id = id;
+    public TestEntity(String name, String email, MemberType memberType, EmbeddableClass embeddableClass) {
         this.name = name;
         this.email = email;
+        this.memberType = memberType;
+        this.embeddableClass = embeddableClass;
     }
 
-    @Override
-    public String toString() {
-        return "TestEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public MemberType getMemberType() {
+        return memberType;
+    }
+
+    public EmbeddableClass getEmbeddableClass() {
+        return embeddableClass;
     }
 }
