@@ -1,7 +1,9 @@
 package jodag;
 
 import jodag.entity.Member;
+import jodag.entity.NonGenerateEntity;
 import jodag.entity.TestEntity;
+import jodag.exception.MissingRequiredAnnotationException;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +27,7 @@ public class JodagSpringMainTest {
     }
 
     @Test
-    @DisplayName("Member 엔티티를 @Generate 등록 후, 생성합니다.")
+    @DisplayName("Member 엔티티 @Generate 등록 및 인스턴스 생성")
     void test() {
         Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
 
@@ -41,7 +43,7 @@ public class JodagSpringMainTest {
     }
 
     @Test
-    @DisplayName("Member 엔티티 인스턴스 10개 생성")
+    @DisplayName("Member 엔티티 @Generate 등록 및 인스턴스 10개 생성")
     void create_10_instances() {
         Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
 
@@ -58,5 +60,12 @@ public class JodagSpringMainTest {
         Generator<TestEntity> generator = SpringGeneratorFactory.getGenerator(TestEntity.class);
         TestEntity testEntity = generator.get();
         System.out.println("testEntity = " + testEntity.toString());
+    }
+
+    @Test
+    @DisplayName("@Generate가 붙지 않는 엔티티에 대해 getGenerator를 호출하면 예외 발생")
+    void throw_exception_when_invoke_getGenerator_not_generator_annotation() {
+        assertThatExceptionOfType(MissingRequiredAnnotationException.class)
+                .isThrownBy(() -> SpringGeneratorFactory.getGenerator(NonGenerateEntity.class));
     }
 }

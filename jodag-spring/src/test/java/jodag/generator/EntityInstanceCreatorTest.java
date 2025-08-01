@@ -1,6 +1,5 @@
 package jodag.generator;
 
-import jakarta.persistence.Embeddable;
 import jodag.TestConfig;
 import jodag.entity.EmbeddableClass;
 import jodag.entity.TestEntity;
@@ -13,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class EntityInstanceCreatorTest {
 
     @Test
-    @DisplayName("embeddable객체가 담긴 엔티티에서 embeddable 객체를 생성합니다.")
+    @DisplayName("embeddable이 담긴 엔티티에서 embeddable 객체를 생성합니다.")
     void create_embeddable_instance_given_entity_with_embeddable_field() {
         Generator<TestEntity> generator = SpringGeneratorFactory.getGenerator(TestEntity.class);
         TestEntity testEntity = generator.get();
