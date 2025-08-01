@@ -127,9 +127,7 @@ public class FieldValueGenerator {
             Object instance = type.getDeclaredConstructor().newInstance();
             for(Field field : type.getDeclaredFields()) {
                 field.setAccessible(true);
-                Object object = get(field);
-                System.out.println("object = " + object);
-                field.set(instance, object);
+                field.set(instance, get(field));
             }
             return instance;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {

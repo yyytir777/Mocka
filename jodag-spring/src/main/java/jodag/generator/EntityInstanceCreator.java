@@ -43,9 +43,7 @@ public class EntityInstanceCreator {
      */
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) {
-        T t = (T) fieldValueGenerator.get(field);
-//        System.out.println(field.getName() + " = " + t);
-        return t;
+        return (T) fieldValueGenerator.get(field);
     }
 
 

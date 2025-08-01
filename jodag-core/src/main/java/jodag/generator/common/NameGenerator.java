@@ -21,7 +21,7 @@ public class NameGenerator extends AbstractGenerator<String> {
         }
     }
 
-    private NameGenerator() throws IOException {
+    private NameGenerator() throws FileNotFoundException {
         super("name", String.class);
         InputStream is = getClass().getClassLoader().getResourceAsStream("name.txt");
         if (is == null) {
