@@ -30,4 +30,22 @@ public class ArrayGenerator {
     public Character[] getCharacterArray(int length) {
         return characterArrayGenerator.get(length);
     }
+
+    public byte[] getPrimitiveByteArray() {
+        Byte[] byteArray = getByteArray();
+        byte[] result = new byte[byteArray.length];
+        for (int i = 0; i < byteArray.length; i++) {
+            result[i] = byteArray[i];
+        }
+        return result;
+    }
+
+    public char[] getPrimitiveCharArray() {
+        Character[] characterArray = getCharacterArray();
+        char[] result = new char[characterArray.length];
+        for (int i = 0; i < characterArray.length; i++) {
+            result[i] = characterArray[i];
+        }
+        return result;
+    }
 }

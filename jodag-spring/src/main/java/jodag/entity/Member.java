@@ -53,6 +53,12 @@ public class Member {
     private java.sql.Date  sqlDate;
     private Timestamp  timestamp;
 
+    private byte[] byteArray;
+    private Byte[] primitiveByteArray;
+
+    private char[] charArray;
+    private Character[] primitiveCharacterArray;
+
     // java.enumerated
     @Enumerated(EnumType.STRING)
     private MemberType type;
@@ -79,7 +85,7 @@ public class Member {
         this.type = type;
     }
 
-    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, MemberType type) {
+    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, byte[] byteArray, Byte[] primitiveByteArray, char[] charArray, Character[] primitiveCharacterArray, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -96,6 +102,10 @@ public class Member {
         this.time = time;
         this.sqlDate = sqlDate;
         this.timestamp = timestamp;
+        this.byteArray = byteArray;
+        this.primitiveByteArray = primitiveByteArray;
+        this.charArray = charArray;
+        this.primitiveCharacterArray = primitiveCharacterArray;
         this.type = type;
     }
 
