@@ -14,25 +14,8 @@ public class ArrayGenerator {
         return INSTANCE;
     }
 
-    public Byte[] getByteArray() {
-        return byteArrayGenerator.get();
-    }
-
-    public Byte[] getByteArray(int length) {
-        return byteArrayGenerator.get(length);
-    }
-
-
-    public Character[] getCharacterArray() {
-        return characterArrayGenerator.get();
-    }
-
-    public Character[] getCharacterArray(int length) {
-        return characterArrayGenerator.get(length);
-    }
-
     public byte[] getPrimitiveByteArray() {
-        Byte[] byteArray = getByteArray();
+        Byte[] byteArray = byteArrayGenerator.get();
         byte[] result = new byte[byteArray.length];
         for (int i = 0; i < byteArray.length; i++) {
             result[i] = byteArray[i];
@@ -40,12 +23,20 @@ public class ArrayGenerator {
         return result;
     }
 
+    public byte[] getPrimitiveByteArray(int length) {
+        return byteArrayGenerator.get(length);
+    }
+
     public char[] getPrimitiveCharArray() {
-        Character[] characterArray = getCharacterArray();
+        Character[] characterArray = characterArrayGenerator.get();
         char[] result = new char[characterArray.length];
         for (int i = 0; i < characterArray.length; i++) {
             result[i] = characterArray[i];
         }
         return result;
+    }
+
+    public char[] getPrimitiveCharArray(int length) {
+        return characterArrayGenerator.get(length);
     }
 }
