@@ -9,7 +9,8 @@ public class AssociationMatcherFactory {
 
     private static final List<AssociationMatcher> matchers = List.of(
             new ChildMatcher(),
-            new ParentMatcher()
+            new ParentMatcher(),
+            new AllMatcher()
     );
 
     public static boolean support(Field field, GenerateType generateType) {
