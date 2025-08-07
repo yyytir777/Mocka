@@ -19,7 +19,15 @@ public class EntityGenerator<T> extends AbstractGenerator<T> {
     @Override
     public T get() {
         try {
-            return entityInstanceCreator.create(type);
+            return entityInstanceCreator.createInstance(type, GenerateType.SELF);
+        } catch (Exception e) {
+            throw new GeneratorException("entity를 생성할 수 없습니다.", e);
+        }
+    }
+
+    public T get(GenerateType generateType) {
+        try {
+            return entityInstanceCreator.createInstance(type, generateType);
         } catch (Exception e) {
             throw new GeneratorException("entity를 생성할 수 없습니다.", e);
         }
