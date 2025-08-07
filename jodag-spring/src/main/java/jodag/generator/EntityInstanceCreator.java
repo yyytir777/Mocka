@@ -4,6 +4,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jodag.generator.association.AssociationMatcher;
+import jodag.generator.association.AssociationMatcherFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -71,33 +73,23 @@ public class EntityInstanceCreator {
 
             // 주어진 클래스의 Field 순회
             for(Field field : clazz.getDeclaredFields()) {
-
                 field.setAccessible(true);
                 Object value;
 
                 if(isAssociations(field)) {
-//                    value = AssociationHandlerFactory.getHandler(field, generateType);
+                    if(!AssociationMatcherFactory.support(field, generateType)) continue;
 
-                    // 이미 캐시에 생성된 엔티티라면 재사용
-                    // 필드가 컬렉션인 경우 (1 : n)
-                    if((field.isAnnotationPresent(OneToMany.class) || field.isAnnotationPresent(ManyToMany.class))
-                    && (generateType.equals(GenerateType.CHILD) || generateType.equals(GenerateType.CHILDREN))) {
+                    if(Collection.class.isAssignableFrom(field.getType())) {
                         value = new ArrayList<>();
-                        // 5개만 생성하여 저장 (임시)
                         for(int i = 0; i < 5; i++) {
                             Object child = create(getGenericType(field), nextGenerateType);
-                            // child : many
-                            // instance : one
                             addParentToChild(child, instance);
                             ((List<Object>)value).add(child);
                         }
-                    } else if((field.isAnnotationPresent(OneToOne.class) || field.isAnnotationPresent(ManyToOne.class))
-                            && (generateType.equals(GenerateType.PARENT) || generateType.equals(GenerateType.PARENTS))) {
+                    } else {
                         Object parent = create(field.getType(), nextGenerateType);
                         addChildToParent(parent, instance); // child -> parent로 갈 때 parent의 children에 child 추가 (컬렉션에 값을 추가해야함)
                         value = parent;
-                    } else {
-                        value = null;
                     }
                 } else { // 연관관계가 아닌 일반 필드 생성
                     // 한 필드에 대한 애노테이션 메타데이터
