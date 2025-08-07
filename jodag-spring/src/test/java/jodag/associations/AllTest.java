@@ -4,6 +4,7 @@ import jodag.TestConfig;
 import jodag.entity.associations.Child;
 import jodag.entity.associations.GrandParent;
 import jodag.entity.associations.Parent;
+import jodag.entity.associations.Tmp;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
@@ -16,7 +17,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Disabled
 @DisplayName("모든 연관관계 테스트")
 @SpringBootTest(classes = TestConfig.class)
 public class AllTest {
@@ -27,11 +27,29 @@ public class AllTest {
         EntityGenerator<Parent> generator = SpringGeneratorFactory.getGenerator(Parent.class);
 
         Parent parent = generator.get(GenerateType.ALL);
+        assertThat(parent).isNotNull();
 
         List<Child> children = parent.getChildren();
-        GrandParent grandParent = parent.getGrandParent();
 
-        children.forEach(child -> assertThat(child).isInstanceOf(Child.class));
-        assertThat(grandParent).isInstanceOf(GrandParent.class);
+        children.forEach(child -> {
+            assertThat(child).isNotNull();
+            assertThat(child.getParent()).isNotNull();
+            assertThat(child.getTmp()).isNotNull();
+        });
+
+        GrandParent grandParent = parent.getGrandParent();
+        assertThat(grandParent).isNotNull();
+        List<Tmp> tmps = grandParent.getTmps();
+        tmps.forEach(tmp -> {
+            assertThat(tmp).isNotNull();
+            assertThat(tmp.getGrandParent()).isNotNull();
+        });
+
+        List<Parent> parents = grandParent.getParents();
+        parents.forEach(parent1 -> {
+            assertThat(parent1).isNotNull();
+            assertThat(parent1.getGrandParent()).isNotNull();
+            assertThat(parent1.getChildren()).isNotNull();
+        });
     }
 }
