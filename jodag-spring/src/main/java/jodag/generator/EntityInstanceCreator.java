@@ -4,11 +4,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jodag.generator.association.AssociationMatcher;
 import jodag.generator.association.AssociationMatcherFactory;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -162,7 +160,6 @@ public class EntityInstanceCreator {
      * child를 parent의 컬렉션에 추가
      * @param parent parent
      * @param child child
-     * @throws IllegalAccessException
      */
     @SuppressWarnings("unchecked")
     private void addChildToParent(Object parent, Object child) throws IllegalAccessException {
@@ -219,13 +216,5 @@ public class EntityInstanceCreator {
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) {
         return (T) fieldValueGenerator.get(field);
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private static <T> Constructor<T> getAllArgsConstructor(Class<T> clazz) {
-        return (Constructor<T>) Arrays.stream(clazz.getDeclaredConstructors())
-                .max(Comparator.comparingInt(Constructor::getParameterCount))
-                .orElseThrow(() -> new IllegalStateException("생성자가 존재하지 않습니다. - " + clazz.getSimpleName()));
     }
 }
