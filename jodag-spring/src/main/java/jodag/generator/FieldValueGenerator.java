@@ -117,10 +117,6 @@ public class FieldValueGenerator {
                 // primitive 배열: byte[], char[], int[], ...
                 if (componentType == byte.class) return GeneratorFactory.array().getPrimitiveByteArray();
                 else if (componentType == char.class) return GeneratorFactory.array().getPrimitiveCharArray();
-            } else {
-                // wrapper 배열: Byte[], Character[], ...
-                if (componentType == Byte.class) return GeneratorFactory.array().getByteArray();
-                else if (componentType == Character.class) return GeneratorFactory.array().getCharacterArray();
             }
         }
 

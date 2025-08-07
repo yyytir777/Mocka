@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
-import jodag.generator.Generate;
 
 @Entity
-@Generate
 public class TestEntity {
 
     @Id
