@@ -3,12 +3,10 @@ package jodag.entity.associations;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jodag.generator.Generate;
 
 import java.util.List;
 
 @Entity
-@Generate
 public class GrandParent {
     @Id
     private Long id;
@@ -17,6 +15,9 @@ public class GrandParent {
 
     @OneToMany
     private List<Parent> parents;
+
+    @OneToMany
+    private List<Tmp> tmps;
 
     public Long getId() {
         return id;
@@ -28,5 +29,17 @@ public class GrandParent {
 
     public List<Parent> getParents() {
         return parents;
+    }
+
+    public List<Tmp> getTmps() {
+        return tmps;
+    }
+
+    @Override
+    public String toString() {
+        return "GrandParent{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

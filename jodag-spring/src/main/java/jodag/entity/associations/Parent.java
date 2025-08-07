@@ -1,12 +1,11 @@
 package jodag.entity.associations;
 
+
 import jakarta.persistence.*;
-import jodag.generator.Generate;
 
 import java.util.List;
 
 @Entity
-@Generate
 public class Parent {
     @Id
     private Long id;
@@ -16,7 +15,7 @@ public class Parent {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> children;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GrandParent grandParent;
 
     public Long getId() {
@@ -33,5 +32,13 @@ public class Parent {
 
     public GrandParent getGrandParent() {
         return grandParent;
+    }
+
+    @Override
+    public String toString() {
+        return "Parent{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

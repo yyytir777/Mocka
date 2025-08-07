@@ -4,10 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jodag.generator.Generate;
 
 @Entity
-@Generate
 public class Child {
     @Id
     private Long id;
@@ -15,6 +13,9 @@ public class Child {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Parent parent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tmp tmp;
 
     public Long getId() {
         return id;
@@ -26,5 +27,17 @@ public class Child {
 
     public Parent getParent() {
         return parent;
+    }
+
+    public Tmp getTmp() {
+        return tmp;
+    }
+
+    @Override
+    public String toString() {
+        return "Child{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
