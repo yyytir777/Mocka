@@ -41,9 +41,6 @@ public class VisitedPath {
 
     @Override
     public String toString() {
-        return "VisitedPath{" +
-                "classA=" + classA +
-                ", classB=" + classB +
-                '}';
+        return "{" + "classA=" + classA.getSimpleName() + ", classB=" + classB.getSimpleName() + '}';
     }
 }

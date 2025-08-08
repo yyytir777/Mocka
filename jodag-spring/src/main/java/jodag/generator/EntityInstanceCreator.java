@@ -36,7 +36,7 @@ public class EntityInstanceCreator {
     }
 
     /**
-     * 주어진 클래스 타입에 대한 `EntityGeneator`를 생성합니다.
+     * 주어진 클래스 타입에 대한 `EntityGenerator`를 생성합니다.
      * @param clazz 인스턴스를 생성할 클래스
      * @param <T> 인스턴스 클래스의 타입
      * @return 주어진 타입에 대한 `EntityGenerator` 인스턴스
@@ -142,13 +142,13 @@ public class EntityInstanceCreator {
                             for(int i = 0; i < 5; i++) {
                                 Object child = create(getGenericType(field), new HashMap<>(), visited);
                                 addParentToChild(child, instance);
-                                System.out.printf("↳ %s → %s%n", child.getClass().getSimpleName(), instance.getClass().getSimpleName());
+//                                System.out.printf("↳ %s → %s%n", child.getClass().getSimpleName(), instance.getClass().getSimpleName());
                                 ((List<Object>)value).add(child);
                             }
                         } else {
                             Object parent = create(field.getType(), caches, visited);
                             addChildToParent(parent, instance);
-                            System.out.printf("↳ %s → %s%n", instance.getClass().getSimpleName(), parent.getClass().getSimpleName());
+//                            System.out.printf("↳ %s → %s%n", instance.getClass().getSimpleName(), parent.getClass().getSimpleName());
                             value = parent;
                         }
                     } finally {
