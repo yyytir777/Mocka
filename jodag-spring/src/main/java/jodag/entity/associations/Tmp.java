@@ -1,9 +1,8 @@
 package jodag.entity.associations;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Tmp {
@@ -16,11 +15,24 @@ public class Tmp {
     @ManyToOne(fetch = FetchType.LAZY)
     private GrandParent grandParent;
 
+    @OneToMany(mappedBy = "tmp", cascade = CascadeType.ALL)
+    private List<Child> children;
+
     public GrandParent getGrandParent() {
         return grandParent;
+    }
+
+    public List<Child> getChildren() {
+        return children;
     }
 
     public Long getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Tmp{" + name + '}';
+    }
+
 }
