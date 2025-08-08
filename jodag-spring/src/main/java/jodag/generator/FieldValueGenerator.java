@@ -110,6 +110,16 @@ public class FieldValueGenerator {
             return GeneratorFactory.dateTime().get(type);
         }
 
+        // 배열인 경우 byte[], char[]
+        if (type.isArray()) {
+            Class<?> componentType = type.getComponentType();
+            if (componentType.isPrimitive()) {
+                // primitive 배열: byte[], char[], int[], ...
+                if (componentType == byte.class) return GeneratorFactory.array().getPrimitiveByteArray();
+                else if (componentType == char.class) return GeneratorFactory.array().getPrimitiveCharArray();
+            }
+        }
+
         if(type == String.class) {
             return GeneratorFactory.string().get();
         }

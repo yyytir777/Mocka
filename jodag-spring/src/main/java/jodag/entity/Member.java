@@ -2,7 +2,6 @@ package jodag.entity;
 
 import jakarta.persistence.*;
 import jodag.annotation.Email;
-import jodag.generator.Generate;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -13,7 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Generate
 public class Member {
 
     @Id
@@ -53,6 +51,10 @@ public class Member {
     private java.sql.Date  sqlDate;
     private Timestamp  timestamp;
 
+    private byte[] byteArray;
+
+    private char[] charArray;
+
     // java.enumerated
     @Enumerated(EnumType.STRING)
     private MemberType type;
@@ -79,7 +81,7 @@ public class Member {
         this.type = type;
     }
 
-    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, MemberType type) {
+    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, byte[] byteArray, char[] charArray, Character[] primitiveCharacterArray, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -96,6 +98,8 @@ public class Member {
         this.time = time;
         this.sqlDate = sqlDate;
         this.timestamp = timestamp;
+        this.byteArray = byteArray;
+        this.charArray = charArray;
         this.type = type;
     }
 

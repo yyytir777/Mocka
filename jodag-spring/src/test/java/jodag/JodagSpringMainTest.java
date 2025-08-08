@@ -61,11 +61,4 @@ public class JodagSpringMainTest {
         TestEntity testEntity = generator.get();
         System.out.println("testEntity = " + testEntity.toString());
     }
-
-    @Test
-    @DisplayName("@Generate가 붙지 않는 엔티티에 대해 getGenerator를 호출하면 예외 발생")
-    void throw_exception_when_invoke_getGenerator_not_generator_annotation() {
-        assertThatExceptionOfType(MissingRequiredAnnotationException.class)
-                .isThrownBy(() -> SpringGeneratorFactory.getGenerator(NonGenerateEntity.class));
-    }
 }

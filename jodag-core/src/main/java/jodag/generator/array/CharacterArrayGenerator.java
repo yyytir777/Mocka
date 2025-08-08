@@ -23,8 +23,8 @@ public class CharacterArrayGenerator extends AbstractGenerator<Character[]> {
         return new Character[]{charGenerator.get()};
     }
 
-    public Character[] get(int length) {
-        Character[] characters = new Character[length];
+    public char[] get(int length) {
+        char[] characters = new char[length];
         for (int i = 0; i < length; i++) {
             characters[i] = charGenerator.get();
         }

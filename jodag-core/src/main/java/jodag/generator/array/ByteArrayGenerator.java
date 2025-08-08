@@ -23,8 +23,8 @@ public class ByteArrayGenerator extends AbstractGenerator<Byte[]> {
         return new Byte[]{byteGenerator.get()};
     }
 
-    public Byte[] get(int length) {
-        Byte[] array = new Byte[length];
+    public byte[] get(int length) {
+        byte[] array = new byte[length];
         for(int i = 0; i < length; i++) {
             array[i] = byteGenerator.get();
         }

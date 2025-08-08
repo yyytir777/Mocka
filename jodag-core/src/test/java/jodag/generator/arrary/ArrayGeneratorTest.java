@@ -35,11 +35,11 @@ public class ArrayGeneratorTest {
     void get_value_from_arrayGenerator() {
         ArrayGenerator arrayGenerator = GeneratorFactory.array();
 
-        Byte[] byteArray = arrayGenerator.getByteArray();
-        assertThat(Arrays.stream(byteArray).allMatch(Objects::nonNull)).isTrue();
+        byte[] byteArray = arrayGenerator.getPrimitiveByteArray();
+        assertThat(byteArray).isNotNull();
 
-        Character[] characterArray = arrayGenerator.getCharacterArray();
-        assertThat(Arrays.stream(characterArray).allMatch(Objects::nonNull)).isTrue();
+        char[] characterArray = arrayGenerator.getPrimitiveCharArray();
+        assertThat(characterArray).isNotNull();
     }
 
     @Test
@@ -47,10 +47,10 @@ public class ArrayGeneratorTest {
     void get_value_from_arrayGenerator_when_given_length() {
         ArrayGenerator arrayGenerator = GeneratorFactory.array();
 
-        Byte[] byteArray = arrayGenerator.getByteArray(10);
+        byte[] byteArray = arrayGenerator.getPrimitiveByteArray(10);
         assertThat(byteArray.length).isEqualTo(10);
 
-        Character[] characterArray = arrayGenerator.getCharacterArray(20);
+        char[] characterArray = arrayGenerator.getPrimitiveCharArray(20);
         assertThat(characterArray.length).isEqualTo(20);
     }
 }

@@ -3,8 +3,9 @@ package jodag.scanner;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Entity;
-import jodag.generator.Generate;
 import jodag.generator.SpringGeneratorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @Component
 public class EntityScanner implements BeanFactoryAware {
 
+    private static final Logger log = LoggerFactory.getLogger(EntityScanner.class);
     private BeanFactory beanFactory;
 
     @Override
@@ -36,6 +38,7 @@ public class EntityScanner implements BeanFactoryAware {
 
     @PostConstruct
     public void processGenerateAnnotation() {
+        Long startMs = System.currentTimeMillis();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
         String basePackage = AutoConfigurationPackages.get(beanFactory).get(0);
@@ -49,11 +52,10 @@ public class EntityScanner implements BeanFactoryAware {
                 }).collect(Collectors.toSet());
 
         for(Class<?> clazz : candidates) {
-            if(!clazz.isAnnotationPresent(Generate.class)) {
-                System.out.println("@Generate애노테이션이 아닙니다. = " + clazz.getName());
-                continue;
-            }
             SpringGeneratorFactory.add(clazz);
         }
+
+        Long endMs = System.currentTimeMillis();
+        log.info("Finished scanning entity classes in {}ms. Add {} entities in SpringGeneratorFactory", (endMs - startMs), candidates.size());
     }
 }

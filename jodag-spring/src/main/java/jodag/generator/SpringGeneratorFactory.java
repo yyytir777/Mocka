@@ -11,19 +11,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SpringGeneratorFactory extends GeneratorFactory {
 
-    private static final Map<String, Generator<?>> entityGenerators = new ConcurrentHashMap<>();
+    private static final Map<String, EntityGenerator<?>> entityGenerators = new ConcurrentHashMap<>();
 
     public static <T> void add(Class<T> clazz) {
         entityGenerators.put(clazz.getSimpleName(), new EntityGenerator<>(clazz, EntityInstanceCreator.getInstance()));
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Generator<T> getGenerator(Class<T> clazz) {
-        Generator<?> generator = entityGenerators.get(clazz.getSimpleName());
+    public static <T> EntityGenerator<T> getGenerator(Class<T> clazz) {
+        EntityGenerator<?> generator = entityGenerators.get(clazz.getSimpleName());
         if (generator == null) {
             throw new MissingRequiredAnnotationException("No @Generate annotation for target class " + clazz.getSimpleName());
         }
-        return (Generator<T>) generator;
+        return (EntityGenerator<T>) generator;
     }
 
     public static List<String> getGeneratorNames() {
