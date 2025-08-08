@@ -110,18 +110,16 @@ public class EntityInstanceCreator {
      * @return clazz의 인스턴스
      */
     @SuppressWarnings("unchecked")
-    private <T> T create(Class<T> clazz, Map<String, Object> instanceCaches, Set<VisitedPath> caches) {
-//        System.out.println("clazz = " + clazz);
-//        System.out.println("instanceCaches = " + instanceCaches);
-//        System.out.println("caches = " + caches);
+    private <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
         GenerateType generateType = GenerateType.ALL;
-        if(instanceCaches.containsKey(clazz)) {
-            return (T) instanceCaches.get(clazz);
+        String className = clazz.getSimpleName();
+        if(caches.containsKey(className)) {
+            return (T) caches.get(className);
         }
 
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
-            instanceCaches.put(clazz.getSimpleName(), instance);
+            caches.put(clazz.getSimpleName(), instance);
 
             for(Field field : clazz.getDeclaredFields()) {
 
@@ -135,26 +133,26 @@ public class EntityInstanceCreator {
                     if(!AssociationMatcherFactory.support(field, generateType)) continue;
 
                     // 이미 방문한 필드라면 continue
-                    if(caches.contains(path)) continue;
-                    caches.add(path);
+                    if(visited.contains(path)) continue;
+                    visited.add(path);
 
                     try {
                         if(Collection.class.isAssignableFrom(field.getType())) {
                             value = new ArrayList<>();
                             for(int i = 0; i < 5; i++) {
-                                Object child = create(getGenericType(field), new HashMap<>(), caches);
+                                Object child = create(getGenericType(field), new HashMap<>(), visited);
                                 addParentToChild(child, instance);
                                 System.out.printf("↳ %s → %s%n", child.getClass().getSimpleName(), instance.getClass().getSimpleName());
                                 ((List<Object>)value).add(child);
                             }
                         } else {
-                            Object parent = create(field.getType(), instanceCaches, caches);
+                            Object parent = create(field.getType(), caches, visited);
                             addChildToParent(parent, instance);
                             System.out.printf("↳ %s → %s%n", instance.getClass().getSimpleName(), parent.getClass().getSimpleName());
                             value = parent;
                         }
                     } finally {
-                        caches.remove(path);
+                        visited.remove(path);
                     }
                 } else {
                     value = generateValue(field);
