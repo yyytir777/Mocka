@@ -36,7 +36,7 @@ public class EntityInstanceCreator {
     }
 
     /**
-     * 주어진 클래스 타입에 대한 `EntityGeneator`를 생성합니다.
+     * 주어진 클래스 타입에 대한 `EntityGenerator`를 생성합니다.
      * @param clazz 인스턴스를 생성할 클래스
      * @param <T> 인스턴스 클래스의 타입
      * @return 주어진 타입에 대한 `EntityGenerator` 인스턴스
@@ -110,40 +110,49 @@ public class EntityInstanceCreator {
      * @return clazz의 인스턴스
      */
     @SuppressWarnings("unchecked")
-    private <T> T create(Class<T> clazz, Map<Class<?>, Object> instanceCaches, Set<VisitedPath> caches) {
+    private <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
         GenerateType generateType = GenerateType.ALL;
-        if(instanceCaches.containsKey(clazz)) {
-            return (T) instanceCaches.get(clazz);
+        String className = clazz.getSimpleName();
+        if(caches.containsKey(className)) {
+            return (T) caches.get(className);
         }
 
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
-            instanceCaches.put(clazz, instance);
+            caches.put(clazz.getSimpleName(), instance);
 
             for(Field field : clazz.getDeclaredFields()) {
+
                 field.setAccessible(true);
                 Object value;
 
                 if(isAssociations(field)) {
-                    VisitedPath path = VisitedPath.of(clazz, field);
+                    VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
 
-                    if(caches.contains(path)) {
-                        caches.add(path);
-                    }
-
+                    // 연관관계 애노테이션과 필드 타입이 맞지 않을 경우 continue
                     if(!AssociationMatcherFactory.support(field, generateType)) continue;
 
-                    if(Collection.class.isAssignableFrom(field.getType())) {
-                        value = new ArrayList<>();
-                        for(int i = 0; i < 5; i++) {
-                            Object child = create(getGenericType(field), instanceCaches, caches);
-                            addParentToChild(child, instance);
-                            ((List<Object>)value).add(child);
+                    // 이미 방문한 필드라면 continue
+                    if(visited.contains(path)) continue;
+                    visited.add(path);
+
+                    try {
+                        if(Collection.class.isAssignableFrom(field.getType())) {
+                            value = new ArrayList<>();
+                            for(int i = 0; i < 5; i++) {
+                                Object child = create(getGenericType(field), new HashMap<>(), visited);
+                                addParentToChild(child, instance);
+//                                System.out.printf("↳ %s → %s%n", child.getClass().getSimpleName(), instance.getClass().getSimpleName());
+                                ((List<Object>)value).add(child);
+                            }
+                        } else {
+                            Object parent = create(field.getType(), caches, visited);
+                            addChildToParent(parent, instance);
+//                            System.out.printf("↳ %s → %s%n", instance.getClass().getSimpleName(), parent.getClass().getSimpleName());
+                            value = parent;
                         }
-                    } else {
-                        Object parent = create(field.getType(), instanceCaches, caches);
-                        addChildToParent(parent, instance);
-                        value = parent;
+                    } finally {
+                        visited.remove(path);
                     }
                 } else {
                     value = generateValue(field);

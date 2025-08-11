@@ -1,47 +1,46 @@
 package jodag.generator;
 
-import java.lang.reflect.Field;
+
 import java.util.Objects;
 
 public class VisitedPath {
-    private final String ownerClass;
-    private final Field field;
+    private final Class<?> classA;
+    private final Class<?> classB;
 
-    public VisitedPath(Class<?> ownerClass, Field field) {
-        this.ownerClass = ownerClass.getSimpleName();
-        this.field = field;
+    public VisitedPath(Class<?> classA, Class<?> classB) {
+        this.classA = classA;
+        this.classB = classB;
     }
 
-    public static VisitedPath of(Class<?> clazz, Field field) {
-        return new VisitedPath(clazz, field);
+    public static VisitedPath of(Class<?> classA, Class<?> classB) {
+        return new VisitedPath(
+                classA.getName().compareTo(classB.getName()) <= 0 ? classA : classB,
+                classA.getName().compareTo(classB.getName()) <= 0 ? classB : classA
+        );
     }
 
-    public String getOwnerClass() {
-        return ownerClass;
+    public Class<?> getClassA() {
+        return classA;
     }
 
-    public Field getField() {
-        return field;
-    }
-
-    @Override
-    public String toString() {
-        return ownerClass + "#" + field.getName();
+    public Class<?> getClassB() {
+        return classB;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof VisitedPath target)) return false;
-        return field.getName().equals(target.field.getName()) &&
-                field.getDeclaringClass().equals(target.field.getDeclaringClass());
+        if (!(o instanceof VisitedPath that)) return false;
+        return classA.equals(that.getClassA()) && classB.equals(that.getClassB());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(field.getName(), field.getDeclaringClass());
+        return Objects.hash(classA, classB);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "{" + "classA=" + classA.getSimpleName() + ", classB=" + classB.getSimpleName() + '}';
+    }
 }

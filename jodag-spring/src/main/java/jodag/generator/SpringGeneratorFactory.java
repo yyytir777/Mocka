@@ -21,7 +21,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
     public static <T> EntityGenerator<T> getGenerator(Class<T> clazz) {
         EntityGenerator<?> generator = entityGenerators.get(clazz.getSimpleName());
         if (generator == null) {
-            throw new MissingRequiredAnnotationException("No @Generate annotation for target class " + clazz.getSimpleName());
+            throw new RuntimeException("Cannot find entity classes. Check enable @EnableJodag annotation");
         }
         return (EntityGenerator<T>) generator;
     }
