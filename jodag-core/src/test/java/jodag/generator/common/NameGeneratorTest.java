@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("NameGenerator Test")
 class NameGeneratorTest {
 
     @Test
