@@ -20,7 +20,10 @@ public class EntityGenerator<T> extends AbstractGenerator<T> {
     public T get() {
         try {
             return entityInstanceCreator.createInstance(type, GenerateType.SELF);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException iae) {
+            throw new GeneratorException("entity의 필드와 생성한 값의 타입이 일치하지 않습니다.", iae);
+        }
+        catch (Exception e) {
             throw new GeneratorException("entity를 생성할 수 없습니다.", e);
         }
     }

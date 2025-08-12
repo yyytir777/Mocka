@@ -2,6 +2,7 @@ package jodag.entity.associations;
 
 
 import jakarta.persistence.*;
+import jodag.ValueSource;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class Parent {
     @Id
     private Long id;
 
+    @ValueSource(path = "test.txt", type = String.class)
     private String name;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
