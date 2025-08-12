@@ -4,7 +4,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jodag.ValueSource;
 import jodag.generator.association.AssociationMatcherFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -20,6 +23,8 @@ import java.util.*;
 public class EntityInstanceCreator {
 
     private static final EntityInstanceCreator INSTANCE = new EntityInstanceCreator(FieldValueGenerator.getInstance());
+
+    private static final Logger log = LoggerFactory.getLogger(EntityInstanceCreator.class);
 
     private final FieldValueGenerator fieldValueGenerator;
 
@@ -224,6 +229,18 @@ public class EntityInstanceCreator {
      */
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) {
+        try {
+            // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
+            if(field.isAnnotationPresent(ValueSource.class)) {
+                String path =  field.getAnnotation(ValueSource.class).path();
+                Class<?> clazz = field.getAnnotation(ValueSource.class).type();
+                Generator<?> registableGenerator = GeneratorFactory.getRegistableGenerator(path, path, clazz);
+                return (T) registableGenerator.get();
+            }
+        } catch (Exception e) {
+            log.warn("Unable to generate value from file... ", e);
+        }
+
         return (T) fieldValueGenerator.get(field);
     }
 }
