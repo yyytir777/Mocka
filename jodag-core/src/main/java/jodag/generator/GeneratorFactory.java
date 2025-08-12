@@ -1,10 +1,7 @@
 package jodag.generator;
 
 import jodag.generator.array.ArrayGenerator;
-import jodag.generator.common.CountryGenerator;
-import jodag.generator.common.EmailGenerator;
-import jodag.generator.common.LoremIpsumGenerator;
-import jodag.generator.common.NameGenerator;
+import jodag.generator.common.*;
 import jodag.generator.datetime.CommonDateGenerator;
 import jodag.generator.numeric.NumericGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
@@ -22,6 +19,7 @@ public class GeneratorFactory {
     private static final NameGenerator nameGenerator = NameGenerator.getInstance();
     private static final LoremIpsumGenerator loremIpsumGenerator = LoremIpsumGenerator.getInstance();
     private static final CountryGenerator countryGenerator = CountryGenerator.getInstance();
+    private static final RegexGenerator regexGenerator = RegexGenerator.getInstance();
 
     private static final PrimitiveGenerator primitiveGenerator = PrimitiveGenerator.getInstance();
     private static final NumericGenerator numericGenerator = NumericGenerator.getInstance();
@@ -41,6 +39,10 @@ public class GeneratorFactory {
 
     public static CountryGenerator country() {
         return countryGenerator;
+    }
+
+    public static RegexGenerator regex() {
+        return regexGenerator;
     }
 
     public static NameGenerator name() {
