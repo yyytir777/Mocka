@@ -20,14 +20,14 @@ import static org.assertj.core.api.Assertions.*;
 public class JodagSpringMainTest {
 
     @Test
-    @DisplayName("@Generate가 붙은 엔티티 클래스는 SpringGeneratorFactory에 저장됩니다.")
+    @DisplayName("엔티티 클래스는 자동으로 SpringGeneratorFactory에 저장됩니다.")
     void auto_register_generate_class_in_sprigGeneratorFactory() {
         List<String> generatorNames = SpringGeneratorFactory.getGeneratorNames();
         assertThat(Member.class.getSimpleName()).isIn(generatorNames);
     }
 
     @Test
-    @DisplayName("Member 엔티티 @Generate 등록 및 인스턴스 생성")
+    @DisplayName("Member 엔티티 및 인스턴스 생성")
     void test() {
         Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
 
@@ -43,7 +43,7 @@ public class JodagSpringMainTest {
     }
 
     @Test
-    @DisplayName("Member 엔티티 @Generate 등록 및 인스턴스 10개 생성")
+    @DisplayName("Member 엔티티 인스턴스 10개 생성")
     void create_10_instances() {
         Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
 
@@ -52,13 +52,5 @@ public class JodagSpringMainTest {
             System.out.println("member : " + member.toString());
             assertThat(member.getName()).isNotNull();
         }
-    }
-
-    @Test
-    @DisplayName("test 엔티티 @Generate 등록 및 인스턴스 생성")
-    void test_entity_class() {
-        Generator<TestEntity> generator = SpringGeneratorFactory.getGenerator(TestEntity.class);
-        TestEntity testEntity = generator.get();
-        System.out.println("testEntity = " + testEntity.toString());
     }
 }
