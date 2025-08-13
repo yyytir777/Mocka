@@ -3,6 +3,8 @@ package jodag.entity.associations;
 
 import jakarta.persistence.*;
 import jodag.ValueSource;
+import jodag.generator.GeneratorFactory;
+import jodag.generator.SpringGeneratorFactory;
 
 import java.util.List;
 
@@ -11,8 +13,11 @@ public class Parent {
     @Id
     private Long id;
 
-    @ValueSource(path = "test.txt", type = String.class)
+    @ValueSource(path = "/Users/wonjae/Desktop/text.txt", type = String.class)
     private String name;
+
+    @ValueSource(generatorKey = "test")
+    private String test;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> children;
@@ -26,6 +31,10 @@ public class Parent {
 
     public String getName() {
         return name;
+    }
+
+    public String getTest() {
+        return test;
     }
 
     public List<Child> getChildren() {

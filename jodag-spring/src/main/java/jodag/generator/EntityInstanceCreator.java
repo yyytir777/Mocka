@@ -5,7 +5,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jodag.ValueSource;
+import jodag.exception.ValueSourceException;
 import jodag.generator.association.AssociationMatcherFactory;
+import jodag.generator.registable.RegisterableGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -229,16 +231,27 @@ public class EntityInstanceCreator {
      */
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) {
-        try {
-            // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
-            if(field.isAnnotationPresent(ValueSource.class)) {
-                String path =  field.getAnnotation(ValueSource.class).path();
-                Class<?> clazz = field.getAnnotation(ValueSource.class).type();
-                Generator<?> registableGenerator = GeneratorFactory.getRegistableGenerator(path, path, clazz);
-                return (T) registableGenerator.get();
+        // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
+        if(field.isAnnotationPresent(ValueSource.class)) {
+            ValueSource valueSource = field.getAnnotation(ValueSource.class);
+            String path = valueSource.path();
+            Class<?> type = valueSource.type();
+            String key = valueSource.generatorKey();
+
+            // key와 (path, type)이 동시에 지정되었을 때
+            if(!key.isEmpty() && (!path.isEmpty() || type != Object.class)) {
+                throw new ValueSourceException("@ValueSource: use either generatorKey OR (path+type)");
             }
-        } catch (Exception e) {
-            log.warn("Unable to generate value from file... ", e);
+
+            // 기존에 등록된 generator 사용
+            if(!key.isEmpty()) {
+                return (T) GeneratorFactory.getRegistableGenerator(key).get();
+            }
+
+            if(!path.isEmpty() && type != null) {
+                RegisterableGenerator<?> generator = GeneratorFactory.getRegistableGenerator(path, type);
+                return (T) generator.get();
+            }
         }
 
         return (T) fieldValueGenerator.get(field);
