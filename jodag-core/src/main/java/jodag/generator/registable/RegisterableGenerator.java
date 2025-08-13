@@ -1,5 +1,6 @@
 package jodag.generator.registable;
 
+import jodag.PathResourceLoader;
 import jodag.exception.generator.GeneratorException;
 import jodag.generator.AbstractGenerator;
 
@@ -15,22 +16,23 @@ import java.util.stream.Collectors;
 public class RegisterableGenerator<T> extends AbstractGenerator<T> {
 
     private final List<T> data;
+    private final String path;
 
     @SuppressWarnings("unchecked")
     public RegisterableGenerator(String key, String resourcePath, Class<T> type) {
         super(key, type);
-        InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
-
-        if(is == null) {
-            throw new GeneratorException("Resource not found: " + resourcePath);
-        }
-
+        this.path = resourcePath;
+        InputStream is = PathResourceLoader.getPath(resourcePath);
         this.data = (List<T>) new BufferedReader(new InputStreamReader(is))
-                .lines().collect(Collectors.toList());
+                .lines().toList();
     }
 
     @Override
     public T get() {
         return data.get(randomProvider.getInt(data.size()));
+    }
+
+    public String getPath() {
+        return path;
     }
 }

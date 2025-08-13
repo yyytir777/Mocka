@@ -1,6 +1,5 @@
 package jodag.generator;
 
-import jodag.exception.MissingRequiredAnnotationException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
