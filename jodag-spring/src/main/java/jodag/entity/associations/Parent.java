@@ -13,7 +13,7 @@ public class Parent {
     @Id
     private Long id;
 
-    @ValueSource(path = "/Users/wonjae/Desktop/text.txt", type = String.class)
+//    @ValueSource(path = "/Users/wonjae/Desktop/text.txt", type = String.class)
     private String name;
 
     @ValueSource(generatorKey = "test")
