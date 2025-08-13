@@ -1,5 +1,6 @@
 package jodag;
 
+
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
@@ -11,4 +12,6 @@ public @interface ValueSource {
     String path() default "";
 
     Class<?> type() default Object.class;
+
+    String generatorKey() default "";
 }
