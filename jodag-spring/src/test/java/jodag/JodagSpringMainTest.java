@@ -1,9 +1,6 @@
 package jodag;
 
 import jodag.entity.Member;
-import jodag.entity.NonGenerateEntity;
-import jodag.entity.TestEntity;
-import jodag.exception.MissingRequiredAnnotationException;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
