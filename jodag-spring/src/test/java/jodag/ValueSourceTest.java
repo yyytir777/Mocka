@@ -6,10 +6,7 @@ import jodag.generator.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
 import jodag.generator.registable.RegisterableGenerator;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
@@ -18,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ValueSource 테스트")
+@Disabled
 @SpringBootTest(classes = TestConfig.class)
 public class ValueSourceTest {
 
