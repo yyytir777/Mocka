@@ -13,10 +13,8 @@ public class Parent {
     @Id
     private Long id;
 
-//    @ValueSource(path = "/Users/wonjae/Desktop/text.txt", type = String.class)
     private String name;
 
-    @ValueSource(generatorKey = "test")
     private String test;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
