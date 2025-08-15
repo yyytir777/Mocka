@@ -1,7 +1,5 @@
 package jodag.exception;
 
-import jodag.exception.generator.GeneratorException;
-
 public class ValueSourceException extends GeneratorException {
 
     public ValueSourceException(String message) {

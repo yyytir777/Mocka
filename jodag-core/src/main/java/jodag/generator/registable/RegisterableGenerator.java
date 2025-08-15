@@ -1,12 +1,10 @@
 package jodag.generator.registable;
 
 import jodag.PathResourceLoader;
-import jodag.exception.generator.GeneratorException;
 import jodag.generator.AbstractGenerator;
 
 import java.io.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * DataRegistry에 등록해서 사용하는 Generator,

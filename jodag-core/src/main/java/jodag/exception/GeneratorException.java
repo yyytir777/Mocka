@@ -1,4 +1,4 @@
-package jodag.exception.generator;
+package jodag.exception;
 
 public class GeneratorException extends RuntimeException {
 

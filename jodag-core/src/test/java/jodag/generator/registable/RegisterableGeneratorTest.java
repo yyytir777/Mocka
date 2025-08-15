@@ -1,6 +1,6 @@
 package jodag.generator.registable;
 
-import jodag.exception.generator.GeneratorException;
+import jodag.exception.GeneratorException;
 import jodag.generator.Generator;
 import jodag.generator.GeneratorFactory;
 import org.junit.jupiter.api.BeforeEach;

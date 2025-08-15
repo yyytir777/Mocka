@@ -1,6 +1,6 @@
 package jodag.generator;
 
-import jodag.exception.generator.GeneratorException;
+import jodag.exception.GeneratorException;
 
 
 public class EntityGenerator<T> extends AbstractGenerator<T> {

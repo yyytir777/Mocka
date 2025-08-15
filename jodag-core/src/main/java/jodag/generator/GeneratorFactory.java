@@ -1,6 +1,6 @@
 package jodag.generator;
 
-import jodag.exception.generator.GeneratorException;
+import jodag.exception.GeneratorException;
 import jodag.generator.array.ArrayGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;

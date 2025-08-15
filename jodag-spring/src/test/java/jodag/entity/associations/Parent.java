@@ -2,9 +2,6 @@ package jodag.entity.associations;
 
 
 import jakarta.persistence.*;
-import jodag.ValueSource;
-import jodag.generator.GeneratorFactory;
-import jodag.generator.SpringGeneratorFactory;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package jodag;
 
 
-import jodag.exception.generator.GeneratorException;
+import jodag.exception.GeneratorException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

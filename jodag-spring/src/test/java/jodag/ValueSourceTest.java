@@ -1,7 +1,6 @@
 package jodag;
 
 import jodag.entity.ValueSourceEntity;
-import jodag.entity.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
