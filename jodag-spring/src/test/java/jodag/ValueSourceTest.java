@@ -4,6 +4,7 @@ import jodag.entity.ValueSourceEntity;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
+import jodag.generator.registable.RegisterableGenerator;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -48,11 +49,10 @@ public class ValueSourceTest {
     void value_source_generate_test_with_key() {
         EntityGenerator<ValueSourceEntity> generator = SpringGeneratorFactory.getGenerator(ValueSourceEntity.class);
 
-        ValueSourceEntity valueSourceEntity = generator.get();
-
         List<String> testList = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
 
         for(int i = 0; i < 10; i++) {
+            ValueSourceEntity valueSourceEntity = generator.get();
             String test = valueSourceEntity.getName();
             assertThat(testList).contains(test);
         }
