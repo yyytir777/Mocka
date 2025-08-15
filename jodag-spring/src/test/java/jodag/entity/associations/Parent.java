@@ -12,6 +12,8 @@ public class Parent {
 
     private String name;
 
+    private String test;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> children;
 
@@ -24,6 +26,10 @@ public class Parent {
 
     public String getName() {
         return name;
+    }
+
+    public String getTest() {
+        return test;
     }
 
     public List<Child> getChildren() {

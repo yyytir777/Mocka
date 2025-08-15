@@ -4,15 +4,12 @@ import jodag.TestConfig;
 import jodag.entity.associations.Child;
 import jodag.entity.associations.GrandParent;
 import jodag.entity.associations.Parent;
-import jodag.entity.associations.Tmp;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

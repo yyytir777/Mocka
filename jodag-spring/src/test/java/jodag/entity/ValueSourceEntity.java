@@ -2,19 +2,17 @@ package jodag.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jodag.ValueSource;
 
 @Entity
-public class NonGenerateEntity {
+public class ValueSourceEntity {
     @Id
     private Long id;
 
+    @ValueSource(generatorKey = "test")
     private String name;
 
-    public NonGenerateEntity() {
-
-    }
-
-    public NonGenerateEntity(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 }
