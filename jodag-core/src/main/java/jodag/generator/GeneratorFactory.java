@@ -15,11 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static jodag.generator.StringGenerator.getInstance;
-
 public class GeneratorFactory {
 
-    private static final StringGenerator stringGenerator = getInstance();
+    private static final StringGenerator stringGenerator = StringGenerator.getInstance();
     private static final EmailGenerator emailGenerator = EmailGenerator.getInstance();
     private static final NameGenerator nameGenerator = NameGenerator.getInstance();
     private static final LoremIpsumGenerator loremIpsumGenerator = LoremIpsumGenerator.getInstance();
@@ -29,8 +27,15 @@ public class GeneratorFactory {
     private static final CommonDateGenerator commonDateGenerator = CommonDateGenerator.getInstance();
     private static final ArrayGenerator arrayGenerator = ArrayGenerator.getInstance();
 
+    private static final Map<String, AbstractGenerator<?>> commonGenerators = new ConcurrentHashMap<>();
     private static final Map<String, RegisterableGenerator<?>> registableGenerators = new ConcurrentHashMap<>();
 
+    static {
+        commonGenerators.put("string", StringGenerator.getInstance());
+        commonGenerators.put("email", EmailGenerator.getInstance());
+        commonGenerators.put("name", NameGenerator.getInstance());
+        commonGenerators.put("lorem", LoremIpsumGenerator.getInstance());
+    }
 
     public static StringGenerator string() {
         return stringGenerator;
@@ -57,6 +62,15 @@ public class GeneratorFactory {
     public static CommonDateGenerator dateTime() {return commonDateGenerator;}
 
     public static ArrayGenerator array() {return arrayGenerator;}
+
+    @SuppressWarnings("unchecked")
+    public static <T> AbstractGenerator<T> getCommonGenerator(String key) {
+        AbstractGenerator<T> generator = (AbstractGenerator<T>) commonGenerators.get(key);
+        if(generator == null) {
+            throw new GeneratorException("No generator for key: " + key);
+        }
+        return generator;
+    }
 
 
     @SuppressWarnings("unchecked")
@@ -102,6 +116,9 @@ public class GeneratorFactory {
         registableGenerators.clear();
     }
 
+    public static List<String> getCommonGeneratorKeys() {
+        return new ArrayList<>(commonGenerators.keySet());
+    }
     public static List<String> getRegistableGeneratorNames() {
         return new ArrayList<>(registableGenerators.keySet());
     }
