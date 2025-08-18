@@ -5,6 +5,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jodag.ValueSource;
+import jodag.exception.GeneratorException;
 import jodag.exception.ValueSourceException;
 import jodag.generator.association.AssociationMatcherFactory;
 import jodag.generator.registable.RegisterableGenerator;
@@ -245,11 +246,17 @@ public class EntityInstanceCreator {
 
             // 기존에 등록된 generator 사용
             if(!key.isEmpty()) {
-                return (T) GeneratorFactory.getRegistableGenerator(key).get();
+                Generator<T> generator;
+                try {
+                     generator = GeneratorFactory.getRegistableGenerator(key);
+                } catch (GeneratorException e) {
+                    generator = GeneratorFactory.getCommonGenerator(key);
+                }
+                return generator.get();
             }
 
             if(!path.isEmpty() && type != null) {
-                RegisterableGenerator<?> generator = GeneratorFactory.getRegistableGenerator(path, type);
+                RegisterableGenerator<?> generator = GeneratorFactory.getRegistableGenerator(path, path, type);
                 return (T) generator.get();
             }
         }
