@@ -1,6 +1,7 @@
 Jodag
 ===
 [![Test Jodag Library](https://github.com/yyytir777/jodag/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/jodag/actions/workflows/test.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_jodag&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_jodag)
 
 **Jodag** is a Java library for **automatic data generation** based on predefined files. <br>
 You can register your own **text-based datasets** using line-separated files (CRLF format), allowing you to freely define and use any type of data you want. <br>
