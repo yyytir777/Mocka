@@ -1,6 +1,8 @@
 package jodag;
 
+import jodag.entity.FailValueSourceEntity;
 import jodag.entity.ValueSourceEntity;
+import jodag.exception.ValueSourceException;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
@@ -20,7 +22,7 @@ public class ValueSourceTest {
     @BeforeEach
     public void setUp() {
 //        GeneratorFactory.register("test-path", "/Users/wonjae/Desktop/text.txt", String.class);
-        RegisterableGenerator<String> generator = GeneratorFactory.register("test", "test.txt", String.class);
+        GeneratorFactory.register("test", "test.txt", String.class);
     }
 
     @AfterEach
@@ -56,5 +58,12 @@ public class ValueSourceTest {
             String test = valueSourceEntity.getName();
             assertThat(testList).contains(test);
         }
+    }
+
+    @Test
+    @DisplayName("key, path, type이 동시에 지정되었을 때 ValueSourceException throw")
+    void value_source_generate_test_with_key_throw() {
+        EntityGenerator<FailValueSourceEntity> generator = SpringGeneratorFactory.getGenerator(FailValueSourceEntity.class);
+        assertThatThrownBy(generator::get).isInstanceOf(ValueSourceException.class);
     }
 }
