@@ -23,16 +23,9 @@ public class EntityGenerator<T> extends AbstractGenerator<T> {
         } catch (IllegalArgumentException iae) {
             throw new GeneratorException("entity의 필드와 생성한 값의 타입이 일치하지 않습니다.", iae);
         }
-        catch (Exception e) {
-            throw new GeneratorException("entity를 생성할 수 없습니다.", e);
-        }
     }
 
     public T get(GenerateType generateType) {
-        try {
-            return entityInstanceCreator.createInstance(type, generateType);
-        } catch (Exception e) {
-            throw new GeneratorException("entity를 생성할 수 없습니다.", e);
-        }
+        return entityInstanceCreator.createInstance(type, generateType);
     }
 }

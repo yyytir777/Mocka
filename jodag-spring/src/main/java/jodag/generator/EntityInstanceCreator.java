@@ -8,9 +8,6 @@ import jodag.ValueSource;
 import jodag.exception.GeneratorException;
 import jodag.exception.ValueSourceException;
 import jodag.generator.association.AssociationMatcherFactory;
-import jodag.generator.registable.RegisterableGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -26,8 +23,6 @@ import java.util.*;
 public class EntityInstanceCreator {
 
     private static final EntityInstanceCreator INSTANCE = new EntityInstanceCreator(FieldValueGenerator.getInstance());
-
-    private static final Logger log = LoggerFactory.getLogger(EntityInstanceCreator.class);
 
     private final FieldValueGenerator fieldValueGenerator;
 
@@ -256,7 +251,7 @@ public class EntityInstanceCreator {
             }
 
             if(!path.isEmpty() && type != null) {
-                RegisterableGenerator<?> generator = GeneratorFactory.getRegistableGenerator(path, path, type);
+                Generator<?> generator = GeneratorFactory.getRegistableGenerator(path, path, type);
                 return (T) generator.get();
             }
         }
