@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.4' apply false
     id "org.sonarqube" version "6.2.0.5505"
+    id 'jacoco'
 }
 
 allprojects {
@@ -36,5 +37,24 @@ subprojects {
 
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
+        finalizedBy tasks.named("jacocoTestReport")
+    }
+
+    apply plugin: 'jacoco'
+    jacoco { toolVersion = "0.8.11" }
+
+    tasks.named("jacocoTestReport").configure {
+        reports { xml.required = true; html.required = true }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11" // JDK 17/21 쓰면 최신으로
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
     }
 }
