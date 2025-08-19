@@ -64,8 +64,8 @@ public class GeneratorFactory {
     public static ArrayGenerator array() {return arrayGenerator;}
 
     @SuppressWarnings("unchecked")
-    public static <T> AbstractGenerator<T> getCommonGenerator(String key) {
-        AbstractGenerator<T> generator = (AbstractGenerator<T>) commonGenerators.get(key);
+    public static <T> Generator<T> getCommonGenerator(String key) {
+        Generator<T> generator = (Generator<T>) commonGenerators.get(key);
         if(generator == null) {
             throw new GeneratorException("No generator for key: " + key);
         }
@@ -74,7 +74,7 @@ public class GeneratorFactory {
 
 
     @SuppressWarnings("unchecked")
-    public static <T> RegisterableGenerator<T> getRegistableGenerator(String key, String path, Class<T> type) {
+    public static <T> Generator<T> getRegistableGenerator(String key, String path, Class<T> type) {
         RegisterableGenerator<T> generator = (RegisterableGenerator<T>) registableGenerators.get(key);
         if(generator == null) {
             generator = new RegisterableGenerator<>(key, path, type);
@@ -84,7 +84,7 @@ public class GeneratorFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> RegisterableGenerator<T> getRegistableGenerator(String key) {
+    public static <T> Generator<T> getRegistableGenerator(String key) {
         RegisterableGenerator<T> generator = (RegisterableGenerator<T>) registableGenerators.get(key);
         if(generator == null) {
             throw new GeneratorException("No generator for key: " + key);
@@ -93,7 +93,7 @@ public class GeneratorFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> RegisterableGenerator<T> getRegistableGenerator(String path, Class<T> type) {
+    public static <T> Generator<T> getRegistableGenerator(String path, Class<T> type) {
         for (RegisterableGenerator<?> generator : registableGenerators.values()) {
             if(generator.getPath().equals(path)) {
                 return (RegisterableGenerator<T>) generator;
@@ -102,7 +102,7 @@ public class GeneratorFactory {
         throw new GeneratorException("Cannot found Generator for path");
     }
 
-    public static <T> RegisterableGenerator<T> register(String key, String path, Class<T> type) {
+    public static <T> Generator<T> register(String key, String path, Class<T> type) {
         RegisterableGenerator<T> created = new RegisterableGenerator<>(key, path, type);
 
         Generator<?> generator = registableGenerators.putIfAbsent(key, created);
