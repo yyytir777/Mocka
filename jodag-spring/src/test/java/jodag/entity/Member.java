@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -109,6 +110,21 @@ public class Member {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", balance=" + balance +
+                ", amount=" + amount +
+                ", localDate=" + localDate +
+                ", localTime=" + localTime +
+                ", localDateTime=" + localDateTime +
+                ", offsetDateTime=" + offsetDateTime +
+                ", offsetTime=" + offsetTime +
+                ", instant=" + instant +
+                ", date=" + date +
+                ", calendar=" + calendar +
+                ", time=" + time +
+                ", sqlDate=" + sqlDate +
+                ", timestamp=" + timestamp +
+                ", byteArray=" + Arrays.toString(byteArray) +
+                ", charArray=" + Arrays.toString(charArray) +
                 ", type=" + type +
                 '}';
     }

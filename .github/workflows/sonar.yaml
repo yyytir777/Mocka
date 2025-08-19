@@ -1,0 +1,25 @@
+name: Sonar Cloud Library
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: Sonar Cloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Build, Coverage, Analyze
+        run: ./gradlew clean test jacocoTestReport sonarqube --info
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
