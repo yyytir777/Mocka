@@ -119,7 +119,12 @@ public class GeneratorFactory {
     public static List<String> getCommonGeneratorKeys() {
         return new ArrayList<>(commonGenerators.keySet());
     }
+
     public static List<String> getRegistableGeneratorNames() {
         return new ArrayList<>(registableGenerators.keySet());
+    }
+
+    public static boolean existsGenerator(String key) {
+        return commonGenerators.containsKey(key) || registableGenerators.containsKey(key);
     }
 }

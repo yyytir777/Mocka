@@ -20,7 +20,7 @@ public class ValueSourceTest {
     @BeforeEach
     public void setUp() {
 //        GeneratorFactory.register("test-path", "/Users/wonjae/Desktop/text.txt", String.class);
-        GeneratorFactory.register("test", "test.txt", String.class);
+        RegisterableGenerator<String> generator = GeneratorFactory.register("test", "test.txt", String.class);
     }
 
     @AfterEach
