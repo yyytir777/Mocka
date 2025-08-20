@@ -34,8 +34,8 @@ How To Use
 
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:jodag-core:0.0.2'
-    implementation 'io.github.yyytir777:jodag-spring:0.0.2'
+    implementation 'io.github.yyytir777:jodag-core:0.0.3'
+    implementation 'io.github.yyytir777:jodag-spring:0.0.3'
 }
 ```
 
@@ -46,12 +46,12 @@ dependencies {
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>jodag-core</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>jodag-spring</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </dependency>
 </dependencies>
 ```
@@ -59,15 +59,64 @@ dependencies {
 ## Use Generator
 
 ### Common Generator
+- Common Generator is predefined Generator used by EntityGenerator to fill fields with random value
+- Generators are provided for every type supported by Hibernate.
+- Default Generator(like name, email, country ...) is available.
+- `GeneratorFactory` provides all Common Generators through static methods.
+
+```java
+NameGenerator nameGenerator = GeneratorFactory.name();
+String name = nameGenerator.get();
+
+EmailGenerator emailGenerator = GeneratorFactory.email();
+String email = emailGenerator.get();
+
+PrimitiveGenerator primitiveGenerator = GeneratorFactory.primitive();
+Integer integer = primitiveGenerator.getInteger();
+```
 
 
-### Registable Generator
-
+### Registerable Generator
+- `Registerable Generator` is custom Generator registered by library user.
+- You can register Generator by providing an external file path, like this...
+```java
+GeneratorFactory.register("test_generator", "/Users/{user}/Desktop/test.txt", String.class);
+Generator registerableGenerator = GeneratorFactory.getRegistableGenerator("test_generator");
+String value = registableGenerator.get();
+```
 
 ### Entity Generator
+- `Entity Generator` is responsible only for creating entity instances.
+- `SpringGeneratorFactory` is responsible for CRUD of `EntityGenerator`.
+- An entity instance is created along with its associated entities, regardless of the relationship type (`@OneToOne`, `@OneToMany`, `@ManyToOne`, `@ManyToMany`).  
+- You can configure the entity generation strategy through `GenerateType.class`
+
+```java
+Generator<Member> memberGenerator = SpringGeneratorFactory.getGenerator(Member.class);
+
+// GenerateType.SELF: only the entity itself is created.
+// - Associated entities are not generated.
+// - e.g., member is not null, but member.post == null
+Member member = memberGenerator.get(GenerateType.SELF);
 
 
-## GenerateType (jodag-spring)
+// GenerateType.CHILDREN: the entity and its child entities are created.
+// - Parent entities are not generated.
+// - e.g., member and member.post are not null, but member.group (parent) == null
+Member member = memberGenerator.get(GenerateType.CHILDREN);
+
+
+// GenerateType.PARENTS: the entity and its parent entities are created.
+// - child entities are not generated.
+// - e.g., member and member.post (parent) == null, but member.group is not null
+Member member = memberGenerator.get(GenerateType.CHILDREN);
+
+
+// GenerateType.ALL: the entity and its parents and children entities are created.
+// All entities associated with the entity are generated.
+// - e.g., member and member.post is not null, but member.group is not null
+Member member = memberGenerator.get(GenerateType.CHILDREN);
+```
 
 
 
