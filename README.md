@@ -13,6 +13,7 @@ You can register your own **text-based datasets** using line-separated files (CR
 
 Jodag-core
 ===
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-core)
 - **Jodag-core** helps you to automatically generate common data like name, email, etc
 - `GenerateFactory` Class manages instances of the `Generator` class, which is responsible for generating each type of data.
 - You can add custom registerable Generator, `RegistableGenerator` by injecting file paths containing your own datasets
@@ -21,6 +22,7 @@ Jodag-core
 
 Jodag-spring
 ===
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-spring?logoColor=%23000000)
 - **Jodag-spring** is a Spring Boot extension that helps you auto-generate entity data based on JPA `@Entity` classes.
 - It allows you to generate countless Entity instances fit perfectly into your project, using `SpringGeneratorFactory` and `EntityGenerator`.
 - Ideal library for creating dummy test data or prepopulating your database.
