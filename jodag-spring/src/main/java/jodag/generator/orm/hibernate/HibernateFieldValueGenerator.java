@@ -1,9 +1,12 @@
-package jodag.generator;
+package jodag.generator.orm.hibernate;
 
 import jakarta.persistence.*;
 import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
+import jodag.generator.GeneratorFactory;
+import jodag.generator.orm.FieldValueGenerator;
 import jodag.random.RandomProvider;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -19,18 +22,13 @@ import java.util.function.Supplier;
 
 import static org.springframework.util.ClassUtils.isPrimitiveOrWrapper;
 
-public class FieldValueGenerator {
-
-    private static final FieldValueGenerator INSTANCE = new FieldValueGenerator();
+@Component
+public class HibernateFieldValueGenerator implements FieldValueGenerator {
 
     private final RandomProvider randomProvider;
 
-    private FieldValueGenerator() {
+    private HibernateFieldValueGenerator() {
         this.randomProvider = RandomProvider.getInstance();
-    }
-
-    public static FieldValueGenerator getInstance() {
-        return INSTANCE;
     }
 
     private final List<Predicate<Field>> notGenerableConditions = List.of(
@@ -55,6 +53,7 @@ public class FieldValueGenerator {
             Map.entry(Character.class, GeneratorFactory.primitive()::getCharacter)
     );
 
+    @Override
     public Object get(Field field) {
         Class<?> type = field.getType();
 
@@ -66,8 +65,7 @@ public class FieldValueGenerator {
         // Email 애노테이션 + String 필드
         if(field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
             return GeneratorFactory.email().get();
-        }
-        else if(!field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
+        } else if(!field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
             throw new RuntimeException("Email 애노테이션은 String 타입에만 사용 가능합니다.");
         }
 
