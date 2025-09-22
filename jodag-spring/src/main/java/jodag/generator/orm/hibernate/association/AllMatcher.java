@@ -1,4 +1,4 @@
-package jodag.generator.association;
+package jodag.generator.orm.hibernate.association;
 
 import jodag.generator.GenerateType;
 
