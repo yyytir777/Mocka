@@ -1,4 +1,4 @@
-package jodag;
+package jodag.annotation;
 
 
 import java.lang.annotation.*;

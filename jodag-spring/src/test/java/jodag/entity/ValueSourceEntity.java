@@ -2,7 +2,7 @@ package jodag.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jodag.ValueSource;
+import jodag.annotation.ValueSource;
 
 @Entity
 public class ValueSourceEntity {
