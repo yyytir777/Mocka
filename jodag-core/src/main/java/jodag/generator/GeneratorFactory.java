@@ -5,6 +5,7 @@ import jodag.generator.common.*;
 import jodag.generator.datetime.CommonDateGenerator;
 import jodag.generator.numeric.NumericGenerator;
 import jodag.generator.primitive.PrimitiveGenerator;
+import jodag.generator.regex.RegexGenerator;
 import jodag.generator.registable.RegisterableGenerator;
 
 import java.util.Map;
