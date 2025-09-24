@@ -1,10 +1,12 @@
 package jodag;
 
 
+import jodag.annotation.EnableJodag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.test.context.ActiveProfiles;
 
+@EnableJodag
 @ActiveProfiles("test")
 @SpringBootApplication
 public class JodagTestApplication {
