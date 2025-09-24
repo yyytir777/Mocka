@@ -1,6 +1,7 @@
 package jodag.generator.orm.mybatis;
 
-import ch.qos.logback.core.joran.sanity.Pair;
+import jodag.generator.Path;
+import jodag.generator.VisitedPath;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -12,49 +13,53 @@ import java.util.Set;
 @Component
 public class MyBatisMetadata {
 
-    // XML설정파일
+    // XML설정파일 (resultMapId -> Resource)
     private final Map<String, Resource> RESOURCE_MAP = new HashMap<>();
 
-    // resultMapId -> 매핑 클래스
-    private final Map<String, Class<?>> INSTANCE_MAP = new HashMap<>();
+    // resultMapId -> 매핑 대상 클래스
+    private final Map<String, Class<?>> RESULT_MAP_CLASS = new HashMap<>();
 
-    // 매핑 클래스 -> 매핑된 필드들
-    private final Map<Class<?>, Set<PropertyField>> INSTANCE_FIELD_MAP = new HashMap<>();
+    // 매핑 클래스 -> 해당 클래스의 필드 메타데이터
+    private final Map<Class<?>, Set<PropertyField>> MAPPER_CLASS_FIELD_MAP = new HashMap<>();
 
-    // {부모 클래스, 자식 클래스}, 연관관계 타입 정보 맵
-    private final Map<Pair<Class<?>, Class<?>>, AssociationType> ASSOCIATION_TYPE_MAP = new HashMap<>();
+    // 두 클래스간의 연관관계 (부모-자식 association/collection)
+    private final Map<Path, AssociationType> ASSOCIATION_MAPPINGS_MAP = new HashMap<>();
 
     // 순환 참조 방지 Set
     private final Set<Class<?>> VISITED_MAP = new HashSet<>();
 
-    // resultId로 class정보 return
+    /**
+     * resultMapId가 key, clazz가 value
+     * @param resultId
+     * @param clazz
+     */
     public void addClass(String resultId, Class<?> clazz) {
-        INSTANCE_MAP.computeIfAbsent(resultId, k -> clazz);
+        RESULT_MAP_CLASS.computeIfAbsent(resultId, k -> clazz);
     }
 
-    private Class<?> getClass(String resultId) {
-        return INSTANCE_MAP.get(resultId);
+    public Class<?> getMapperClass(String resultMapId) {
+        return RESULT_MAP_CLASS.get(resultMapId);
     }
 
     // Field 추가
     public void addFieldToClass(Class<?> clazz, PropertyField field) {
-        INSTANCE_FIELD_MAP.computeIfAbsent(clazz, k -> new HashSet<>()).add(field);
+        MAPPER_CLASS_FIELD_MAP.computeIfAbsent(clazz, k -> new HashSet<>()).add(field);
     }
 
-    // resultId로 필드 정보 return
-    public Set<PropertyField> getFields(String resultId) {
-        Class<?> clazz = getClass(resultId);
-        return INSTANCE_FIELD_MAP.get(clazz);
+    // resultMapId로 필드 정보 return
+    public Set<PropertyField> getFields(String resultMapId) {
+        Class<?> clazz = getMapperClass(resultMapId);
+        return MAPPER_CLASS_FIELD_MAP.get(clazz);
     }
 
-    public void printClass() {
-        for (Class<?> value : INSTANCE_MAP.values()) {
-            System.out.println(value);
+    public void printMapperClass() {
+        for (Map.Entry<String, Class<?>> stringClassEntry : RESULT_MAP_CLASS.entrySet()) {
+            System.out.println(stringClassEntry.getKey() + ": " + stringClassEntry.getValue());
         }
     }
 
     public void printFields() {
-        for (Map.Entry<Class<?>, Set<PropertyField>> classSetEntry : INSTANCE_FIELD_MAP.entrySet()) {
+        for (Map.Entry<Class<?>, Set<PropertyField>> classSetEntry : MAPPER_CLASS_FIELD_MAP.entrySet()) {
             System.out.println(classSetEntry.getKey().getSimpleName() + " = " + classSetEntry.getValue().toString());
         }
     }
@@ -73,5 +78,15 @@ public class MyBatisMetadata {
 
     public int getResourceCount() {
         return RESOURCE_MAP.size();
+    }
+
+    public void addAssociation(Path path, AssociationType associationType) {
+        ASSOCIATION_MAPPINGS_MAP.put(path, associationType);
+    }
+
+    public void printAssociations() {
+        for (Map.Entry<Path, AssociationType> visitedPathAssociationTypeEntry : ASSOCIATION_MAPPINGS_MAP.entrySet()) {
+            System.out.println(visitedPathAssociationTypeEntry.getKey() + " = " + visitedPathAssociationTypeEntry.getValue());
+        }
     }
 }

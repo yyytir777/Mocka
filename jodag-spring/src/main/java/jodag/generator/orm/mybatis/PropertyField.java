@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 
 public class PropertyField {
     private final Field field;
-    private String type;
-    private boolean isId;
+    private final String type;
+    private final boolean isId;
 
     private PropertyField(Field field, boolean isId) {
         this.field = field;
