@@ -246,7 +246,7 @@ public class HibernateCreator implements ORMResolver {
     }
 
     @Override
-    public void load() {
-        hibernateLoader.load();
+    public Set<Class<?>> load() {
+        return hibernateLoader.load();
     }
 }

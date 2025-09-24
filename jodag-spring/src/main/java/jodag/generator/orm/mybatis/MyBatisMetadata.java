@@ -58,6 +58,10 @@ public class MyBatisMetadata {
         }
     }
 
+    public Set<Class<?>> getMapperClasses() {
+        return new HashSet<>(RESULT_MAP_CLASS.values());
+    }
+
     public void printFields() {
         for (Map.Entry<Class<?>, Set<PropertyField>> classSetEntry : MAPPER_CLASS_FIELD_MAP.entrySet()) {
             System.out.println(classSetEntry.getKey().getSimpleName() + " = " + classSetEntry.getValue().toString());

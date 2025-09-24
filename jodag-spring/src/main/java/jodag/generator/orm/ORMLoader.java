@@ -1,7 +1,9 @@
 package jodag.generator.orm;
 
+import java.util.Set;
+
 public interface ORMLoader {
 
-    void load();
+    Set<Class<?>> load();
 }
 

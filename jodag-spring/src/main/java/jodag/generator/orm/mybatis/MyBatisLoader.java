@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Set;
 
 @Component
 public class MyBatisLoader implements ORMLoader {
@@ -30,7 +31,7 @@ public class MyBatisLoader implements ORMLoader {
     }
 
 
-    public void load() {
+    public Set<Class<?>> load() {
         Long startMs = System.currentTimeMillis();
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -57,6 +58,7 @@ public class MyBatisLoader implements ORMLoader {
 
         Long endMs = System.currentTimeMillis();
         log.info("Finished parsing Mapper.xml in {}ms. Add {} mappers in SpringGeneratorFactory", (endMs - startMs), myBatisMetadata.getResourceCount());
+        return myBatisMetadata.getMapperClasses();
     }
 
 

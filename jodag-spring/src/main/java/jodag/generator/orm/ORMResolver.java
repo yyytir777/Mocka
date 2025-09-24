@@ -12,7 +12,7 @@ public interface ORMResolver {
 
     <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited);
 
-    void load();
+    Set<Class<?>> load();
 }
 
 

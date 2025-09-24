@@ -36,7 +36,7 @@ public class HibernateLoader implements BeanFactoryAware, ORMLoader {
         this.beanFactory = beanFactory;
     }
 
-    public void load() {
+    public Set<Class<?>> load() {
         Long startMs = System.currentTimeMillis();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
@@ -50,11 +50,8 @@ public class HibernateLoader implements BeanFactoryAware, ORMLoader {
                     }
                 }).collect(Collectors.toSet());
 
-        for(Class<?> clazz : candidates) {
-            SpringGeneratorFactory.add(clazz);
-        }
-
         Long endMs = System.currentTimeMillis();
         log.info("Finished scanning entity classes in {}ms. Add {} entities in SpringGeneratorFactory", (endMs - startMs), candidates.size());
+        return candidates;
     }
 }

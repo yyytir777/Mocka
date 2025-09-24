@@ -30,7 +30,7 @@ public class MyBatisCreator implements ORMResolver {
     }
 
     @Override
-    public void load() {
-        myBatisLoader.load();
+    public Set<Class<?>> load() {
+        return myBatisLoader.load();
     }
 }
