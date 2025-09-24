@@ -8,7 +8,9 @@ import jodag.generator.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
 import jodag.generator.registable.RegisterableGenerator;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.*;
 import java.util.List;
@@ -16,8 +18,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("ValueSource 테스트")
-@SpringBootTest(classes = TestConfig.class)
+@ActiveProfiles("test")
+@SpringBootTest(classes = JodagTestApplication.class)
 public class ValueSourceTest {
+
+    @Autowired
+    SpringGeneratorFactory springGeneratorFactory;
 
     @BeforeEach
     public void setUp() {
@@ -34,7 +40,7 @@ public class ValueSourceTest {
     @Disabled
     @DisplayName("path, type으로 ValueSource를 정의합니다.")
     void value_source_generate_test() {
-        EntityGenerator<ValueSourceEntity> generator = SpringGeneratorFactory.getGenerator(ValueSourceEntity.class);
+        EntityGenerator<ValueSourceEntity> generator = springGeneratorFactory.getGenerator(ValueSourceEntity.class);
 
         ValueSourceEntity valueSourceEntity = generator.get();
 
@@ -49,7 +55,7 @@ public class ValueSourceTest {
     @Test
     @DisplayName("key값으로 ValueSource를 정의합니다.")
     void value_source_generate_test_with_key() {
-        EntityGenerator<ValueSourceEntity> generator = SpringGeneratorFactory.getGenerator(ValueSourceEntity.class);
+        EntityGenerator<ValueSourceEntity> generator = springGeneratorFactory.getGenerator(ValueSourceEntity.class);
 
         List<String> testList = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
 
@@ -63,7 +69,7 @@ public class ValueSourceTest {
     @Test
     @DisplayName("key, path, type이 동시에 지정되었을 때 ValueSourceException throw")
     void value_source_generate_test_with_key_throw() {
-        EntityGenerator<FailValueSourceEntity> generator = SpringGeneratorFactory.getGenerator(FailValueSourceEntity.class);
+        EntityGenerator<FailValueSourceEntity> generator = springGeneratorFactory.getGenerator(FailValueSourceEntity.class);
         assertThatThrownBy(generator::get).isInstanceOf(ValueSourceException.class);
     }
 }
