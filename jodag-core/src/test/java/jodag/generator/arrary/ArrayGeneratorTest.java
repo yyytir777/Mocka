@@ -15,10 +15,10 @@ public class ArrayGeneratorTest {
     @DisplayName("ArrayGenerator에서 배열 형태의 랜덤배열 값 리턴")
     void get_value_from_arrayGenerator() {
 
-        Byte[] byteArray = generatorFactory.asByteArray().get();
+        byte[] byteArray = generatorFactory.asByteArray().get();
         assertThat(byteArray).isNotNull();
 
-        Character[] characterArray = generatorFactory.asCharacterArray().get();
+        char[] characterArray = generatorFactory.asCharacterArray().get();
         assertThat(characterArray).isNotNull();
     }
 
