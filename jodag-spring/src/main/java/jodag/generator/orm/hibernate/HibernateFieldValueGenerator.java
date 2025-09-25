@@ -105,8 +105,12 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
         }
 
         // 날짜 타입일 경우 (java.util, java.time, java.sql)
-        if(isDateTimeType(type)) {
-            return generatorFactory.asDateTime().get();
+        if (type.getPackageName().startsWith("java.time")) {
+            return generatorFactory.asDateTime().get(type);
+        } else if (type.getPackageName().startsWith("java.sql")) {
+            return generatorFactory.asSqlDate().get(type);
+        } else if (type.getPackageName().startsWith("java.util")) {
+            return generatorFactory.asLegacyDate().get(type);
         }
 
         // 배열인 경우 byte[], char[]

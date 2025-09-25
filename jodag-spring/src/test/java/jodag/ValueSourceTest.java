@@ -59,9 +59,11 @@ public class ValueSourceTest {
 
         List<String> testList = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
 
+        System.out.println("testList = " + testList);
         for(int i = 0; i < 10; i++) {
             ValueSourceEntity valueSourceEntity = generator.get();
             String test = valueSourceEntity.getName();
+            System.out.println("test = " + test);
             assertThat(testList).contains(test);
         }
     }

@@ -9,6 +9,7 @@ import jodag.exception.GeneratorException;
 import jodag.exception.ValueSourceException;
 import jodag.generator.*;
 import jodag.generator.VisitedPath;
+import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMProperties;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
 import jodag.generator.orm.ORMResolver;
@@ -26,11 +27,13 @@ public class HibernateCreator implements ORMResolver {
     private final HibernateLoader hibernateLoader;
     private final HibernateFieldValueGenerator hibernateFieldValueGenerator;
     private final Integer ASSOCIATION_SIZE;
+    private final GeneratorFactory generatorFactory;
 
     public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator hibernateFieldValueGenerator, ORMProperties ormProperties) {
         this.hibernateLoader = hibernateLoader;
         this.hibernateFieldValueGenerator = hibernateFieldValueGenerator;
         this.ASSOCIATION_SIZE =  ormProperties.getAssociationSize();
+        this.generatorFactory =  new GeneratorFactory();
     }
 
     private static final Set<Class<? extends Annotation>> ASSOCIATIONS = Set.of(
@@ -212,33 +215,40 @@ public class HibernateCreator implements ORMResolver {
      * 클래스의 필드 값을 분석하여 해당 필드의 랜덤 값을 리턴함
      */
     @SuppressWarnings("unchecked")
-    private <T> T generateValue(Field field) {
+    private <T> T generateValue(Field field) throws NoSuchMethodException {
         // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
         if(field.isAnnotationPresent(ValueSource.class)) {
             ValueSource valueSource = field.getAnnotation(ValueSource.class);
             String path = valueSource.path();
             Class<?> type = valueSource.type();
             String key = valueSource.generatorKey();
+            Class<? extends Generator<?>> generatorClass = valueSource.generator();
+
+            if(!generatorClass.equals(NoneGenerator.class)) {
+                Generator<?> generatorInstance;
+                try {
+                    generatorInstance = generatorClass.getDeclaredConstructor().newInstance();
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                }
+                return (T) generatorInstance.get();
+            }
 
             // key와 (path, type)이 동시에 지정되었을 때
             if(!key.isEmpty() && (!path.isEmpty() || type != Object.class)) {
                 throw new ValueSourceException("@ValueSource: use either generatorKey OR (path+type)");
             }
 
-            // 기존에 등록된 generator 사용
-            if(!key.isEmpty()) {
-                Generator<T> generator;
-                try {
-                    generator = GeneratorFactory.getRegistableGenerator(key);
-                } catch (GeneratorException e) {
-                    generator = GeneratorFactory.getCommonGenerator(key);
-                }
-                return generator.get();
+            if(!path.isEmpty() && type != null) {
+                Generator<?> generator = generatorFactory.getRegistrableGenerator(path, path, type);
+                return (T) generator.get();
             }
 
-            if(!path.isEmpty() && type != null) {
-                Generator<?> generator = GeneratorFactory.getRegistableGenerator(path, path, type);
-                return (T) generator.get();
+            if (key != null) {
+                try {
+                    Generator<?> generator = generatorFactory.getRegistrableGeneratorByKey(key);
+                    return (T) generator.get();
+                } catch (GeneratorException ignored) {}
             }
         }
 
