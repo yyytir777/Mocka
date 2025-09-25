@@ -4,9 +4,8 @@ import jodag.entity.FailValueSourceEntity;
 import jodag.entity.ValueSourceEntity;
 import jodag.exception.ValueSourceException;
 import jodag.generator.EntityGenerator;
-import jodag.generator.GeneratorFactory;
+import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
-import jodag.generator.registable.RegisterableGenerator;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,16 +23,17 @@ public class ValueSourceTest {
 
     @Autowired
     SpringGeneratorFactory springGeneratorFactory;
+    private final GeneratorFactory generatorFactory = new GeneratorFactory();
 
     @BeforeEach
     public void setUp() {
 //        GeneratorFactory.register("test-path", "/Users/wonjae/Desktop/text.txt", String.class);
-        GeneratorFactory.register("test", "test.txt", String.class);
+        generatorFactory.addRegistrableGenerator("test", "test.txt", String.class);
     }
 
     @AfterEach
     public void tearDown() {
-        GeneratorFactory.clearRegistableGenerator();
+        generatorFactory.clearRegistrableGenerator();
     }
 
     @Test

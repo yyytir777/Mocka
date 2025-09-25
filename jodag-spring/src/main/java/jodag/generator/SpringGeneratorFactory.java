@@ -1,6 +1,7 @@
 package jodag.generator;
 
 import jodag.exception.GeneratorException;
+import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMCreator;
 import jodag.generator.orm.ORMResolver;
 import org.springframework.stereotype.Component;
