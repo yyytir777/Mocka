@@ -1,7 +1,6 @@
 package jodag.associations;
 
 import jodag.JodagTestApplication;
-import jodag.TestConfig;
 import jodag.entity.associations.Child;
 import jodag.entity.associations.GrandParent;
 import jodag.entity.associations.Parent;
