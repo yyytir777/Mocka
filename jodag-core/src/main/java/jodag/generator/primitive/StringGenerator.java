@@ -1,6 +1,6 @@
-package jodag.generator;
+package jodag.generator.primitive;
 
-import jodag.generator.primitive.PrimitiveGenerator;
+import jodag.generator.AbstractGenerator;
 
 
 public class StringGenerator extends AbstractGenerator<String> {

@@ -1,4 +1,4 @@
-package jodag.generator.registable;
+package jodag.generator.registrable;
 
 import jodag.PathResourceLoader;
 import jodag.generator.AbstractGenerator;
@@ -11,13 +11,13 @@ import java.util.List;
  * 각 인스턴스틑 파일 경로를 가지며, get메서드를 통해 파일의 데이터에 랜덤 접근하여 값을 return함
  * @param <T>
  */
-public class RegisterableGenerator<T> extends AbstractGenerator<T> {
+public class RegistrableGenerator<T> extends AbstractGenerator<T> {
 
     private final List<T> data;
     private final String path;
 
     @SuppressWarnings("unchecked")
-    public RegisterableGenerator(String key, String resourcePath, Class<T> type) {
+    public RegistrableGenerator(String key, String resourcePath, Class<T> type) {
         super(key, type);
         this.path = resourcePath;
         InputStream is = PathResourceLoader.getPath(resourcePath);
