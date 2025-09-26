@@ -1,5 +1,7 @@
-package jodag;
+package jodag.valuesource;
 
+import jodag.JodagTestApplication;
+import jodag.PathResourceLoader;
 import jodag.hibernate.FailValueSourceEntity;
 import jodag.hibernate.ValueSourceEntity;
 import jodag.exception.ValueSourceException;

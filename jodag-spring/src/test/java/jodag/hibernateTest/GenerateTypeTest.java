@@ -1,10 +1,9 @@
-package jodag.associations;
+package jodag.hibernateTest;
 
 import jodag.JodagTestApplication;
 import jodag.hibernate.associations.Child;
 import jodag.hibernate.associations.GrandParent;
 import jodag.hibernate.associations.Parent;
-import jodag.hibernate.associations.Tmp;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
@@ -33,12 +32,10 @@ public class GenerateTypeTest {
         Parent parent = generator.get(GenerateType.ALL);
         List<Child> children = parent.getChildren();
         GrandParent grandParent = parent.getGrandParent();
-        List<Tmp> tmps = grandParent.getTmps();
 
         assertThat(parent).isNotNull().isInstanceOf(Parent.class);
         children.forEach(child -> assertThat(child).isNotNull().isInstanceOf(Child.class));
         assertThat(grandParent).isNotNull().isInstanceOf(GrandParent.class);
-        tmps.forEach(tmp -> assertThat(tmp).isNotNull().isInstanceOf(Tmp.class));
     }
 
     @Test

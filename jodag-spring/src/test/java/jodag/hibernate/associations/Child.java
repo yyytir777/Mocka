@@ -14,9 +14,6 @@ public class Child {
     @ManyToOne(fetch = FetchType.LAZY)
     private Parent parent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tmp tmp;
-
     public Long getId() {
         return id;
     }
@@ -27,10 +24,6 @@ public class Child {
 
     public Parent getParent() {
         return parent;
-    }
-
-    public Tmp getTmp() {
-        return tmp;
     }
 
     @Override

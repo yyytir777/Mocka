@@ -1,4 +1,4 @@
-package jodag.associations;
+package jodag.hibernateTest;
 
 import jodag.JodagTestApplication;
 import jodag.hibernate.associations.Child;

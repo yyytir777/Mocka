@@ -1,28 +1,12 @@
-package jodag.hibernate.associations;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+package jodag.mybatis.associations;
 
 import java.util.List;
 
-@Entity
 public class GrandParent {
-    @Id
+
     private Long id;
-
     private String name;
-
-    @OneToMany
     private List<Parent> parents;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public List<Parent> getParents() {
         return parents;
@@ -33,6 +17,7 @@ public class GrandParent {
         return "GrandParent{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", parents=" + parents +
                 '}';
     }
 }
