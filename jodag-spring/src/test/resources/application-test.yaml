@@ -10,4 +10,4 @@ spring:
 
 jodag:
   orm:
-    orm-type: hibernate
+    orm-type: mybatis, hibernate

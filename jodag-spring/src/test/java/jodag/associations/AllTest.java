@@ -1,10 +1,10 @@
 package jodag.associations;
 
 import jodag.JodagTestApplication;
-import jodag.entity.associations.Child;
-import jodag.entity.associations.GrandParent;
-import jodag.entity.associations.Parent;
-import jodag.entity.associations.Tmp;
+import jodag.hibernate.associations.Child;
+import jodag.hibernate.associations.GrandParent;
+import jodag.hibernate.associations.Parent;
+import jodag.hibernate.associations.Tmp;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;

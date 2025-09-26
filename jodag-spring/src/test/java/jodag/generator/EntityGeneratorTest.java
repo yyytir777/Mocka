@@ -1,7 +1,7 @@
 package jodag.generator;
 
 import jodag.JodagTestApplication;
-import jodag.entity.TestEntity;
+import jodag.hibernate.TestEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

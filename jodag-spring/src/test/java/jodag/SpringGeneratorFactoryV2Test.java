@@ -1,6 +1,6 @@
 package jodag;
 
-import jodag.entity.associations.Parent;
+import jodag.hibernate.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;

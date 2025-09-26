@@ -1,6 +1,6 @@
 package jodag;
 
-import jodag.entity.Member;
+import jodag.hibernate.Member;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +25,8 @@ public class JodagSpringMainTest {
     @Test
     @DisplayName("엔티티 클래스는 자동으로 SpringGeneratorFactory에 저장됩니다.")
     void auto_register_generate_class_in_sprigGeneratorFactory() {
-        List<String> generatorNames = springGeneratorFactory.getGeneratorNames();
-        assertThat(Member.class.getSimpleName()).isIn(generatorNames);
+        List<Class<?>> generatorNames = springGeneratorFactory.getGeneratorNames();
+        assertThat(Member.class).isIn(generatorNames);
     }
 
     @Test
@@ -40,9 +40,9 @@ public class JodagSpringMainTest {
         assertThat(member.getEmail()).isNotNull();
         assertThat(member.getName()).isNotNull();
 
-        List<String> generatorNames = springGeneratorFactory.getGeneratorNames();
+        List<Class<?>> generatorNames = springGeneratorFactory.getGeneratorNames();
         System.out.println("generatorNames = " + generatorNames);
-        assertThat("Member").isIn(generatorNames);
+        assertThat(Member.class).isIn(generatorNames);
     }
 
     @Test

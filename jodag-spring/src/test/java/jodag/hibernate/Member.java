@@ -1,4 +1,4 @@
-package jodag.entity;
+package jodag.hibernate;
 
 import jakarta.persistence.*;
 import jodag.annotation.Email;

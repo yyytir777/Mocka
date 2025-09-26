@@ -1,7 +1,7 @@
 package jodag;
 
-import jodag.entity.FailValueSourceEntity;
-import jodag.entity.ValueSourceEntity;
+import jodag.hibernate.FailValueSourceEntity;
+import jodag.hibernate.ValueSourceEntity;
 import jodag.exception.ValueSourceException;
 import jodag.generator.EntityGenerator;
 import jodag.generator.factory.GeneratorFactory;
