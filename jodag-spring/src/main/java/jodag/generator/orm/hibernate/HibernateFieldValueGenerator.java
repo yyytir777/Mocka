@@ -51,7 +51,7 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             Map.entry(boolean.class, () -> generatorFactory.asBoolean().get()),
             Map.entry(Boolean.class, () -> generatorFactory.asBoolean().get()),
             Map.entry(char.class, () -> generatorFactory.asCharacter().get()),
-            Map.entry(Character.class, () -> generatorFactory.asInteger().get())
+            Map.entry(Character.class, () -> generatorFactory.asCharacter().get())
     );
 
     @Override

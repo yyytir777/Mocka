@@ -30,6 +30,9 @@ public class MyBatisLoader implements ORMLoader {
         this.myBatisMetadata = myBatisMetadata;
     }
 
+    public MyBatisMetadata getMyBatisMetadata() {
+        return myBatisMetadata;
+    }
 
     public Set<Class<?>> load() {
         Long startMs = System.currentTimeMillis();
@@ -54,7 +57,7 @@ public class MyBatisLoader implements ORMLoader {
             parseXmlAssociation(resource);
         }
 
-        print();
+//        print();
 
         Long endMs = System.currentTimeMillis();
         log.info("Finished parsing Mapper.xml in {}ms. Add {} mappers in SpringGeneratorFactory", (endMs - startMs), myBatisMetadata.getResourceCount());
@@ -223,14 +226,11 @@ public class MyBatisLoader implements ORMLoader {
 
             // 외부 resultMap참조
             String result = association.getAttribute("resultMap");
-            System.out.println("result = " + result);
             if (!result.isEmpty()) {
                 Class<?> mapperClass = myBatisMetadata.getMapperClass(result);
                 String property = association.getAttribute("property");
                 try {
                     Field field = clazz.getDeclaredField(property);
-                    System.out.println("clazz = " + clazz);
-                    System.out.println("field = " + field);
                     myBatisMetadata.addFieldToClass(clazz, PropertyField.of(field, false));
                 } catch (NoSuchFieldException ignored) {}
                 myBatisMetadata.addAssociation(Path.of(clazz, mapperClass), AssociationType.ONE_TO_MANY);

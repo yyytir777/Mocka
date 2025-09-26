@@ -244,12 +244,10 @@ public class HibernateCreator implements ORMResolver {
                 return (T) generator.get();
             }
 
-            if (key != null) {
-                try {
-                    Generator<?> generator = generatorFactory.getRegistrableGeneratorByKey(key);
-                    return (T) generator.get();
-                } catch (GeneratorException ignored) {}
-            }
+            try {
+                Generator<?> generator = generatorFactory.getRegistrableGeneratorByKey(key);
+                return (T) generator.get();
+            } catch (GeneratorException ignored) {}
         }
 
         return (T) hibernateFieldValueGenerator.get(field);

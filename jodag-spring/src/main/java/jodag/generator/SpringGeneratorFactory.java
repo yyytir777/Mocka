@@ -14,7 +14,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
 
     private final EntityInstanceCreator entityInstanceCreator;
     private final ORMCreator ormCreator;
-    private static final Map<String, EntityGenerator<?>> entityGenerators = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, EntityGenerator<?>> entityGenerators = new ConcurrentHashMap<>();
     private final Set<Class<?>> SCANNED_CLASSES = new HashSet<>();
 
     public SpringGeneratorFactory(EntityInstanceCreator entityInstanceCreator, ORMCreator ormCreator) {
@@ -39,20 +39,19 @@ public class SpringGeneratorFactory extends GeneratorFactory {
     }
 
     public <T> void add(Class<T> clazz) {
-        System.out.println("add method invoked");
-        entityGenerators.put(clazz.getSimpleName(), new EntityGenerator<>(clazz, entityInstanceCreator));
+        entityGenerators.put(clazz, new EntityGenerator<>(clazz, entityInstanceCreator));
     }
 
     @SuppressWarnings("unchecked")
     public <T> EntityGenerator<T> getGenerator(Class<T> clazz) {
-        EntityGenerator<?> generator = entityGenerators.get(clazz.getSimpleName());
+        EntityGenerator<?> generator = entityGenerators.get(clazz);
         if (generator == null) {
             throw new GeneratorException("Cannot find entity class");
         }
         return (EntityGenerator<T>) generator;
     }
 
-    public List<String> getGeneratorNames() {
+    public List<Class<?>> getGeneratorNames() {
         return new ArrayList<>(entityGenerators.keySet());
     }
 

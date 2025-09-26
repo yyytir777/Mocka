@@ -15,17 +15,10 @@ import java.util.*;
 @Component
 public class EntityInstanceCreator {
 
-    private static EntityInstanceCreator INSTANCE;
-
     private final ORMCreator ormCreator;
-
-    public static EntityInstanceCreator getInstance() {
-        return INSTANCE;
-    }
 
     private EntityInstanceCreator(ORMCreator ormCreator) {
         this.ormCreator = ormCreator;
-        INSTANCE = this;
     }
 
     /**

@@ -1,16 +1,16 @@
 package jodag.generator.orm;
 
+import jakarta.persistence.Entity;
 import jodag.exception.GeneratorException;
 import jodag.generator.GenerateType;
 import jodag.generator.VisitedPath;
 import jodag.generator.orm.hibernate.HibernateCreator;
 import jodag.generator.orm.mybatis.MyBatisCreator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Select the ORM implementation (Hibernate or MyBatis) by analyzing the spring bean at runtime. <br>
@@ -45,19 +45,22 @@ public class ORMCreator {
     public <T> T create(Class<T> clazz, GenerateType generateType) {
         if(ormResolver.isEmpty()) {
             throw new GeneratorException("ORM resolver is null");
-        } else if(ormResolver.size() > 1) {
-            throw new GeneratorException("More than one ORM resolver found");
         }
-        return ormResolver.values().iterator().next().create(clazz, generateType);
+        return ormResolver.get(detectORM(clazz)).create(clazz, generateType);
     }
 
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
         if(ormResolver.isEmpty()) {
             throw new GeneratorException("ORM resolver is null");
-        } else if(ormResolver.size() > 1) {
-            throw new GeneratorException("More than one ORM resolver found");
         }
-        return ormResolver.values().iterator().next().create(clazz, caches, visited);
+        return ormResolver.get(detectORM(clazz)).create(clazz, caches, visited);
+    }
+
+    private <T> ORMType detectORM(Class<T> clazz) {
+        if (clazz.isAnnotationPresent(Entity.class)) {
+            return ORMType.HIBERNATE;
+        }
+        return ORMType.MYBATIS;
     }
 
     /**
@@ -81,9 +84,18 @@ public class ORMCreator {
         }
 
         // 변수 설정 시
-        ORMType ormType = ormProperties.getOrmType();
-        if(ormType != null) {
-            return switch (ormType) {
+        List<ORMType> ormTypes = ormProperties.getOrmType();
+        if (ormTypes.size() > 1) {
+            return ormTypes.stream()
+                    .collect(Collectors.toMap(
+                            type -> type,
+                            type -> switch (type) {
+                                case MYBATIS -> myBatisCreator;
+                                case HIBERNATE -> hibernateCreator;
+                            }
+                    ));
+        } else if(ormTypes.size() == 1) {
+            return switch (ormTypes.get(0)) {
                 case MYBATIS -> Map.of(ORMType.MYBATIS, myBatisCreator);
                 case HIBERNATE -> Map.of(ORMType.HIBERNATE, hibernateCreator);
             };
@@ -95,8 +107,5 @@ public class ORMCreator {
         } else {
             return hasMyBatis ?  Map.of(ORMType.MYBATIS, myBatisCreator) : Map.of(ORMType.HIBERNATE, hibernateCreator);
         }
-    }
-    public Set<Class<?>> getClasses() {
-        return SCANNED_CLASSES;
     }
 }

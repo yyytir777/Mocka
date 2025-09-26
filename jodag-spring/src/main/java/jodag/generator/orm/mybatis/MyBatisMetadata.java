@@ -1,14 +1,11 @@
 package jodag.generator.orm.mybatis;
 
 import jodag.generator.Path;
-import jodag.generator.VisitedPath;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @Component
 public class MyBatisMetadata {
@@ -20,7 +17,7 @@ public class MyBatisMetadata {
     private final Map<String, Class<?>> RESULT_MAP_CLASS = new HashMap<>();
 
     // 매핑 클래스 -> 해당 클래스의 필드 메타데이터
-    private final Map<Class<?>, Set<PropertyField>> MAPPER_CLASS_FIELD_MAP = new HashMap<>();
+    private final Map<Class<?>, List<PropertyField>> MAPPER_CLASS_FIELD_MAP = new HashMap<>();
 
     // 두 클래스간의 연관관계 (부모-자식 association/collection)
     private final Map<Path, AssociationType> ASSOCIATION_MAPPINGS_MAP = new HashMap<>();
@@ -43,12 +40,16 @@ public class MyBatisMetadata {
 
     // Field 추가
     public void addFieldToClass(Class<?> clazz, PropertyField field) {
-        MAPPER_CLASS_FIELD_MAP.computeIfAbsent(clazz, k -> new HashSet<>()).add(field);
+        MAPPER_CLASS_FIELD_MAP.computeIfAbsent(clazz, k -> new ArrayList<>()).add(field);
     }
 
     // resultMapId로 필드 정보 return
-    public Set<PropertyField> getFields(String resultMapId) {
+    public List<PropertyField> getFields(String resultMapId) {
         Class<?> clazz = getMapperClass(resultMapId);
+        return MAPPER_CLASS_FIELD_MAP.get(clazz);
+    }
+
+    public List<PropertyField> getFields(Class<?> clazz) {
         return MAPPER_CLASS_FIELD_MAP.get(clazz);
     }
 
@@ -63,7 +64,7 @@ public class MyBatisMetadata {
     }
 
     public void printFields() {
-        for (Map.Entry<Class<?>, Set<PropertyField>> classSetEntry : MAPPER_CLASS_FIELD_MAP.entrySet()) {
+        for (Map.Entry<Class<?>, List<PropertyField>> classSetEntry : MAPPER_CLASS_FIELD_MAP.entrySet()) {
             System.out.println(classSetEntry.getKey().getSimpleName() + " = " + classSetEntry.getValue().toString());
         }
     }
@@ -92,5 +93,9 @@ public class MyBatisMetadata {
         for (Map.Entry<Path, AssociationType> visitedPathAssociationTypeEntry : ASSOCIATION_MAPPINGS_MAP.entrySet()) {
             System.out.println(visitedPathAssociationTypeEntry.getKey() + " = " + visitedPathAssociationTypeEntry.getValue());
         }
+    }
+
+    public AssociationType getAssociation(Class<?> clazz, Class<?> targetType) {
+        return ASSOCIATION_MAPPINGS_MAP.get(Path.of(clazz, targetType));
     }
 }
