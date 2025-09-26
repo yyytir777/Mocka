@@ -8,6 +8,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-jodag:
-  orm:
-    orm-type: mybatis, hibernate
+#jodag:
+#  orm:
+#    orm-type: mybatis, hibernate

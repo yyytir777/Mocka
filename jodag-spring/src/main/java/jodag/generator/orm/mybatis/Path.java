@@ -1,4 +1,4 @@
-package jodag.generator;
+package jodag.generator.orm.mybatis;
 
 import java.util.Objects;
 

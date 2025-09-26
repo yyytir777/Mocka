@@ -1,5 +1,7 @@
-package jodag.generator;
+package jodag.generator.orm.hibernate;
 
+
+import jodag.generator.orm.mybatis.Path;
 
 public class VisitedPath extends Path {
 

@@ -8,9 +8,9 @@ import jodag.annotation.ValueSource;
 import jodag.exception.GeneratorException;
 import jodag.exception.ValueSourceException;
 import jodag.generator.*;
-import jodag.generator.VisitedPath;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMProperties;
+import jodag.generator.orm.ORMType;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
 import jodag.generator.orm.ORMResolver;
 import org.springframework.stereotype.Component;
@@ -67,7 +67,7 @@ public class HibernateCreator implements ORMResolver {
                 Object value;
 
                 if(isAssociations(field)) {
-                    if(!AssociationMatcherFactory.support(field, generateType)) continue;
+                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE)) continue;
 
                     if(Collection.class.isAssignableFrom(field.getType())) {
                         value = new ArrayList<>();
@@ -122,7 +122,7 @@ public class HibernateCreator implements ORMResolver {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
 
                     // 연관관계 애노테이션과 필드 타입이 맞지 않을 경우 continue
-                    if(!AssociationMatcherFactory.support(field, generateType)) continue;
+                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE)) continue;
 
                     // 이미 방문한 필드라면 continue
                     if(visited.contains(path)) continue;

@@ -16,7 +16,6 @@ public class Child {
         return "Child{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", parent=" + parent +
                 '}';
     }
 }

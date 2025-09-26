@@ -3,7 +3,7 @@ package jodag.generator.orm;
 import jakarta.persistence.Entity;
 import jodag.exception.GeneratorException;
 import jodag.generator.GenerateType;
-import jodag.generator.VisitedPath;
+import jodag.generator.orm.hibernate.VisitedPath;
 import jodag.generator.orm.hibernate.HibernateCreator;
 import jodag.generator.orm.mybatis.MyBatisCreator;
 import org.springframework.beans.factory.BeanFactory;
@@ -85,7 +85,7 @@ public class ORMCreator {
 
         // 변수 설정 시
         List<ORMType> ormTypes = ormProperties.getOrmType();
-        if (ormTypes.size() > 1) {
+        if (ormTypes != null && ormTypes.size() > 1) {
             return ormTypes.stream()
                     .collect(Collectors.toMap(
                             type -> type,
@@ -94,7 +94,7 @@ public class ORMCreator {
                                 case HIBERNATE -> hibernateCreator;
                             }
                     ));
-        } else if(ormTypes.size() == 1) {
+        } else if(ormTypes != null && ormTypes.size() == 1) {
             return switch (ormTypes.get(0)) {
                 case MYBATIS -> Map.of(ORMType.MYBATIS, myBatisCreator);
                 case HIBERNATE -> Map.of(ORMType.HIBERNATE, hibernateCreator);

@@ -1,7 +1,7 @@
 package jodag.generator.orm;
 
 import jodag.generator.GenerateType;
-import jodag.generator.VisitedPath;
+import jodag.generator.orm.hibernate.VisitedPath;
 
 import java.util.Map;
 import java.util.Set;

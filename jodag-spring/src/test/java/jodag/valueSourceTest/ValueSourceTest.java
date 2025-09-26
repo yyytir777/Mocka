@@ -1,4 +1,4 @@
-package jodag.valuesource;
+package jodag.valueSourceTest;
 
 import jodag.JodagTestApplication;
 import jodag.PathResourceLoader;
@@ -25,17 +25,15 @@ public class ValueSourceTest {
 
     @Autowired
     SpringGeneratorFactory springGeneratorFactory;
-    private final GeneratorFactory generatorFactory = new GeneratorFactory();
 
     @BeforeEach
     public void setUp() {
-//        GeneratorFactory.register("test-path", "/Users/wonjae/Desktop/text.txt", String.class);
-        generatorFactory.addRegistrableGenerator("test", "test.txt", String.class);
+        springGeneratorFactory.addRegistrableGenerator("test", "test.txt", String.class);
     }
 
     @AfterEach
     public void tearDown() {
-        generatorFactory.clearRegistrableGenerator();
+        springGeneratorFactory.clearRegistrableGenerator();;
     }
 
     @Test
