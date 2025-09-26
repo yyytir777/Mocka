@@ -55,4 +55,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
         return new ArrayList<>(entityGenerators.keySet());
     }
 
+    public ORMCreator getOrmCreator() {
+        return this.ormCreator;
+    }
 }

@@ -5,16 +5,17 @@ import jodag.exception.ValueSourceException;
 import jodag.generator.GenerateType;
 import jodag.generator.Generator;
 import jodag.generator.NoneGenerator;
-import jodag.generator.VisitedPath;
+import jodag.generator.orm.ORMType;
+import jodag.generator.orm.hibernate.VisitedPath;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMProperties;
 import jodag.generator.orm.ORMResolver;
+import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.*;
 
 @Component
@@ -61,6 +62,8 @@ public class MyBatisCreator implements ORMResolver {
                 if (associationType != null) {
                     if (generateType == GenerateType.SELF) continue;
                     // collection
+                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS)) continue;
+
                     if(associationType == AssociationType.ONE_TO_MANY || associationType == AssociationType.MANY_TO_MANY) {
                         value = new ArrayList<>();
                         Class<?> fieldGenericType = (Class<Object>) ((ParameterizedType) field.getField().getGenericType()).getActualTypeArguments()[0];
@@ -83,6 +86,72 @@ public class MyBatisCreator implements ORMResolver {
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // GenerateType.ALL일 때
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
+        GenerateType generateType = GenerateType.ALL;
+        String className = clazz.getSimpleName();
+        if(caches.containsKey(className)) {
+            return (T) caches.get(className);
+        }
+
+        try {
+            T instance = clazz.getDeclaredConstructor().newInstance();
+            caches.put(clazz.getSimpleName(), instance);
+
+            // 클래스 순회
+            List<PropertyField> fields = myBatisMetadata.getFields(clazz);
+            // MyBatis 순회 때 사용할 PropertyField (Field를 wrapper한 클래스)
+            for(PropertyField field : fields) {
+                field.getField().setAccessible(true);
+                Object value;
+
+                // 해당 필드가 id이면 continue -> id는 자동 증가로 설정
+                if (field.isId()) continue;
+
+                //연관관계 있을 때
+                Class<?> targetType = resolveFieldType(field.getField());
+                AssociationType associationType = isAssociations(clazz, targetType);
+                if (associationType != null) {
+                    VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getField().getType()) ? getGenericType(field.getField()) : field.getField().getType());
+
+                    // collection
+                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS)) continue;
+
+                    // 이미 방문 한 필드라면 continue
+                    if(visited.contains(path)) continue;
+                    visited.add(path);
+
+
+                    if(associationType == AssociationType.ONE_TO_MANY || associationType == AssociationType.MANY_TO_MANY) {
+                        value = new ArrayList<>();
+                        Class<?> fieldGenericType = (Class<Object>) ((ParameterizedType) field.getField().getGenericType()).getActualTypeArguments()[0];
+                        for(int i = 0; i < ASSOCIATION_SIZE; i++) {
+                            Object child = create(fieldGenericType, new HashMap<>(), visited);
+                            addParentToChild(child, instance);
+                            ((List<Object>)value).add(child);
+                        }
+                    } else { // association
+                        Object parent = create(field.getField().getType(), caches, visited);
+                        addChildToParent(parent, instance);
+                        value = parent;
+                    }
+                } else { // 일반 필드일 때
+                    value = generateValue(field);
+                }
+                field.getField().set(instance, value);
+            }
+            return instance;
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }    }
+
+    @Override
+    public Set<Class<?>> load() {
+        return myBatisLoader.load();
     }
 
     @SuppressWarnings("unchecked")
@@ -111,24 +180,18 @@ public class MyBatisCreator implements ORMResolver {
     }
 
     private void addParentToChild(Object child, Object parent) throws IllegalAccessException {
-        for (Field childField : parent.getClass().getDeclaredFields()) {
-            if (childField.getType().equals(parent.getClass()) || isAssociations(child.getClass(), parent.getClass()) != null) {
+        for (Field childField : child.getClass().getDeclaredFields()) {
+            if (childField.getType().equals(parent.getClass()) || isAssociations(childField.getType(), parent.getClass()) != null) {
                 childField.setAccessible(true);
                 childField.set(child, parent);
             }
         }
     }
 
-    // GenerateType.ALL일 때
-    @Override
-    public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
-        // TODO MyBatis 인스턴스 생성 로직 구현해야함
-        return null;
-    }
-
-    @Override
-    public Set<Class<?>> load() {
-        return myBatisLoader.load();
+    @SuppressWarnings("unchecked")
+    private Class<?> getGenericType(Field field) {
+        ParameterizedType genericType = (ParameterizedType) field.getGenericType();
+        return (Class<Object>) genericType.getActualTypeArguments()[0];
     }
 
     @SuppressWarnings("unchecked")
