@@ -17,15 +17,16 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("@OneToMany 연관관계 테스트")
+@DisplayName("Hibernate @OneToMany Test")
 @ActiveProfiles("test")
 @SpringBootTest(classes = JodagTestApplication.class)
 public class OneToManyTest {
 
     @Autowired
     SpringGeneratorFactory springGeneratorFactory;
+
     @Test
-    @DisplayName("엔티티 생성 시 연관관계 생성 X -> GenerateType.SELF")
+    @DisplayName("Entity generation without association -> GenerateType.SELF")
     void generate_self() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
 
@@ -37,7 +38,7 @@ public class OneToManyTest {
     }
 
     @Test
-    @DisplayName("부모 엔티티 랜덤 생성 시 자식 엔티티도 생성됨 -> GenerateType.CHILD")
+    @DisplayName("Generate parent entity randomly with child entities -> GenerateType.CHILD")
     void generate_child() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
 
@@ -56,7 +57,7 @@ public class OneToManyTest {
     }
 
     @Test
-    @DisplayName("조부모 엔티티 생성 시 부모 엔티티, 자식 엔티티까지 생성됨 (자식 엔티티 방향으로 생성됨) -> GenerateType.CHILDREN")
+    @DisplayName("Generate grandparent entity with parent and child entities (association follows child direction) -> GenerateType.CHILDREN")
     void generate_children() {
         EntityGenerator<GrandParent> generator = springGeneratorFactory.getGenerator(GrandParent.class);
 

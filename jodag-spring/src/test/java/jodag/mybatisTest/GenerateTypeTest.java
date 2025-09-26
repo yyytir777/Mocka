@@ -1,12 +1,12 @@
-package jodag.hibernateTest;
+package jodag.mybatisTest;
 
 import jodag.JodagTestApplication;
-import jodag.hibernate.associations.Child;
-import jodag.hibernate.associations.GrandParent;
-import jodag.hibernate.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
+import jodag.mybatis.associations.Child;
+import jodag.mybatis.associations.GrandParent;
+import jodag.mybatis.associations.Parent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Hibernate TestCode for GenerateType")
+@DisplayName("MyBatis TestCode for GenerateType")
 @ActiveProfiles("test")
 @SpringBootTest(classes = JodagTestApplication.class)
 public class GenerateTypeTest {
@@ -47,12 +47,12 @@ public class GenerateTypeTest {
         GrandParent grandParent = parent.getGrandParent();
 
         assertThat(parent).isNotNull().isInstanceOf(Parent.class);
-        assertThat(grandParent).isNull();
         assertThat(children).isNull();
+        assertThat(grandParent).isNull();
     }
 
     @Test
-    @DisplayName("GenerateType.CHILD generates children but not grandparent")
+    @DisplayName("GenerateType.CHILD generates children but not grandParent")
     void generate_child() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
         Parent parent = generator.get(GenerateType.CHILD);
@@ -72,9 +72,7 @@ public class GenerateTypeTest {
         GrandParent grandParent = generator.get(GenerateType.CHILDREN);
 
         List<Parent> parents = grandParent.getParents();
-        List<Child> children = parents.stream()
-                .flatMap(parent -> parent.getChildren().stream())
-                .toList();
+        List<Child> children = parents.stream().flatMap(parent -> parent.getChildren().stream()).toList();
 
         assertThat(parents).isNotNull();
         assertThat(children).isNotNull();
@@ -83,7 +81,7 @@ public class GenerateTypeTest {
 
     @Test
     @DisplayName("GenerateType.PARENT generates parent but not grandParent")
-    void generateParent() {
+    void generate_parent() {
         EntityGenerator<Child> generator = springGeneratorFactory.getGenerator(Child.class);
         Child child = generator.get(GenerateType.PARENT);
 
@@ -94,7 +92,7 @@ public class GenerateTypeTest {
 
     @Test
     @DisplayName("GenerateType.PARENTS generates parent and grandParent entity (follows parent association)")
-    void generateParents() {
+    void generate_parents() {
         EntityGenerator<Child> generator = springGeneratorFactory.getGenerator(Child.class);
         Child child = generator.get(GenerateType.PARENTS);
 

@@ -6,5 +6,6 @@
     <resultMap id="ChildResultMap" type="jodag.mybatis.associations.Child">
         <id property="id" column="c_id"/>
         <result property="name" column="c_name"/>
+        <association property="parent" resultMap="ParentResultMap"/>
     </resultMap>
 </mapper>

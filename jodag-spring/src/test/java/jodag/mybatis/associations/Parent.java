@@ -25,7 +25,6 @@ public class Parent {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", children=" + children +
-                ", grandParent=" + grandParent +
                 '}';
     }
 }

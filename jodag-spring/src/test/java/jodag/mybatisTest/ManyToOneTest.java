@@ -1,21 +1,21 @@
-package jodag.hibernateTest;
+package jodag.mybatisTest;
 
 import jodag.JodagTestApplication;
-import jodag.hibernate.associations.Child;
-import jodag.hibernate.associations.GrandParent;
-import jodag.hibernate.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
+import jodag.mybatis.associations.Child;
+import jodag.mybatis.associations.GrandParent;
+import jodag.mybatis.associations.Parent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Hibernate @ManyToOne Test")
+@DisplayName("MyBatis @ManyToOne Test")
 @ActiveProfiles("test")
 @SpringBootTest(classes = JodagTestApplication.class)
 public class ManyToOneTest {
@@ -53,7 +53,7 @@ public class ManyToOneTest {
     }
 
     @Test
-    @DisplayName("Generate child entity with grandParent and parent entities (association follows parent direction) -> GenerateType.PARENTS")
+    @DisplayName("Generate child entity with grandParent and parent entities (association follows parent directinon) -> GenerateType.PARENTS")
     void generate_parents() {
         EntityGenerator<Child> generator = springGeneratorFactory.getGenerator(Child.class);
 
