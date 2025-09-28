@@ -29,8 +29,7 @@ public class NameGenerator extends AbstractGenerator<String> {
         }
 
         this.names = new BufferedReader(new InputStreamReader(is))
-                .lines()
-                .collect(Collectors.toList());
+                .lines().toList();
     }
 
     public static NameGenerator getInstance() {

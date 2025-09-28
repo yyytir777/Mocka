@@ -1,5 +1,6 @@
 package jodag.generator.factory;
 
+import jodag.generator.common.CountryGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
@@ -16,5 +17,9 @@ public interface CommonFactory {
 
     default LoremIpsumGenerator asLoremIpsum() {
         return LoremIpsumGenerator.getInstance();
+    }
+
+    default CountryGenerator asCountry() {
+        return CountryGenerator.getInstance();
     }
 }

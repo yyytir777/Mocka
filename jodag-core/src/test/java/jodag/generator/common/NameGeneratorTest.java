@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("NameGenerator Test")
 class NameGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
