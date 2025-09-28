@@ -1,6 +1,6 @@
 package jodag.generator.regex;
 
-import jodag.generator.GeneratorFactory;
+import jodag.generator.factory.GeneratorFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("RegexGenerator Test")
 public class RegexGeneratorTest {
 
-    private final RegexGenerator regexGenerator = GeneratorFactory.regex();
+    private final RegexGenerator regexGenerator = new GeneratorFactory().asRegex();
     private static final List<String> LIST_OF_REGEX = List.of(
             "a", "abc", "xyz",
             "\\d", "\\D", "\\w", "\\W", "\\s", "\\S",

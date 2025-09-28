@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * that can be registered and retrieved dynamically by key or path.
  * </p>
  */
-public class GeneratorFactory implements PrimitiveFactory, CommonFactory, ExtendedFactory {
+public class GeneratorFactory implements PrimitiveFactory, CommonFactory, ExtendedFactory, RegexFactory {
 
     private static final Map<String, RegistrableGenerator<?>> registrableGenerators = new ConcurrentHashMap<>();
 

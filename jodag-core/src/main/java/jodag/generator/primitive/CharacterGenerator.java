@@ -4,6 +4,7 @@ import jodag.generator.AbstractGenerator;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class CharacterGenerator extends AbstractGenerator<Character> {
 
@@ -45,5 +46,25 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
 
     public Character pickFrom(Character[] characters) {
         return characters[randomProvider.getInt(characters.length)];
+    }
+
+    public Character getCharacter(String input) {
+        return input.charAt(randomProvider.getInt(input.length()));
+    }
+
+    public Character getCharacterNotIn(Set<Character> set) {
+        char c;
+        do {
+            c = (char) (32 + randomProvider.getNextIdx(95));
+        } while (set.contains(c));
+        return c;
+    }
+
+    public String getAllCharacter(int a, int b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = a; i <= b; i++) {
+            sb.append((char) i);
+        }
+        return sb.toString();
     }
 }
