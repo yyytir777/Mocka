@@ -30,13 +30,4 @@ public class EmailGenerator extends AbstractGenerator<String> {
         String topLevelDomain = DOMAIN.get(randomProvider.getNextIdx(DOMAIN.size()));
         return localPart + "@" + domainName + "." + topLevelDomain;
     }
-
-    public String get(boolean unique) {
-        String email = get();
-        if(unique) {
-            return email + UUID.randomUUID();
-        } else {
-            return email;
-        }
-    }
 }

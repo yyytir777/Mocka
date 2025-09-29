@@ -13,7 +13,8 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("RegexGenerator Test")
 public class RegexGeneratorTest {
 
-    private final RegexGenerator regexGenerator = new GeneratorFactory().asRegex();
+    private final GeneratorFactory generatorFactory = new GeneratorFactory();
+    private final RegexGenerator regexGenerator = generatorFactory.asRegex();
     private static final List<String> LIST_OF_REGEX = List.of(
             "a", "abc", "xyz",
             "\\d", "\\D", "\\w", "\\W", "\\s", "\\S",
@@ -43,6 +44,13 @@ public class RegexGeneratorTest {
     @DisplayName("return instance of RegexGenerator.class")
     void get_instance() {
         assertThat(regexGenerator).isInstanceOf(RegexGenerator.class);
+    }
+
+    @Test
+    @DisplayName("RegexGenerator is managed as a singleton")
+    void RegexGenerator_is_singleton() {
+        RegexGenerator newRegexGenerator = generatorFactory.asRegex();
+        assertThat(newRegexGenerator).isSameAs(regexGenerator);
     }
 
     @Test
