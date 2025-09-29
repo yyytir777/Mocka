@@ -2,11 +2,11 @@ package jodag.valueSourceTest;
 
 import jodag.JodagTestApplication;
 import jodag.PathResourceLoader;
+import jodag.exception.GeneratorException;
+import jodag.generator.factory.GeneratorRegistry;
 import jodag.hibernate.FailValueSourceEntity;
 import jodag.hibernate.ValueSourceEntity;
-import jodag.exception.ValueSourceException;
 import jodag.generator.EntityGenerator;
-import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ValueSourceTest {
 
     @BeforeEach
     public void setUp() {
-        springGeneratorFactory.addRegistrableGenerator("test", "test.txt", String.class);
+        GeneratorRegistry.putGenerator("test", "test.txt", String.class);
     }
 
     @AfterEach
@@ -59,7 +59,6 @@ public class ValueSourceTest {
 
         List<String> testList = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
 
-        System.out.println("testList = " + testList);
         for(int i = 0; i < 10; i++) {
             ValueSourceEntity valueSourceEntity = generator.get();
             String test = valueSourceEntity.getName();
@@ -72,6 +71,6 @@ public class ValueSourceTest {
     @DisplayName("key, path, type이 동시에 지정되었을 때 ValueSourceException throw")
     void value_source_generate_test_with_key_throw() {
         EntityGenerator<FailValueSourceEntity> generator = springGeneratorFactory.getGenerator(FailValueSourceEntity.class);
-        assertThatThrownBy(generator::get).isInstanceOf(ValueSourceException.class);
+        assertThatThrownBy(generator::get).isInstanceOf(GeneratorException.class);
     }
 }

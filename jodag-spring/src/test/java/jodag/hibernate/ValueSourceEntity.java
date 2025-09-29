@@ -9,7 +9,7 @@ public class ValueSourceEntity {
     @Id
     private Long id;
 
-    @ValueSource(generatorKey = "test")
+    @ValueSource(generatorKey = "test", path = "test.txt")
     private String name;
 
 

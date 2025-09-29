@@ -10,7 +10,7 @@ public class FailValueSourceEntity {
     @Id
     private Long id;
 
-    @ValueSource(path = "name.txt", type = String.class, generatorKey = "test")
+    @ValueSource(path = "no.txt", type = String.class, generatorKey = "ㅁㄴㅇㄹ")
     private String description;
 
     public String getDescription() {

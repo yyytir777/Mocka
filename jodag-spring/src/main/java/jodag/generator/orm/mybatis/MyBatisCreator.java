@@ -1,10 +1,11 @@
 package jodag.generator.orm.mybatis;
 
 import jodag.annotation.ValueSource;
+import jodag.exception.GeneratorException;
 import jodag.exception.ValueSourceException;
 import jodag.generator.GenerateType;
 import jodag.generator.Generator;
-import jodag.generator.NoneGenerator;
+import jodag.generator.factory.GeneratorRegistry;
 import jodag.generator.orm.ORMType;
 import jodag.generator.orm.hibernate.VisitedPath;
 import jodag.generator.factory.GeneratorFactory;
@@ -198,39 +199,30 @@ public class MyBatisCreator implements ORMResolver {
     private <T> T generateValue(PropertyField field) {
         // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
         if (field.getField().isAnnotationPresent(ValueSource.class)) {
-            ValueSource valueSource = field.getField().getAnnotation(ValueSource.class);
-            String path = valueSource.path();
-            Class<?> type = valueSource.type();
-            String key = valueSource.generatorKey();
-            Class<? extends Generator<?>> generatorClass = valueSource.generator();
-
-            // generator 설정을 했으면 (우선순위 1)
-            if(!generatorClass.equals(NoneGenerator.class)) {
-                Generator<?> generatorInstance;
-                try {
-                    generatorInstance = generatorClass.getDeclaredConstructor().newInstance();
-                } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-                return (T) generatorInstance.get();
-            }
-
-            if (!key.isEmpty() && (!path.isEmpty() || type != Object.class)) {
-                throw new ValueSourceException("@ValueSource: use either generatorKey OR (path+type)");
-            }
-
-            if(!path.isEmpty() && type != null) {
-                Generator<?> generator = generatorFactory.getRegistrableGenerator(path, path, type);
-                return (T) generator.get();
-            }
-
-            try {
-                Generator<?> generator = generatorFactory.getRegistrableGeneratorByKey(key);
-                return (T) generator.get();
-            } catch (Exception ignored) {}
+            return handleValueSource(field.getField());
         }
 
         return (T) myBatisFieldValueGenerator.get(field.getField());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T handleValueSource(Field field) {
+        ValueSource valueSource = field.getAnnotation(ValueSource.class);
+        String path = valueSource.path();
+        Class<?> type = valueSource.type();
+        String key = valueSource.generatorKey();
+
+        // 1. generateKey
+        if (!key.isEmpty()) {
+            return (T) GeneratorRegistry.getGenerator(key).get();
+        }
+
+        // 2. (path, type)
+        if (!valueSource.path().isEmpty() && valueSource.type() != Object.class) {
+            return (T) GeneratorRegistry.getGenerator(path, path, type).get();
+        }
+
+        throw new GeneratorException("Cannot resolve generator from ValueSource: " + valueSource);
     }
 
     // clazz -> field의 연관관계가 존재하는지
