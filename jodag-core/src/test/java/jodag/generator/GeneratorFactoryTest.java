@@ -2,6 +2,7 @@ package jodag.generator;
 
 import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorFactory;
+import jodag.generator.factory.GeneratorRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +22,8 @@ class GeneratorFactoryTest {
 
     @Test
     void getRegistrableGenerator() {
-        generatorFactory.addRegistrableGenerator("test", "name.txt", String.class);
-        Generator<String> test = generatorFactory.getRegistrableGeneratorByKey("test");
+        GeneratorRegistry.putGenerator("test", "name.txt", String.class);
+        Generator<String> test = GeneratorRegistry.getGenerator("test");
         String string = test.get();
         System.out.println("string = " + string);
         assertNotNull(string);
@@ -30,8 +31,8 @@ class GeneratorFactoryTest {
 
     @Test
     void throwExceptionGetRegistrableGenerator() {
-        generatorFactory.addRegistrableGenerator("test1", "name.txt", String.class);
-        assertThatThrownBy(() -> generatorFactory.getRegistrableGeneratorByKey("test"))
+        GeneratorRegistry.putGenerator("test1", "name.txt", String.class);
+        assertThatThrownBy(() -> GeneratorRegistry.getGenerator("test"))
                 .isInstanceOf(GeneratorException.class);
     }
 
@@ -51,15 +52,15 @@ class GeneratorFactoryTest {
 
     @Test
     void register() {
-        generatorFactory.addRegistrableGenerator("test", "name.txt", String.class);
-        Generator<String> test = generatorFactory.getRegistrableGeneratorByKey("test");
+        GeneratorRegistry.putGenerator("test", "name.txt", String.class);
+        Generator<String> test = GeneratorRegistry.getGenerator("test");
         assertNotNull(test);
     }
 
     @Test
     void throwExceptionWhenDuplicateGenerator() {
-        generatorFactory.addRegistrableGenerator("test", "name.txt", String.class);
-        assertThatThrownBy(() -> generatorFactory.addRegistrableGenerator("test", "name.txt", String.class))
+        GeneratorRegistry.putGenerator("test", "name.txt", String.class);
+        assertThatThrownBy(() -> GeneratorRegistry.putGenerator("test", "name.txt", String.class))
                 .isInstanceOf(GeneratorException.class);
     }
 
@@ -71,7 +72,7 @@ class GeneratorFactoryTest {
 
     @Test
     void existsGenerator() {
-        generatorFactory.addRegistrableGenerator("test", "name.txt", String.class);
+        GeneratorRegistry.putGenerator("test", "name.txt", String.class);
         boolean test = generatorFactory.existsRegistrableGenerator("test");
         assertThat(test).isTrue();
 

@@ -7,17 +7,17 @@ import jodag.random.RandomProvider;
 public abstract class AbstractGenerator<T> implements Generator<T> {
 
     protected final RandomProvider randomProvider;
-    protected final String name;
+    protected final String key;
     protected final Class<T> type;
 
-    public AbstractGenerator(String name, Class<T> type) {
-        this.name = name;
+    public AbstractGenerator(String key, Class<T> type) {
+        this.key = key;
         this.type = type;
         this.randomProvider = RandomProvider.getInstance();
     }
 
-    protected String getName() {
-        return this.name;
+    public String getKey() {
+        return key;
     }
 
     public Class<T> getType() {

@@ -3,6 +3,7 @@ package jodag.generator.common;
 import jodag.generator.AbstractGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -30,7 +31,10 @@ public class DateGenerator extends AbstractGenerator<Date> {
         LocalDate start = LocalDate.of(1970, 1, 1);
         long days = ChronoUnit.DAYS.between(start, LocalDate.now());
         long randomDays = randomProvider.getNextIdx(days);
-        LocalDate randomDate = start.plusDays(randomDays);
+        LocalDateTime randomDate = start.plusDays(randomDays)
+                .atTime(randomProvider.getNextIdx(24),
+                        randomProvider.getNextIdx(60),
+                        randomProvider.getNextIdx(60));
         return randomDate.format(formatter);
     }
 }

@@ -20,13 +20,13 @@ public interface CommonFactory {
         return CountryGenerator.getInstance();
     }
 
-//    default PhoneNumberGenerator asPhoneNumber() {
-//        return PhoneNumberGenerator.getInstance();
-//    }
-//
-//    default IpAddressGenerator asIpAddress() {
-//        return IpAddressGenerator.getInstance();
-//    }
+    default PhoneNumberGenerator asPhoneNumber() {
+        return PhoneNumberGenerator.getInstance();
+    }
+
+    default NetworkAddressGenerator asNetworkAddress() {
+        return NetworkAddressGenerator.getInstance();
+    }
 
     default DateGenerator asDate() {
         return DateGenerator.getInstance();
