@@ -1,0 +1,29 @@
+name: Java Compatibility Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 8, 11, 17, 21 ]
+        module: [jodag-core, jodag-spring]
+    name: Build $${{ matrix.module }} (Java ${{ matrix.java }})
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: gradle
+
+      - name: Build with Gradle
+        run: ./gradlew :$${{ matrix.module }}:build --stacktrace -x test
