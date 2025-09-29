@@ -13,7 +13,7 @@ jobs:
       matrix:
         java: [ 17, 21 ]
         module: [jodag-core, jodag-spring]
-    name: Build $${{ matrix.module }} (Java ${{ matrix.java }})
+    name: Build ${{ matrix.module }} (Java ${{ matrix.java }})
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,4 +26,4 @@ jobs:
           cache: gradle
 
       - name: Build with Gradle
-        run: ./gradlew :$${{ matrix.module }}:build --stacktrace -x test
+        run: ./gradlew :${{ matrix.module }}:build --stacktrace -x test
