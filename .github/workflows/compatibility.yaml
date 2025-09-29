@@ -7,23 +7,38 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  core:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 17, 21 ]
-        module: [jodag-core, jodag-spring]
-    name: Build ${{ matrix.module }} (Java ${{ matrix.java }})
+        java: [8, 11, 17, 21]
+    name: jodag-core (Java ${{ matrix.java }})
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
           cache: gradle
 
-      - name: Build with Gradle
-        run: ./gradlew :${{ matrix.module }}:build --stacktrace -x test
+      - name: Build jodag-core
+        run: ./gradlew :jodag-core:build --stacktrace -x test
+
+  spring:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [17, 21]   # Spring Boot 3.x requires Java 17+
+    name: jodag-spring (Java ${{ matrix.java }})
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: gradle
+
+      - name: Build jodag-spring
+        run: ./gradlew :jodag-spring:build --stacktrace -x test
