@@ -3,7 +3,6 @@ package jodag.hibernate.associations;
 
 import jakarta.persistence.*;
 import jodag.annotation.ValueSource;
-import jodag.generator.factory.GeneratorFactory;
 
 import java.util.List;
 

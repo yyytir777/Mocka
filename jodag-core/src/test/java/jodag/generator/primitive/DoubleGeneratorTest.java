@@ -8,55 +8,63 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("DoubleGenerator 테스트")
+@DisplayName("DoubleGenerator Test Code")
 public class DoubleGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
+    private final DoubleGenerator doubleGenerator = generatorFactory.asDouble();
 
     @Test
-    @DisplayName("Double 값 반환")
+    @DisplayName("DoubleGenerator is managed as a singleton")
+    void DoubleGenerator_is_singleton() {
+        DoubleGenerator newDoubleGenerator = generatorFactory.asDouble();
+        assertThat(newDoubleGenerator).isSameAs(doubleGenerator);
+    }
+
+    @Test
+    @DisplayName("return Double value")
     void get_double() {
-        Double d = generatorFactory.asDouble().get();
+        Double d = doubleGenerator.get();
         assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
     @Test
-    @DisplayName("min ~ max 사이 Double 값 반환")
+    @DisplayName("returns Double value between (min, max)")
     void get_double_in_range() {
         double min = 0, max = 30;
-        Double d = generatorFactory.asDouble().getDouble(min, max);
+        Double d = doubleGenerator.getDouble(min, max);
         assertThat(d).isBetween(min, max);
     }
 
     @Test
-    @DisplayName("양수 Double 값 반환")
+    @DisplayName("returns positive double value")
     void get_positive_double() {
-        Double d = generatorFactory.asDouble().getPositiveDouble();
+        Double d = doubleGenerator.getPositiveDouble();
         assertThat(d).isPositive();
     }
 
     @Test
-    @DisplayName("음수 Double 값 반환")
+    @DisplayName("returns negative double value")
     void get_negative_double() {
-        Double d = generatorFactory.asDouble().getNegativeDouble();
+        Double d = doubleGenerator.getNegativeDouble();
         assertThat(d).isNegative();
     }
 
     @Test
-    @DisplayName("주어진 List에서 선택")
+    @DisplayName("returns double element of given double list")
     void get_double_from_list() {
         List<Double> list = List.of(1D, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 9D, 10D);
-        Double d = generatorFactory.asDouble().pickFrom(list);
+        Double d = doubleGenerator.pickFrom(list);
 
         assertThat(d).isIn(list);
         assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
     @Test
-    @DisplayName("주어진 Double 배열에서 선택")
+    @DisplayName("returns double element of given double array")
     void get_double_from_array() {
         Double[] doubles = {1D, 2D, 3D, 4D, 5D, 6D, 7D, 8D, 9D, 10D};
-        Double d = generatorFactory.asDouble().pickFrom(doubles);
+        Double d = doubleGenerator.pickFrom(doubles);
 
         assertThat(d).isIn(List.of(doubles));
         assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);

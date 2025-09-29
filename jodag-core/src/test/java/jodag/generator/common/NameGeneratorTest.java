@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("NameGenerator Test")
+@DisplayName("NameGenerator Test Code")
 class NameGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
 
     @Test
-    @DisplayName("GeneratorFactory를 통해 가져온 NameGenerator가 해당 클래스인지 확인")
+    @DisplayName("Verify the NameGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
         // given & when
         NameGenerator nameGenerator = generatorFactory.asName();
@@ -22,7 +22,7 @@ class NameGeneratorTest {
     }
 
     @Test
-    @DisplayName("NameGenerator는 싱글톤으로 관리")
+    @DisplayName("NameGenerator is managed as a singleton")
     void nameGenerator_is_singleton() {
         // given & when
         NameGenerator nameGenerator1 = generatorFactory.asName();
@@ -36,7 +36,7 @@ class NameGeneratorTest {
 
 
     @Test
-    @DisplayName("NameGenerator에서 이름 형식의 값을 리턴")
+    @DisplayName("NameGenerator returns a value in name format")
     void get_value_from_emailGenerator() {
         // given & when
         NameGenerator nameGenerator = generatorFactory.asName();
@@ -47,7 +47,7 @@ class NameGeneratorTest {
     }
 
     @Test
-    @DisplayName("NameGenerator에서 여러 개의 값 리턴")
+    @DisplayName("NameGenerator returns values in name format")
     void get_values_from_nameGenerator() {
         // given & when
         NameGenerator nameGenerator = generatorFactory.asName();

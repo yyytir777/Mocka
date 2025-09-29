@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 class RegistrableGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
+
     @BeforeEach
     void setUp() {
         generatorFactory.clearRegistrableGenerator();

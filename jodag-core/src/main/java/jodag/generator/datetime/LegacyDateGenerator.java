@@ -1,12 +1,10 @@
 package jodag.generator.datetime;
 
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class LegacyDateGenerator extends AbstractDateGenerator<Date> {

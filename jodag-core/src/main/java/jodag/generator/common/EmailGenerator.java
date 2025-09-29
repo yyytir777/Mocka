@@ -2,11 +2,9 @@ package jodag.generator.common;
 
 
 import jodag.generator.AbstractGenerator;
-import jodag.generator.primitive.StringGenerator;
 import jodag.generator.regex.RegexGenerator;
 
 import java.util.List;
-import java.util.UUID;
 
 
 public class EmailGenerator extends AbstractGenerator<String> {
@@ -29,14 +27,5 @@ public class EmailGenerator extends AbstractGenerator<String> {
         String domainName = regexGenerator.get("\\w{3,7}");
         String topLevelDomain = DOMAIN.get(randomProvider.getNextIdx(DOMAIN.size()));
         return localPart + "@" + domainName + "." + topLevelDomain;
-    }
-
-    public String get(boolean unique) {
-        String email = get();
-        if(unique) {
-            return email + UUID.randomUUID();
-        } else {
-            return email;
-        }
     }
 }

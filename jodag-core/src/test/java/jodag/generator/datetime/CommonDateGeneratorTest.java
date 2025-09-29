@@ -19,6 +19,19 @@ public class CommonDateGeneratorTest {
     private final SqlDateGenerator sqlDateGenerator = generatorFactory.asSqlDate();
 
     @Test
+    @DisplayName("CommonDateGenerator is managed as a singleton")
+    void emailGenerator_is_singleton() {
+        DateTimeGenerator newDateTimeGenerator = generatorFactory.asDateTime();
+        assertThat(newDateTimeGenerator).isSameAs(dateTimeGenerator);
+
+        LegacyDateGenerator newLegacyDateGenerator = generatorFactory.asLegacyDate();
+        assertThat(newLegacyDateGenerator).isSameAs(legacyDateGenerator);
+
+        SqlDateGenerator newSqlDateGenerator = generatorFactory.asSqlDate();
+        assertThat(newSqlDateGenerator).isSameAs(sqlDateGenerator);
+    }
+
+    @Test
     @DisplayName("return LocalDate")
     void get_localDate() {
         LocalDate localDate = dateTimeGenerator.getLocalDate();

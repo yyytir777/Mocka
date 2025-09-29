@@ -1,19 +1,14 @@
 package jodag;
 
-import jodag.generator.common.DateGenerator;
 import jodag.generator.factory.GeneratorFactory;
-import jodag.generator.primitive.BooleanGenerator;
 import jodag.generator.primitive.StringGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
-import jodag.generator.primitive.PrimitiveGenerator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

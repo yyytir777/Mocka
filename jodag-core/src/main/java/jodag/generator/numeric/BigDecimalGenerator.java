@@ -38,6 +38,6 @@ public class BigDecimalGenerator extends AbstractGenerator<BigDecimal> {
 
     public BigDecimal getWithBitLength(int bitLength, int scale) {
         BigInteger bigInt = BigIntegerGenerator.getInstance().getWithBitLength(bitLength);
-        return new BigDecimal(bigInt).setScale(scale, RoundingMode.HALF_UP);
+        return new BigDecimal(bigInt, scale);
     }
 }

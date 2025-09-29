@@ -1,6 +1,5 @@
 package jodag.generator.datetime;
 
-import jodag.generator.AbstractGenerator;
 
 import java.sql.Time;
 import java.sql.Timestamp;

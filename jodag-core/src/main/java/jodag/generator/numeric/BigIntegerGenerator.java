@@ -3,7 +3,6 @@ package jodag.generator.numeric;
 import jodag.generator.AbstractGenerator;
 
 import java.math.BigInteger;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BigIntegerGenerator extends AbstractGenerator<BigInteger> {
 

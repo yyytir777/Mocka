@@ -30,4 +30,16 @@ public class CharacterArrayGenerator extends AbstractGenerator<char[]> {
         }
         return characters;
     }
+
+    public Character[] getCharacter() {
+        return getCharacter(10);
+    }
+
+    public Character[] getCharacter(int length) {
+        Character[] characters = new Character[length];
+        for (int i = 0; i < length; i++) {
+            characters[i] = charGenerator.get();
+        }
+        return characters;
+    }
 }

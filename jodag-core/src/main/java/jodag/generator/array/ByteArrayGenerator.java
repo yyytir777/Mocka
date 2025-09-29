@@ -32,7 +32,7 @@ public class ByteArrayGenerator extends AbstractGenerator<byte[]> {
     }
 
     public Byte[] getByte() {
-        return new Byte[]{byteGenerator.get()};
+        return getByte(10);
     }
 
     public Byte[] getByte(int length) {
