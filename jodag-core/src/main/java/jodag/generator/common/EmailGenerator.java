@@ -3,13 +3,17 @@ package jodag.generator.common;
 
 import jodag.generator.AbstractGenerator;
 import jodag.generator.primitive.StringGenerator;
+import jodag.generator.regex.RegexGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 
 public class EmailGenerator extends AbstractGenerator<String> {
 
     private static final EmailGenerator INSTANCE =  new EmailGenerator();
+    private static final List<String> DOMAIN = List.of("com", "io", "net", "org");
+    private final RegexGenerator regexGenerator = RegexGenerator.getInstance();
 
     private EmailGenerator() {
         super("email", String.class);
@@ -21,10 +25,10 @@ public class EmailGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        String username = StringGenerator.getInstance().get(7, 10);
-        String domain = StringGenerator.getInstance().get(3, 7);
-        String tld = StringGenerator.getInstance().get(2, 3);
-        return username + "@" + domain + "." + tld;
+        String localPart = regexGenerator.get("\\w{5,10}");
+        String domainName = regexGenerator.get("\\w{3,7}");
+        String topLevelDomain = DOMAIN.get(randomProvider.getNextIdx(DOMAIN.size()));
+        return localPart + "@" + domainName + "." + topLevelDomain;
     }
 
     public String get(boolean unique) {

@@ -43,6 +43,7 @@ public class GenerateTypeTest {
     void generate_self() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
         Parent parent = generator.get(GenerateType.SELF);
+        System.out.println("parent = " + parent);
         List<Child> children = parent.getChildren();
         GrandParent grandParent = parent.getGrandParent();
 

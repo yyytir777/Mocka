@@ -1,5 +1,7 @@
 package jodag.random.index;
 
+import java.util.Random;
+
 public interface RandomIndexProvider {
 
     <T> T getNextIdx(T size);

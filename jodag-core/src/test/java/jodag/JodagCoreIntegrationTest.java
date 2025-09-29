@@ -1,5 +1,6 @@
 package jodag;
 
+import jodag.generator.common.DateGenerator;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.primitive.BooleanGenerator;
 import jodag.generator.primitive.StringGenerator;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -1,6 +1,7 @@
 package jodag.random.index;
 
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadLocalRandomIndexProvider implements RandomIndexProvider {

@@ -1,9 +1,6 @@
 package jodag.generator.factory;
 
-import jodag.generator.common.CountryGenerator;
-import jodag.generator.common.EmailGenerator;
-import jodag.generator.common.LoremIpsumGenerator;
-import jodag.generator.common.NameGenerator;
+import jodag.generator.common.*;
 
 public interface CommonFactory {
 
@@ -21,5 +18,17 @@ public interface CommonFactory {
 
     default CountryGenerator asCountry() {
         return CountryGenerator.getInstance();
+    }
+
+//    default PhoneNumberGenerator asPhoneNumber() {
+//        return PhoneNumberGenerator.getInstance();
+//    }
+//
+//    default IpAddressGenerator asIpAddress() {
+//        return IpAddressGenerator.getInstance();
+//    }
+
+    default DateGenerator asDate() {
+        return DateGenerator.getInstance();
     }
 }

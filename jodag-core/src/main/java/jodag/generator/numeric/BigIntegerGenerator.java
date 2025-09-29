@@ -3,6 +3,7 @@ package jodag.generator.numeric;
 import jodag.generator.AbstractGenerator;
 
 import java.math.BigInteger;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BigIntegerGenerator extends AbstractGenerator<BigInteger> {
 
@@ -18,6 +19,10 @@ public class BigIntegerGenerator extends AbstractGenerator<BigInteger> {
 
     @Override
     public BigInteger get() {
-        return BigInteger.ONE;
+        return getWithBitLength(64);
+    }
+
+    public BigInteger getWithBitLength(int bitLength) {
+        return new BigInteger(bitLength, randomProvider.getRandom());
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("CommonDateGenerator 테스트")
+@DisplayName("CommonDateGenerator Test Code")
 public class CommonDateGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
@@ -19,90 +19,91 @@ public class CommonDateGeneratorTest {
     private final SqlDateGenerator sqlDateGenerator = generatorFactory.asSqlDate();
 
     @Test
-    @DisplayName("LocalDate 반환")
+    @DisplayName("return LocalDate")
     void get_localDate() {
         LocalDate localDate = dateTimeGenerator.getLocalDate();
         System.out.println("localDate = " + localDate);
-        assertThat(localDate).isNotNull();
+        assertThat(localDate).isNotNull().isInstanceOf(LocalDate.class);
     }
 
     @Test
-    @DisplayName("LocalTime 반환")
+    @DisplayName("return LocalTime")
     void get_localTime() {
         LocalTime localTime = dateTimeGenerator.getLocalTime();
         System.out.println("localTime = " + localTime);
-        assertThat(localTime).isNotNull();
+        assertThat(localTime).isNotNull().isInstanceOf(LocalTime.class);
     }
 
     @Test
-    @DisplayName("LocalDateTime 반환")
+    @DisplayName("return LocalDateTime")
     void get_localDateTime() {
         LocalDateTime localDateTime = dateTimeGenerator.getLocalDateTime();
         System.out.println("localDateTime = " + localDateTime);
-        assertThat(localDateTime).isNotNull();
+        assertThat(localDateTime).isNotNull().isInstanceOf(LocalDateTime.class);
     }
 
     @Test
-    @DisplayName("OffsetTime 반환")
+    @DisplayName("return OffsetTime")
     void get_offSetTime() {
         OffsetTime offsetTime = generatorFactory.asDateTime().getOffsetTime();
         System.out.println("offsetTime = " + offsetTime);
-        assertThat(offsetTime).isNotNull();
+        assertThat(offsetTime).isNotNull().isInstanceOf(OffsetTime.class);
     }
 
     @Test
-    @DisplayName("OffsetDateTime 반환")
+    @DisplayName("return OffsetDateTime")
     void get_offSetDateTime() {
         OffsetDateTime offsetDateTime = dateTimeGenerator.getOffsetDateTime();
         System.out.println("offsetDateTime = " + offsetDateTime);
-        assertThat(offsetDateTime).isNotNull();
+        assertThat(offsetDateTime).isNotNull().isInstanceOf(OffsetDateTime.class);
     }
 
     @Test
-    @DisplayName("Instant 반환")
+    @DisplayName("return Instant")
     void get_instant() {
         Instant instant = dateTimeGenerator.getInstant();
         System.out.println("instant = " + instant);
-        assertThat(instant).isNotNull();
+        assertThat(instant).isNotNull().isInstanceOf(Instant.class);
     }
 
     @Test
-    @DisplayName("Date 반환 (java.util)")
+    @DisplayName("return Date (java.util)")
     void get_java_util_date() {
-        Date utilDate = sqlDateGenerator.getDate();
+        Date utilDate = legacyDateGenerator.getDate();
         System.out.println("utilDate = " + utilDate);
-        assertThat(utilDate).isNotNull();
+        assertThat(utilDate).isNotNull().isInstanceOf(Date.class);
     }
+    
 
     @Test
-    @DisplayName("Calendar 반환")
+    @DisplayName("return Calendar")
     void get_calendar() {
         Calendar calendar = legacyDateGenerator.getCalendar();
         System.out.println("calendar = " + calendar);
-        assertThat(calendar).isNotNull();
+        assertThat(calendar).isNotNull().isInstanceOf(Calendar.class);
     }
 
     @Test
-    @DisplayName("Date 반환 (java.sql)")
+    @DisplayName("return Date (java.sql)")
     void get_java_sql_date() {
         java.sql.Date sqlDate = sqlDateGenerator.getDate();
         System.out.println("sqlDate = " + sqlDate);
-        assertThat(sqlDate).isNotNull();
+        assertThat(sqlDate).isNotNull().isInstanceOf(java.sql.Date.class);
     }
 
     @Test
-    @DisplayName("SqlTime 반환")
+    @DisplayName("return SqlTime")
     void get_sql_time() {
         java.sql.Time sqlTime = sqlDateGenerator.getTime();
         System.out.println("sqlTime = " + sqlTime);
-        assertThat(sqlTime).isNotNull();
+        assertThat(sqlTime).isNotNull().isInstanceOf(java.sql.Time.class);
     }
 
     @Test
-    @DisplayName("SqlTimestamp 반환")
+    @DisplayName("return SqlTimestamp")
     void get_sql_timestamp() {
         java.sql.Timestamp sqlTimestamp = sqlDateGenerator.getTimestamp();
         System.out.println("sqlTimestamp = " + sqlTimestamp);
-        assertThat(sqlTimestamp).isNotNull();
+        assertThat(sqlTimestamp).isNotNull().isInstanceOf(java.sql.Timestamp.class);
     }
 }

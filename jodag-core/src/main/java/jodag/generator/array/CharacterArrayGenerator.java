@@ -20,7 +20,7 @@ public class CharacterArrayGenerator extends AbstractGenerator<char[]> {
 
     @Override
     public char[] get() {
-        return new char[]{charGenerator.get()};
+        return get(10);
     }
 
     public char[] get(int length) {

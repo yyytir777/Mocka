@@ -12,7 +12,7 @@ class CountryGeneratorTest {
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
 
     @Test
-    @DisplayName("GeneratorFactory를 통해 가져온 CountryGenerator가 해당 클래스인지 확인")
+    @DisplayName("Verify the CountryGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
         // given & when
         CountryGenerator countryGenerator = generatorFactory.asCountry();
@@ -22,7 +22,7 @@ class CountryGeneratorTest {
     }
 
     @Test
-    @DisplayName("CountryGenerator는 싱글톤으로 관리")
+    @DisplayName("CountryGenerator is managed as a singleton")
     void countryGenerator_is_singleton() {
         // given & when
         CountryGenerator countryGenerator1 = generatorFactory.asCountry();
@@ -36,7 +36,7 @@ class CountryGeneratorTest {
 
 
     @Test
-    @DisplayName("CountryGenerator에서 랜덤 값을 리턴")
+    @DisplayName("CountryGenerator returns random country")
     void get_value_from_countryGenerator() {
         // given & when
         CountryGenerator countryGenerator = generatorFactory.asCountry();
@@ -47,7 +47,7 @@ class CountryGeneratorTest {
     }
 
     @Test
-    @DisplayName("CountryGenerator에서 여러 개의 값 리턴")
+    @DisplayName("CountryGenerator returns random countries")
     void get_values_from_countryGenerator() {
         // given & when
         CountryGenerator countryGenerator = generatorFactory.asCountry();

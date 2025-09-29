@@ -20,7 +20,7 @@ public class ByteArrayGenerator extends AbstractGenerator<byte[]> {
 
     @Override
     public byte[] get() {
-        return new byte[]{byteGenerator.get()};
+        return get(10);
     }
 
     public byte[] get(int length) {

@@ -2,6 +2,8 @@ package jodag.hibernate.associations;
 
 
 import jakarta.persistence.*;
+import jodag.annotation.ValueSource;
+import jodag.generator.factory.GeneratorFactory;
 
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Parent {
     @Id
     private Long id;
 
+    @ValueSource(generatorKey = "email")
     private String name;
 
     private String test;

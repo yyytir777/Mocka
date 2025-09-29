@@ -3,6 +3,9 @@ package jodag.random;
 import jodag.random.index.RandomIndexProvider;
 import jodag.random.index.ThreadLocalRandomIndexProvider;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class RandomProvider {
 
@@ -14,6 +17,11 @@ public class RandomProvider {
 
     public static RandomProvider getInstance() {
         return INSTANCE;
+    }
+
+
+    public Random getRandom() {
+        return ThreadLocalRandom.current();
     }
 
     public <T> T getNextIdx(T size) {
