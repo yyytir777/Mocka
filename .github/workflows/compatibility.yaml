@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 8, 11, 17, 21 ]
+        java: [ 17, 21 ]
         module: [jodag-core, jodag-spring]
     name: Build $${{ matrix.module }} (Java ${{ matrix.java }})
     steps:
