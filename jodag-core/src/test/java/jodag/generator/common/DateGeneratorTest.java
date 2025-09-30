@@ -24,6 +24,16 @@ class DateGeneratorTest {
             "\\d{2}:\\d{2} (AM|PM)", "\\d{14}", "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}");
 
     @Test
+    @DisplayName("Verify the DateGenerator retrieved through GeneratorFactory is the correct class")
+    void get_instance() {
+        // given & when
+        DateGenerator dateGenerator = generatorFactory.asDate();
+
+        // then
+        assertThat(dateGenerator).isInstanceOf(DateGenerator.class);
+    }
+
+    @Test
     @DisplayName("DateGenerator is managed as a singleton")
     void dateGenerator_is_singleton() {
         DateGenerator newDateGenerator = generatorFactory.asDate();

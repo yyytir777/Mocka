@@ -9,7 +9,7 @@ import java.math.BigInteger;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("NumericGenerator 테스트")
+@DisplayName("NumericGenerator Test Code")
 public class NumericGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();

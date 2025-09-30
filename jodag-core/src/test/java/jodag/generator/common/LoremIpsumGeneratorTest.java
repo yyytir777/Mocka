@@ -36,7 +36,7 @@ class LoremIpsumGeneratorTest {
 
 
     @Test
-    @DisplayName("LoremIpsumGenerator returns random country")
+    @DisplayName("LoremIpsumGenerator returns loremIpsum")
     void get_value_from_loremIpsumGenerator() {
         // given & when
         LoremIpsumGenerator loremIpsumGenerator = generatorFactory.asLoremIpsum();
@@ -48,7 +48,7 @@ class LoremIpsumGeneratorTest {
     }
 
     @Test
-    @DisplayName("LoremIpsumGenerator returns random countries")
+    @DisplayName("LoremIpsumGenerator returns loremIpsums")
     void get_values_from_loremIpsumGenerator() {
         // given & when
         LoremIpsumGenerator loremIpsumGenerator = generatorFactory.asLoremIpsum();

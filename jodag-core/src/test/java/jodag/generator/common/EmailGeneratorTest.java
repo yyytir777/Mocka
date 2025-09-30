@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Email Generator Test code")
+@DisplayName("EmailGenerator Test code")
 class EmailGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
