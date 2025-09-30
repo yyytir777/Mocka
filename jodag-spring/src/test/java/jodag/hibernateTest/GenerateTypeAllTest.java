@@ -1,9 +1,9 @@
 package jodag.hibernateTest;
 
 import jodag.JodagTestApplication;
-import jodag.hibernate.associations.Child;
-import jodag.hibernate.associations.GrandParent;
-import jodag.hibernate.associations.Parent;
+import jodag.entity.hibernate.associations.Child;
+import jodag.entity.hibernate.associations.GrandParent;
+import jodag.entity.hibernate.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;

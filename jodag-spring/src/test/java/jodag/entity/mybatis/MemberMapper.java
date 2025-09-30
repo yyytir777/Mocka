@@ -1,4 +1,4 @@
-package jodag.mybatis;
+package jodag.entity.mybatis;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

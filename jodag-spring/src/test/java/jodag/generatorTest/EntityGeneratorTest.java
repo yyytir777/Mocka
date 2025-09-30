@@ -4,7 +4,7 @@ import jodag.JodagTestApplication;
 import jodag.generator.EntityGenerator;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
-import jodag.hibernate.TestEntity;
+import jodag.entity.hibernate.TestEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

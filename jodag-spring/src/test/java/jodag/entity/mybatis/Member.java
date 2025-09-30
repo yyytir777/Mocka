@@ -1,6 +1,6 @@
-package jodag.mybatis;
+package jodag.entity.mybatis;
 
-import jodag.hibernate.MemberType;
+import jodag.entity.hibernate.MemberType;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

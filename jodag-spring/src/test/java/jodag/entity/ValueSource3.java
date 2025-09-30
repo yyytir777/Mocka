@@ -1,16 +1,16 @@
-package jodag.hibernate;
+package jodag.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jodag.annotation.ValueSource;
 
 @Entity
-public class ValueSource4 {
+public class ValueSource3 {
 
     @Id
     private Long id;
 
-    @ValueSource(path = "asd.txt", type = String.class)
+    @ValueSource(path = "test.txt", type = String.class, generatorKey = "test1")
     private String name;
 
     public String getName() {

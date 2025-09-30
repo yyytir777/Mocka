@@ -1,4 +1,4 @@
-package jodag.mybatis.associations;
+package jodag.entity.mybatis.associations;
 
 import jodag.annotation.ValueSource;
 

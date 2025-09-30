@@ -1,4 +1,4 @@
-package jodag.hibernate.associations;
+package jodag.entity.hibernate.associations;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

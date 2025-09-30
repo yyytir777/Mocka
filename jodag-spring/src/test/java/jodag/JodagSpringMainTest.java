@@ -2,7 +2,7 @@ package jodag;
 
 import jodag.generator.orm.ORMCreator;
 import jodag.generator.orm.ORMResolver;
-import jodag.hibernate.Member;
+import jodag.entity.hibernate.Member;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;

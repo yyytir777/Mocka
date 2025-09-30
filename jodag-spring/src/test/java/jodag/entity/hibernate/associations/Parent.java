@@ -1,19 +1,38 @@
-package jodag.mybatis.associations;
+package jodag.entity.hibernate.associations;
 
+
+import jakarta.persistence.*;
 import jodag.annotation.ValueSource;
 
 import java.util.List;
 
+@Entity
 public class Parent {
-
+    @Id
     private Long id;
 
-    @ValueSource(generatorKey = "name")
+    @ValueSource(generatorKey = "email")
     private String name;
 
+    private String test;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Child> children;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private GrandParent grandParent;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTest() {
+        return test;
+    }
 
     public List<Child> getChildren() {
         return children;
@@ -28,7 +47,6 @@ public class Parent {
         return "Parent{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", children=" + children +
                 '}';
     }
 }
