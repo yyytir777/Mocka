@@ -1,4 +1,4 @@
-name: Java Compatibility Test
+name: Java 17 Compatibility
 
 on:
   push:
