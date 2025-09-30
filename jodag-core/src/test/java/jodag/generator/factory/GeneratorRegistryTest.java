@@ -42,6 +42,14 @@ class GeneratorRegistryTest {
     }
 
     @Test
+    @DisplayName("throw GeneratorException when put duplicated key")
+    void put_ThrowGeneratorException_WhenDuplicateKey() {
+        assertThatThrownBy(() -> GeneratorRegistry.putGenerator(GENERATOR_KEY, "test.txt", String.class))
+                .isInstanceOf(GeneratorException.class);
+    }
+
+
+    @Test
     @DisplayName("put RegistrableGenerator with key, path, type")
     void put_RegistrableGenerator_with_key_path_and_type() {
         String key = "test";
