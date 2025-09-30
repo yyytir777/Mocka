@@ -13,11 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeneratorFactoryTest {
 
-    private final GeneratorFactory generatorFactory = new GeneratorFactory();
-
     @BeforeEach
     void setUp() {
-        generatorFactory.clearRegistrableGenerator();
+        GeneratorRegistry.clearRegistrableGenerator();
     }
 
     @Test
@@ -66,20 +64,20 @@ class GeneratorFactoryTest {
 
     @Test
     void getRegistrableGeneratorNames() {
-        List<String> registrableGeneratorNames = generatorFactory.getRegistrableGeneratorNames();
+        List<String> registrableGeneratorNames = GeneratorRegistry.getGeneratorNames();
         assertThat(registrableGeneratorNames).isInstanceOf(List.class);
     }
 
     @Test
     void existsGenerator() {
         GeneratorRegistry.putGenerator("test", "name.txt", String.class);
-        boolean test = generatorFactory.existsRegistrableGenerator("test");
+        boolean test = GeneratorRegistry.existsRegistrableGenerator("test");
         assertThat(test).isTrue();
 
-        boolean name = generatorFactory.existsRegistrableGenerator("name");
-        assertThat(name).isFalse();
+        boolean name = GeneratorRegistry.existsRegistrableGenerator("name");
+        assertThat(name).isTrue();
 
-        boolean tmp = generatorFactory.existsRegistrableGenerator("tmp");
+        boolean tmp = GeneratorRegistry.existsRegistrableGenerator("tmp");
         assertThat(tmp).isFalse();
     }
 }

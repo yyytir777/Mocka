@@ -51,7 +51,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
         return (EntityGenerator<T>) generator;
     }
 
-    public List<Class<?>> getGeneratorNames() {
+    public List<Class<?>> getEntityGeneratorNames() {
         return new ArrayList<>(entityGenerators.keySet());
     }
 

@@ -13,22 +13,22 @@ import java.nio.file.Paths;
 public class PathResourceLoader {
 
     /**
-     * 주어진 문자열 경로를 기반으로 파일을 읽어 {@link InputStream} 형태로 반환합니다.
+     * Reads a file based on the given string path and returns it as an {@link InputStream}.
      * <p>
-     * 이 메서드는 두 가지 경로 유형을 모두 지원합니다:
+     * This method supports two types of paths:
      * <ul>
-     *   <li><b>절대 경로</b>: 로컬 파일 시스템 상의 절대 경로를 통해 파일을 읽습니다.</li>
-     *   <li><b>클래스패스 경로</b>: 클래스패스 내부의 리소스를 읽습니다.
-     *       경로가 '/'로 시작하면 이를 제거한 뒤 클래스 로더를 통해 리소스를 로드합니다.</li>
+     *   <li><b>Absolute Path</b>: Reads the file from the local file system using an absolute path.</li>
+     *   <li><b>Classpath Path</b>: Reads a resource from within the classpath.
+     *       If the path starts with '/', it will be removed before loading the resource via the class loader.</li>
      * </ul>
      * <p>
-     * 파일이 존재하지 않거나 읽을 수 없는 경우 {@link FileNotFoundException} 또는 {@link IOException}이 발생합니다.
+     * If the file does not exist or cannot be read, a {@link FileNotFoundException} or {@link IOException} will be thrown.
      *
-     * @param path 절대 경로 또는 클래스패스 내부의 리소스 경로
-     * @return 해당 경로의 파일을 읽기 위한 {@link InputStream}
-     * @throws IllegalArgumentException 주어진 경로가 {@code null}이거나 비어 있는 경우
-     * @throws FileNotFoundException 해당 경로에 파일이 존재하지 않는 경우
-     * @throws IOException 파일 읽기 중 오류가 발생한 경우
+     * @param path the absolute path or the resource path within the classpath
+     * @return an {@link InputStream} to read the file from the given path
+     * @throws IllegalArgumentException if the given path is {@code null} or empty
+     * @throws FileNotFoundException if the file does not exist at the given path
+     * @throws IOException if an error occurs while reading the file
      */
     public static InputStream getPath(String path) {
         if (path == null || path.isBlank()) {
@@ -44,7 +44,7 @@ public class PathResourceLoader {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
 
             if (is == null) {
-                throw new GeneratorException("Resource not found : " + path);
+                throw new FileNotFoundException("Resource not found : " + path);
             }
 
             return is;

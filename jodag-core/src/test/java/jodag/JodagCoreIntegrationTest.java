@@ -1,6 +1,7 @@
 package jodag;
 
 import jodag.generator.factory.GeneratorFactory;
+import jodag.generator.factory.GeneratorRegistry;
 import jodag.generator.primitive.StringGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -137,5 +139,13 @@ public class JodagCoreIntegrationTest {
         Character c = generatorFactory.asCharacter().get();
         System.out.println("c = " + c);
         assertThat(c).isBetween(Character.MIN_VALUE, Character.MAX_VALUE);
+    }
+
+    @Test
+    void test() {
+        List<String> generatorNames = GeneratorRegistry.getGeneratorNames();
+        for (String generatorName : generatorNames) {
+            System.out.println("generatorName = " + generatorName);
+        }
     }
 }

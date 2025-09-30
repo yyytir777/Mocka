@@ -3,7 +3,15 @@ package jodag.generator.factory;
 import jodag.exception.GeneratorException;
 import jodag.generator.AbstractGenerator;
 import jodag.generator.Generator;
+import jodag.generator.array.ByteArrayGenerator;
 import jodag.generator.common.*;
+import jodag.generator.datetime.DateTimeGenerator;
+import jodag.generator.datetime.LegacyDateGenerator;
+import jodag.generator.datetime.SqlDateGenerator;
+import jodag.generator.numeric.BigDecimalGenerator;
+import jodag.generator.numeric.BigIntegerGenerator;
+import jodag.generator.primitive.*;
+import jodag.generator.regex.RegexGenerator;
 import jodag.generator.registrable.RegistrableGenerator;
 
 import java.util.ArrayList;
@@ -11,11 +19,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The {@code GeneratorRegistry} is central static registry that manages all {@link Generator}
+ * instances within the jodag-core library. <br>
+ * <p>
+ * It provides static methods to register, retrieve, and manage generators identified by unique keys.
+ * The registry is backed by a thread-safe {@link ConcurrentHashMap}, ensuring safe concurrent access. <br>
+ *
+ * <p>By default, several common generators (e.g. {@link EmailGenerator}, {@link NameGenerator},
+ * {@link CountryGenerator}) are registered in the static initializer.
+ */
 public class GeneratorRegistry {
 
     protected static final Map<String, Generator<?>> GENERATOR_MAP = new ConcurrentHashMap<>();
 
     static {
+        // CommonFactory
         putGenerator(EmailGenerator.getInstance());
         putGenerator(NameGenerator.getInstance());
         putGenerator(LoremIpsumGenerator.getInstance());
@@ -23,8 +42,41 @@ public class GeneratorRegistry {
         putGenerator(PhoneNumberGenerator.getInstance());
         putGenerator(NetworkAddressGenerator.getInstance());
         putGenerator(DateGenerator.getInstance());
+
+        // PrimitiveFactory
+        putGenerator(BooleanGenerator.getInstance());
+        putGenerator(ByteGenerator.getInstance());
+        putGenerator(ShortGenerator.getInstance());
+        putGenerator(IntegerGenerator.getInstance());
+        putGenerator(LongGenerator.getInstance());
+        putGenerator(CharacterGenerator.getInstance());
+        putGenerator(DoubleGenerator.getInstance());
+        putGenerator(FloatGenerator.getInstance());
+        putGenerator(StringGenerator.getInstance());
+
+        // ExtendedFactory
+        putGenerator(BigIntegerGenerator.getInstance());
+        putGenerator(BigDecimalGenerator.getInstance());
+        putGenerator(DateTimeGenerator.getInstance());
+        putGenerator(LegacyDateGenerator.getInstance());
+        putGenerator(SqlDateGenerator.getInstance());
+        putGenerator(ByteArrayGenerator.getInstance());
+        putGenerator(CharacterGenerator.getInstance());
+
+        // RegexFactory
+        putGenerator(RegexGenerator.getInstance());
     }
 
+    /**
+     * Registers the given {@link Generator} into the Registry.
+     * <p>
+     * if {@link Generator} implements {@link RegistrableGenerator}, the Generator put as RegistrableGenerator.
+     * if {@link Generator} implements {@link AbstractGenerator}, the Generator put as Generator extends AbstractGenerator.
+     *
+     * @param generator the generator to register
+     * @param <T> the type of value to be generated
+     * @throws UnsupportedOperationException if the generator type is not supported.
+     */
     public static <T> void putGenerator(T generator) {
         if (generator instanceof RegistrableGenerator<?> registrableGenerator) {
             GENERATOR_MAP.put(registrableGenerator.getKey(), registrableGenerator);
@@ -36,13 +88,12 @@ public class GeneratorRegistry {
     }
 
     /**
-     * Adds {@code RegistrableGenerator}
-     * @param key unique identifier of the {@code RegistrableGenerator}
-     * @param path the file path used as a source for the generator (must be unique)
-     * @param type type of the data the RegistrableGenerator generates
-     * @param <T> the type parameter of the Generator
-     * @return the newly created {@code Generator}
-     * @throws GeneratorException if a generator with the same key or path already exists
+     * Creates {@code RegistrableGenerator} by key, path, and type parameters and registers the Generator.
+     * @param key  unique identifier of the generator
+     * @param path file path used as the source for the generator
+     * @param type the type of data the generator produces
+     * @param <T>  the type parameter of the generator
+     * @throws GeneratorException if a generator with the same key already exists
      */
     public static <T> void putGenerator(String key, String path, Class<T> type) {
         Generator<?> generator = GENERATOR_MAP.put(key, new RegistrableGenerator<>(key, path, type));
@@ -51,13 +102,11 @@ public class GeneratorRegistry {
         }
     }
 
-
     /**
-     * Retrieves the {@code RegistrableGenerator} by the given key parameter, identifier of Generator. <br>
-     *
-     * @param key  unique identifier of the {@code RegistrableGenerator}
-     * @param <T> the type parameter of the Generator
-     * @return the {@code Generator} registered under the given key.
+     * Retrieves a registered {@link Generator} by its unique key.
+     * @param key unique identifier of the generator
+     * @param <T> the type parameter of the generator
+     * @return the {@link Generator} registered under the given key
      * @throws GeneratorException if no generator is found for the given key
      */
     @SuppressWarnings("unchecked")
@@ -70,14 +119,16 @@ public class GeneratorRegistry {
     }
 
     /**
-     * Retrieves the {@link RegistrableGenerator} for the given key. <br>
-     * If RegistrableGenerator isn't exists, create new one with key, path, type. <br>
-     * then return it.
-     * @param key  unique identifier of the RegistrableGenerator
-     * @param path  the path of the file used as a source of RegistrableGenerator
-     * @param type  type of the data the RegistrableGenerator generates.
-     * @param <T> the type parameter of the Generator
-     * @return {@link Generator}
+     * Retrieves a {@link RegistrableGenerator} for the given key.
+     * <p>
+     * If a generator with the specified key does not exist, a new one is created
+     * with the provided {@code path} and {@code type}, registered, and then returned.
+     *
+     * @param key  unique identifier of the generator
+     * @param path file path used as the source for the generator
+     * @param type the type of data the generator produces
+     * @param <T>  the type parameter of the generator
+     * @return the existing or newly created {@link Generator}
      */
     @SuppressWarnings("unchecked")
     public static <T> Generator<T> getGenerator(String key, String path, Class<T> type) {
@@ -90,27 +141,33 @@ public class GeneratorRegistry {
     }
 
     /**
-     * Removes all registered {@code RegistrableGenerator} instances. <br>
-     * After calling this method, new generators must be registered.
+     * Removes all registered RegistrableGenerators from the registry.
+     * Built-in generators (e.g. {@code EmailGenerator}, {@code NameGenerator})
+     * are not affected and remain registered.
+     *
+     * <p>After calling this method, any custom {@code RegistrableGenerator}
+     * must be registered again before use.
      */
-    public void clearRegistrableGenerator() {
-        GENERATOR_MAP.clear();
+    public static void clearRegistrableGenerator() {
+        GENERATOR_MAP.entrySet().removeIf(entry -> entry.getValue() instanceof RegistrableGenerator<?>);
     }
 
     /**
-     * returns all the names of {@code RegistrableGenerator} instances.
-     * @return a list of generator names.
+     * Returns the list of all keys (names) of registered generators.
+     * @return a list of generator keys currently registered
      */
-    public List<String> getRegistrableGeneratorNames() {
+    public static List<String> getGeneratorNames() {
         return new ArrayList<>(GENERATOR_MAP.keySet());
     }
 
     /**
+     * Checks whether a generator with the given key exists in the registry.
      *
-     * @param key
-     * @return
+     * @param key the unique identifier of the generator
+     * @return {@code true} if a generator is registered under the given key,
+     *         {@code false} otherwise
      */
-    public Boolean existsRegistrableGenerator(String key) {
+    public static Boolean existsRegistrableGenerator(String key) {
         return GENERATOR_MAP.containsKey(key);
     }
 }
