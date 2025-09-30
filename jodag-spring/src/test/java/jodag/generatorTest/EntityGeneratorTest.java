@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 
-@DisplayName("EntityGenerator 테스트 코드")
 @ActiveProfiles("test")
+@DisplayName("EntityGenerator Test Code")
 @SpringBootTest(classes = JodagTestApplication.class)
 class EntityGeneratorTest {
 
@@ -22,7 +22,7 @@ class EntityGeneratorTest {
     SpringGeneratorFactory springGeneratorFactory;
 
     @Test
-    @DisplayName("entityGenerator 인스턴스를 반환합니다.")
+    @DisplayName("returns entityGenerator instance")
     void get_instance() {
         Generator<TestEntity> generator = springGeneratorFactory.getGenerator(TestEntity.class);
         Assertions.assertThat(generator).isInstanceOf(EntityGenerator.class);

@@ -1,12 +1,12 @@
-package jodag.hibernateTest;
+package jodag.mybatisTest;
 
 import jodag.JodagTestApplication;
-import jodag.hibernate.associations.Child;
-import jodag.hibernate.associations.GrandParent;
-import jodag.hibernate.associations.Parent;
 import jodag.generator.EntityGenerator;
 import jodag.generator.GenerateType;
 import jodag.generator.SpringGeneratorFactory;
+import jodag.mybatis.associations.Child;
+import jodag.mybatis.associations.GrandParent;
+import jodag.mybatis.associations.Parent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,33 +15,36 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("모든 연관관계 테스트")
 @ActiveProfiles("test")
+@DisplayName("MyBatis GenerateType.ALL Test Code")
 @SpringBootTest(classes = JodagTestApplication.class)
-public class AllTest {
+public class GenerateTypeAllTest {
 
     @Autowired
     SpringGeneratorFactory springGeneratorFactory;
 
     @Test
-    @DisplayName("연관관계에 관계 없이 모든 연관관계를 맺은 엔티티를 생성 -> GenerateType.ALL")
+    @DisplayName("GenerateType.ALL option generates all entity with associations")
     void generate_all_entity() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
 
         Parent parent = generator.get(GenerateType.ALL);
-        assertThat(parent).isNotNull();
+        System.out.println("parent = " + parent);
+        assertThat(parent).isNotNull().isInstanceOf(Parent.class);
 
         List<Child> children = parent.getChildren();
-
+        System.out.println("children = " + children);
+        assertThat(children).isNotNull();
         children.forEach(child -> {
             assertThat(child).isNotNull();
             assertThat(child.getParent()).isNotNull();
         });
 
         GrandParent grandParent = parent.getGrandParent();
-        assertThat(grandParent).isNotNull();
+        System.out.println("grandParent = " + grandParent);
+        assertThat(grandParent).isNotNull().isInstanceOf(GrandParent.class);
 
         List<Parent> parents = grandParent.getParents();
         parents.forEach(parent1 -> {
@@ -51,3 +54,4 @@ public class AllTest {
         });
     }
 }
+

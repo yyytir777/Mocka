@@ -1,8 +1,12 @@
 package jodag.mybatis.associations;
 
+import jodag.annotation.ValueSource;
+
 public class Child {
 
     private Long id;
+
+    @ValueSource(generatorKey = "lorem_ipsum")
     private String name;
 
     private Parent parent;

@@ -17,6 +17,7 @@ class StringGeneratorTest {
         StringGenerator stringGenerator = generatorFactory.asString();
         for(int i = 0; i < 10; i++) {
             String result = stringGenerator.get();
+            System.out.println("result = " + result);
             assertThat(result).isNotNull();
         }
     }

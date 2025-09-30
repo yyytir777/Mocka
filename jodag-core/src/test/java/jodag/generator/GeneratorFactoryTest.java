@@ -1,11 +1,16 @@
 package jodag.generator;
 
+import jodag.PathResourceLoader;
 import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.factory.GeneratorRegistry;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -15,16 +20,22 @@ class GeneratorFactoryTest {
 
     @BeforeEach
     void setUp() {
+        GeneratorRegistry.putGenerator("test", "test.txt", String.class);
+        GeneratorRegistry.putGenerator("test1", "test1.txt", String.class);
+    }
+
+    @AfterEach
+    void tearDown() {
         GeneratorRegistry.clearRegistrableGenerator();
     }
 
     @Test
     void getRegistrableGenerator() {
-        GeneratorRegistry.putGenerator("test", "name.txt", String.class);
-        Generator<String> test = GeneratorRegistry.getGenerator("test");
-        String string = test.get();
+        Generator<String> generator = GeneratorRegistry.getGenerator("test");
+        String string = generator.get();
         System.out.println("string = " + string);
-        assertNotNull(string);
+
+        List<String> test = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
     }
 
     @Test

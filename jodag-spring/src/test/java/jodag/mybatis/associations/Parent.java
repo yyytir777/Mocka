@@ -1,10 +1,14 @@
 package jodag.mybatis.associations;
 
+import jodag.annotation.ValueSource;
+
 import java.util.List;
 
 public class Parent {
 
     private Long id;
+
+    @ValueSource(generatorKey = "name")
     private String name;
 
     private List<Child> children;

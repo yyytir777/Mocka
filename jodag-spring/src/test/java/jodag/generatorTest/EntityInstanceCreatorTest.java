@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
+@DisplayName("EntityGenerator Test Code")
 @SpringBootTest(classes = JodagTestApplication.class)
 class EntityInstanceCreatorTest {
 
