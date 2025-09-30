@@ -10,7 +10,7 @@ public class ByteArrayGenerator extends AbstractGenerator<byte[]> {
     private final ByteGenerator byteGenerator;
 
     private ByteArrayGenerator() {
-        super("byte-array", byte[].class);
+        super("byte_array", byte[].class);
         byteGenerator = ByteGenerator.getInstance();
     }
 

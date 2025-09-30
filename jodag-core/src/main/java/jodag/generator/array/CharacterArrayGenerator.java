@@ -10,7 +10,7 @@ public class CharacterArrayGenerator extends AbstractGenerator<char[]> {
     private final CharacterGenerator charGenerator;
 
     private CharacterArrayGenerator() {
-        super("character-array", char[].class);
+        super("character_array", char[].class);
         charGenerator = CharacterGenerator.getInstance();
     }
 

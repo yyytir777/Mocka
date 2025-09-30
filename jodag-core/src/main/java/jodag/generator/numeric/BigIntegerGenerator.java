@@ -9,7 +9,7 @@ public class BigIntegerGenerator extends AbstractGenerator<BigInteger> {
     private static final BigIntegerGenerator instance = new BigIntegerGenerator();
 
     private BigIntegerGenerator() {
-        super("big-integer", BigInteger.class);
+        super("big_integer", BigInteger.class);
     }
 
     public static BigIntegerGenerator getInstance() {

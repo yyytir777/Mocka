@@ -12,7 +12,7 @@ public class LegacyDateGenerator extends AbstractDateGenerator<Date> {
     private static final LegacyDateGenerator INSTANCE = new LegacyDateGenerator();
 
     private LegacyDateGenerator() {
-        super("legacy-date", Date.class);
+        super("legacy_date", Date.class);
     }
 
     public static LegacyDateGenerator getInstance() {

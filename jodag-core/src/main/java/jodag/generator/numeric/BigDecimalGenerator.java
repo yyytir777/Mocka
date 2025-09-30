@@ -11,7 +11,7 @@ public class BigDecimalGenerator extends AbstractGenerator<BigDecimal> {
     private static final BigDecimalGenerator INSTANCE = new BigDecimalGenerator();
 
     private BigDecimalGenerator() {
-        super("big-decimal", BigDecimal.class);
+        super("big_decimal", BigDecimal.class);
     }
 
     public static BigDecimalGenerator getInstance() {

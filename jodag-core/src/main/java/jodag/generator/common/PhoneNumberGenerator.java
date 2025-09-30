@@ -11,7 +11,7 @@ public class PhoneNumberGenerator extends AbstractGenerator<String> {
 
 
     private PhoneNumberGenerator() {
-        super("phoneNumber", String.class);
+        super("phone_number", String.class);
     }
 
     public static PhoneNumberGenerator getInstance() {

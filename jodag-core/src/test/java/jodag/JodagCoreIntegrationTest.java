@@ -143,9 +143,6 @@ public class JodagCoreIntegrationTest {
 
     @Test
     void test() {
-        List<String> generatorNames = GeneratorRegistry.getGeneratorNames();
-        for (String generatorName : generatorNames) {
-            System.out.println("generatorName = " + generatorName);
-        }
+        System.out.println("byte[].class.getSimpleName() = " + byte[].class.getSimpleName());
     }
 }

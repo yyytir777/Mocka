@@ -18,7 +18,7 @@ public class NetworkAddressGenerator extends AbstractGenerator<String> {
             "blog", "design", "cloud", "ai");
 
     private NetworkAddressGenerator() {
-        super("ipAddress", String.class);
+        super("network_address", String.class);
     }
 
     public static NetworkAddressGenerator getInstance() {

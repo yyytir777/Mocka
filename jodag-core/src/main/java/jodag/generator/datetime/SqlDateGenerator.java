@@ -10,7 +10,7 @@ public class SqlDateGenerator extends AbstractDateGenerator<Date> {
     private static final SqlDateGenerator INSTANCE = new SqlDateGenerator();
 
     private SqlDateGenerator() {
-        super("sql-date", Date.class);
+        super("sql_date", Date.class);
     }
 
     public static SqlDateGenerator getInstance() {
