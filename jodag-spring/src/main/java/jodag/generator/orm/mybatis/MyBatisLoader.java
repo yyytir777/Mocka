@@ -11,6 +11,7 @@ import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -76,7 +77,7 @@ public class MyBatisLoader implements ORMLoader {
 
     private void parseXml(Resource resource) {
         try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilder builder = getDocumentBuilder();
             Document document = builder.parse(resource.getInputStream());
             Element docElement = document.getDocumentElement();
 
@@ -102,6 +103,14 @@ public class MyBatisLoader implements ORMLoader {
         } catch (Exception e) {
             throw new RuntimeException(resource.getFilename() + "을 파싱할 수 없습니다.", e);
         }
+    }
+
+    private DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        return factory.newDocumentBuilder();
     }
 
     private void parseAndAddFields(Class<?> clazz, Element resultMap, String tagName, boolean isId) {
