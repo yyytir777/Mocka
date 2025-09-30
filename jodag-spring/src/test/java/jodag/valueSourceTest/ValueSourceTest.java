@@ -2,14 +2,11 @@ package jodag.valueSourceTest;
 
 import jodag.JodagTestApplication;
 import jodag.PathResourceLoader;
+import jodag.entity.*;
 import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorRegistry;
-import jodag.hibernate.ValueSource2;
-import jodag.hibernate.ValueSource1;
 import jodag.generator.EntityGenerator;
 import jodag.generator.SpringGeneratorFactory;
-import jodag.hibernate.ValueSource3;
-import jodag.hibernate.ValueSource4;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -92,5 +89,16 @@ public class ValueSourceTest {
     void throw_exception_if_the_file_does_not_exist() {
         EntityGenerator<ValueSource4> generator = springGeneratorFactory.getGenerator(ValueSource4.class);
         assertThatThrownBy(generator::get).isInstanceOf(GeneratorException.class);
+    }
+
+    @Test
+    @DisplayName("success generates ValueSource5 instance using key value (@ValueSource) refers CommonGenerator")
+    void value_source_generate_test_with_common_generator() {
+        EntityGenerator<ValueSource5> generator = springGeneratorFactory.getGenerator(ValueSource5.class);
+        ValueSource5 valueSource5 = generator.get();
+
+        assertThat(valueSource5.getName()).matches("[A-Za-z]+( [A-Za-z]+)*");
+        assertThat(valueSource5.getEmail()).matches("[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+");
+        System.out.println("valueSource5 = " + valueSource5);
     }
 }
