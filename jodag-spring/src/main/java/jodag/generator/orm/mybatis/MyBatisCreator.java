@@ -26,14 +26,12 @@ public class MyBatisCreator implements ORMResolver {
     private final MyBatisFieldValueGenerator myBatisFieldValueGenerator;
     private final MyBatisMetadata myBatisMetadata;
     private final Integer ASSOCIATION_SIZE;
-    private final GeneratorFactory generatorFactory;
 
     public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator myBatisFieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
         this.myBatisLoader = myBatisLoader;
         this.myBatisFieldValueGenerator = myBatisFieldValueGenerator;
         this.myBatisMetadata = myBatisMetadata;
         this.ASSOCIATION_SIZE = ormProperties.getAssociationSize();
-        this.generatorFactory = new GeneratorFactory();
     }
 
 
