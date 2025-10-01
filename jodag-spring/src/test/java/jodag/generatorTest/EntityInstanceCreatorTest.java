@@ -3,8 +3,8 @@ package jodag.generatorTest;
 import jodag.JodagTestApplication;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
-import jodag.hibernate.EmbeddableClass;
-import jodag.hibernate.TestEntity;
+import jodag.entity.hibernate.EmbeddableClass;
+import jodag.entity.hibernate.TestEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
+@DisplayName("EntityGenerator Test Code")
 @SpringBootTest(classes = JodagTestApplication.class)
 class EntityInstanceCreatorTest {
 

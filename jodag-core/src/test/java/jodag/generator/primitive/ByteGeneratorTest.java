@@ -8,71 +8,77 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("ByteGenerator 테스트")
+@DisplayName("ByteGenerator Test Code")
 public class ByteGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
+    private final ByteGenerator byteGenerator = generatorFactory.asByte();
 
     @Test
-    @DisplayName("Byte 값 반환")
+    @DisplayName("ByteGenerator is managed as a singleton")
+    void ByteGenerator_is_singleton() {
+        ByteGenerator newByteGenerator = generatorFactory.asByte();
+        assertThat(newByteGenerator).isSameAs(byteGenerator);
+    }
+
+    @Test
+    @DisplayName("returns Byte value")
     void get_byte() {
-        Byte b = generatorFactory.asByte().get();
+        Byte b = byteGenerator.get();
         assertThat(b).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
     }
 
     @Test
-    @DisplayName("min ~ max 사이 byte 값 반환")
+    @DisplayName("returns byte value between (min, max)")
     void get_byte_in_range() {
         byte min = 0, max = 30;
-        Byte b = generatorFactory.asByte().getByte(min, max);
+        Byte b = byteGenerator.getByte(min, max);
         assertThat(b).isBetween(min, max);
     }
 
     @Test
-    @DisplayName("양수 byte값 반환")
+    @DisplayName("returns positive Byte value")
     void get_positive_byte() {
-        Byte b = generatorFactory.asByte().getPositiveByte();
+        Byte b = byteGenerator.getPositiveByte();
         assertThat(b).isPositive();
     }
 
     @Test
-    @DisplayName("음수 byte값 반환")
+    @DisplayName("returns negative Byte value")
     void get_negative_byte() {
-        Byte b = generatorFactory.asByte().getNegativeByte();
+        Byte b = byteGenerator.getNegativeByte();
         assertThat(b).isNegative();
     }
 
     @Test
-    @DisplayName("짝수 byte값 반환")
+    @DisplayName("returns even Byte value")
     void get_even_byte() {
-        Byte b = generatorFactory.asByte().getEvenByte();
+        Byte b = byteGenerator.getEvenByte();
         assertThat(b).isEven();
     }
 
     @Test
-    @DisplayName("홀수 byte값 반환")
+    @DisplayName("returns odd Byte value")
     void get_odd_byte() {
-        Byte b = generatorFactory.asByte().getOddByte();
+        Byte b = byteGenerator.getOddByte();
         assertThat(b).isOdd();
     }
 
     @Test
-    @DisplayName("주어진 List에서 선택")
+    @DisplayName("returns byte element of given Byte list")
     void get_byte_from_list() {
         List<Byte> list = List.of((byte) 1, (byte) 2, (byte) 3);
-        Byte b = generatorFactory.asByte().pickFrom(list);
+        Byte b = byteGenerator.pickFrom(list);
 
-        assertThat(b).isIn(list);
-        assertThat(b).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isIn(list).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
     }
 
     @Test
-    @DisplayName("주어진 Byte... 에서 선택")
+    @DisplayName("returns byte element of given Byte array")
     void get_byte_from_array() {
         Byte[] bytes = {(byte) 1, (byte) 2, (byte) 3};
-        Byte b = generatorFactory.asByte().pickFrom(bytes);
+        Byte b = byteGenerator.pickFrom(bytes);
 
-        assertThat(b).isIn(List.of(bytes));
-        assertThat(b).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isIn(List.of(bytes)).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
     }
 }

@@ -23,9 +23,8 @@ public class ORMCreator {
     private final BeanFactory beanFactory;
     private Map<ORMType, ORMResolver> ormResolver = new HashMap<>();
 
-    private static final String mybatisBeanName = "sqlSessionFactory";
-    private static final String hibernateBeanName = "entityManagerFactory";
-    private final Set<Class<?>> SCANNED_CLASSES = new HashSet<>();
+    private static final String MYBATIS_BEAN_NAME = "sqlSessionFactory";
+    private static final String HIBERNATE_BEAN_NAME = "entityManagerFactory";
 
     public ORMCreator(BeanFactory beanFactory,
                       ORMProperties ormProperties,
@@ -75,8 +74,8 @@ public class ORMCreator {
     }
 
     public Map<ORMType, ORMResolver> resolver(ORMProperties ormProperties, HibernateCreator hibernateCreator, MyBatisCreator myBatisCreator) {
-        boolean hasMyBatis = beanFactory.containsBean(mybatisBeanName);
-        boolean hasHibernate = beanFactory.containsBean(hibernateBeanName);
+        boolean hasMyBatis = beanFactory.containsBean(MYBATIS_BEAN_NAME);
+        boolean hasHibernate = beanFactory.containsBean(HIBERNATE_BEAN_NAME);
 
         // 어떠한 의존성도 없을 때
         if (!hasMyBatis && !hasHibernate) {

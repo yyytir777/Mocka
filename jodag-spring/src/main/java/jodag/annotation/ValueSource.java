@@ -1,8 +1,6 @@
 package jodag.annotation;
 
 
-import jodag.generator.Generator;
-import jodag.generator.NoneGenerator;
 
 import java.lang.annotation.*;
 
@@ -17,6 +15,4 @@ public @interface ValueSource {
     Class<?> type() default Object.class;
 
     String generatorKey() default "";
-
-    Class<? extends Generator<?>> generator() default NoneGenerator.class;
 }

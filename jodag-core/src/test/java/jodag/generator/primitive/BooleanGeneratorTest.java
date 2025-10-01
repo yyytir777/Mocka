@@ -5,15 +5,23 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("BooleanGenerator 테스트")
+@DisplayName("BooleanGenerator Test Code")
 public class BooleanGeneratorTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();
+    private final BooleanGenerator booleanGenerator = generatorFactory.asBoolean();
 
     @Test
-    @DisplayName("Boolean 값 반환")
+    @DisplayName("BooleanGenerator is managed as a singleton")
+    void booleanGenerator_is_singleton() {
+        BooleanGenerator newBooleanGenerator = generatorFactory.asBoolean();
+        Assertions.assertThat(booleanGenerator).isSameAs(newBooleanGenerator);
+    }
+
+    @Test
+    @DisplayName("return Boolean value")
     void get_boolean() {
-        Boolean bool = generatorFactory.asBoolean().get();
+        Boolean bool = booleanGenerator.get();
         Assertions.assertThat(bool).isIn(Boolean.TRUE, Boolean.FALSE);
     }
 }

@@ -1,14 +1,11 @@
 package jodag;
 
 import jodag.generator.factory.GeneratorFactory;
-import jodag.generator.primitive.BooleanGenerator;
 import jodag.generator.primitive.StringGenerator;
 import jodag.generator.common.EmailGenerator;
 import jodag.generator.common.LoremIpsumGenerator;
 import jodag.generator.common.NameGenerator;
-import jodag.generator.primitive.PrimitiveGenerator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -95,50 +92,5 @@ public class JodagCoreIntegrationTest {
         String loremIpsum1 = loremIpsumGenerator.get(2000);
         assertThat(loremIpsum1).isNotNull();
         assertThat(loremIpsum1.length()).isEqualTo(2000);
-    }
-
-    @Test
-    @DisplayName("GeneratorFactory의 PrimitiveGenerator는 각 primitive값을 반환합니다.")
-    void get_primitive_generator_returns_primitive() {
-
-        // Boolean
-        Boolean b = generatorFactory.asBoolean().get();
-        System.out.println("b = " + b);
-        assertThat(b).isIn(true, false);
-
-        // Byte
-        Byte b1 = generatorFactory.asByte().get();
-        System.out.println("b1 = " + b1);
-        assertThat(b1).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
-
-        // Short
-        Short s = generatorFactory.asShort().get();
-        System.out.println("s = " + s);
-        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
-
-        // Integer
-        Integer i = generatorFactory.asInteger().get();
-        System.out.println("i = " + i);
-        assertThat(i).isBetween(Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-        // Long
-        Long l = generatorFactory.asLong().get();
-        System.out.println("l = " + l);
-        assertThat(l).isBetween(Long.MIN_VALUE, Long.MAX_VALUE);
-
-        // Float
-        Float f = generatorFactory.asFloat().get();
-        System.out.println("f = " + f);
-        assertThat(f).isBetween(Float.MIN_VALUE, Float.MAX_VALUE);
-
-        // Double
-        Double d = generatorFactory.asDouble().get();
-        System.out.println("d = " + d);
-        assertThat(d).isBetween(Double.MIN_VALUE, Double.MAX_VALUE);
-
-        // Character
-        Character c = generatorFactory.asCharacter().get();
-        System.out.println("c = " + c);
-        assertThat(c).isBetween(Character.MIN_VALUE, Character.MAX_VALUE);
     }
 }

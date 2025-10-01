@@ -1,12 +1,11 @@
 package jodag.generator.datetime;
 
-import jodag.generator.AbstractGenerator;
 
 import java.time.*;
 import java.time.temporal.Temporal;
 
 
-public class DateTimeGenerator extends AbstractGenerator<Temporal> {
+public class DateTimeGenerator extends AbstractDateGenerator<Temporal> {
 
     private static final DateTimeGenerator INSTANCE = new DateTimeGenerator();
 
@@ -34,26 +33,26 @@ public class DateTimeGenerator extends AbstractGenerator<Temporal> {
     }
 
     public LocalDate getLocalDate() {
-        return LocalDate.now();
+        return getRandomDate().toLocalDate();
     }
 
     public LocalTime getLocalTime() {
-        return LocalTime.now();
+        return getRandomDate().toLocalTime();
     }
 
     public LocalDateTime getLocalDateTime() {
-        return LocalDateTime.now();
+        return getRandomDate();
     }
 
     public OffsetTime getOffsetTime() {
-        return OffsetTime.now();
+        return getRandomDate().toLocalTime().atOffset(getRandomOffset());
     }
 
     public OffsetDateTime getOffsetDateTime() {
-        return OffsetDateTime.now();
+        return getRandomDate().atOffset(getRandomOffset());
     }
 
     public Instant getInstant() {
-        return Instant.now();
+        return getRandomDate().toInstant(getRandomOffset());
     }
 }

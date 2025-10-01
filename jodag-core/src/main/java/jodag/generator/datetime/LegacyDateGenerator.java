@@ -1,18 +1,18 @@
 package jodag.generator.datetime;
 
-import jodag.generator.AbstractGenerator;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
-public class LegacyDateGenerator extends AbstractGenerator<Date> {
+public class LegacyDateGenerator extends AbstractDateGenerator<Date> {
 
     private static final LegacyDateGenerator INSTANCE = new LegacyDateGenerator();
 
     private LegacyDateGenerator() {
-        super("legacy-date", Date.class);
+        super("legacy_date", Date.class);
     }
 
     public static LegacyDateGenerator getInstance() {
@@ -32,10 +32,13 @@ public class LegacyDateGenerator extends AbstractGenerator<Date> {
     }
 
     public Date getDate() {
-        return new Date();
+        LocalDateTime localDateTime = getRandomDate();
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public Calendar getCalendar() {
-        return Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDate());
+        return calendar;
     }
 }

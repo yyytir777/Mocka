@@ -2,7 +2,7 @@ package jodag;
 
 import jodag.generator.orm.ORMCreator;
 import jodag.generator.orm.ORMResolver;
-import jodag.hibernate.Member;
+import jodag.entity.hibernate.Member;
 import jodag.generator.Generator;
 import jodag.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class JodagSpringMainTest {
     @Test
     @DisplayName("Scanned Entity Class save automatically in `SpringGeneratorFactory`")
     void auto_register_generate_class_in_sprigGeneratorFactory() {
-        List<Class<?>> generatorNames = springGeneratorFactory.getGeneratorNames();
+        List<Class<?>> generatorNames = springGeneratorFactory.getEntityGeneratorNames();
         System.out.println("generatorNames = " + generatorNames);
         assertThat(generatorNames).isNotEmpty();
     }
@@ -54,7 +54,7 @@ public class JodagSpringMainTest {
         assertThat(member.getEmail()).isNotNull();
         assertThat(member.getName()).isNotNull();
 
-        List<Class<?>> generatorNames = springGeneratorFactory.getGeneratorNames();
+        List<Class<?>> generatorNames = springGeneratorFactory.getEntityGeneratorNames();
         System.out.println("generatorNames = " + generatorNames);
         assertThat(Member.class).isIn(generatorNames);
     }

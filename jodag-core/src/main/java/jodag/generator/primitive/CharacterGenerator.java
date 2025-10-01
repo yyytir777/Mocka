@@ -32,7 +32,12 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
     }
 
     public Character getCharacter() {
-        return getCharacter((char) 0x0000, (char) 0xFFFF);
+        boolean aBoolean = randomProvider.getBoolean();
+        if(aBoolean) {
+            return getCharacter('a', 'z');
+        } else {
+            return getCharacter('A', 'Z');
+        }
     }
 
     public Character getCharacter(char min, char max) {

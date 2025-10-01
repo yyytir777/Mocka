@@ -42,7 +42,7 @@ public class StringGenerator extends AbstractGenerator<String> {
     private String getString(int length) {
         StringBuilder sb = new StringBuilder(length);
         for(int i = 0; i < length; i++) {
-            sb.append(PrimitiveGenerator.getInstance().getCharacter());
+            sb.append(CharacterGenerator.getInstance().getCharacter());
         }
         return sb.toString();
     }

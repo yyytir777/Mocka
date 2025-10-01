@@ -1,6 +1,6 @@
-<mapper namespace="jodag.mybatis.MemberMapper">
+<mapper namespace="jodag.entity.mybatis.MemberMapper">
 
-    <resultMap id="MemberResultMap" type="jodag.mybatis.Member">
+    <resultMap id="MemberResultMap" type="jodag.entity.mybatis.Member">
         <id property="id" column="id"/>
 
         <!-- primitive -->

@@ -22,7 +22,7 @@ public class LoremIpsumGenerator extends AbstractGenerator<String> {
     private final List<String> loremIpsum;
 
     private LoremIpsumGenerator() throws IOException {
-        super("lorem ipsum", String.class);
+        super("lorem_ipsum", String.class);
         InputStream is = getClass().getClassLoader().getResourceAsStream("lorem_ipsum.txt");
         if (is == null) {
             throw new FileNotFoundException("리소스를 찾을 수 없습니다: lorem_ipsum.txt");

@@ -15,7 +15,7 @@ public class CountryGenerator extends AbstractGenerator<String> {
         try {
             INSTANCE = new CountryGenerator();
         } catch (IOException e) {
-            throw new ExceptionInInitializerError("Country Generator 초기화 실패" + e);
+            throw new ExceptionInInitializerError("Failed initialize Country Generator" + e);
         }
     }
 
@@ -23,7 +23,7 @@ public class CountryGenerator extends AbstractGenerator<String> {
         super("country", String.class);
         InputStream is = CountryGenerator.class.getClassLoader().getResourceAsStream("country.txt");
         if (is == null) {
-            throw new FileNotFoundException("리소스를 찾을 수 없습니다: country.txt");
+            throw new FileNotFoundException("Couldn't load resources : country.txt");
         }
 
         this.countries = new BufferedReader(new InputStreamReader(is))

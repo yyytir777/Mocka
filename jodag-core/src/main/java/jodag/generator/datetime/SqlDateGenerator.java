@@ -1,17 +1,16 @@
 package jodag.generator.datetime;
 
-import jodag.generator.AbstractGenerator;
 
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Date;
 
-public class SqlDateGenerator extends AbstractGenerator<Date> {
+public class SqlDateGenerator extends AbstractDateGenerator<Date> {
 
     private static final SqlDateGenerator INSTANCE = new SqlDateGenerator();
 
     private SqlDateGenerator() {
-        super("sql-date", Date.class);
+        super("sql_date", Date.class);
     }
 
     public static SqlDateGenerator getInstance() {
@@ -20,7 +19,7 @@ public class SqlDateGenerator extends AbstractGenerator<Date> {
 
     @Override
     public Date get() {
-        return new Date(System.currentTimeMillis());
+        throw new UnsupportedOperationException("Unsupported type");
     }
 
     @SuppressWarnings("unchecked")
@@ -33,14 +32,14 @@ public class SqlDateGenerator extends AbstractGenerator<Date> {
     }
 
     public Date getDate() {
-        return new Date(System.currentTimeMillis());
+        return Date.valueOf(getRandomDate().toLocalDate());
     }
 
     public Time getTime() {
-        return new Time(System.currentTimeMillis());
+        return Time.valueOf(getRandomDate().toLocalTime());
     }
 
     public Timestamp getTimestamp() {
-        return new Timestamp(System.currentTimeMillis());
+        return Timestamp.valueOf(getRandomDate());
     }
 }

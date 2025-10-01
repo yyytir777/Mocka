@@ -3,6 +3,7 @@ package jodag.generator.registrable;
 import jodag.exception.GeneratorException;
 import jodag.generator.Generator;
 import jodag.generator.factory.GeneratorFactory;
+import jodag.generator.factory.GeneratorRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -11,44 +12,48 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 
-@DisplayName("RegisterableGenerator 테스트")
+@DisplayName("RegisterableGenerator Test Code")
 class RegistrableGeneratorTest {
 
-    private final GeneratorFactory generatorFactory = new GeneratorFactory();
     @BeforeEach
     void setUp() {
-        generatorFactory.clearRegistrableGenerator();
+        GeneratorRegistry.clearRegistrableGenerator();
     }
 
     @Test
-    @DisplayName("getPath는 classpath를 지원합니다.")
+    @DisplayName("path type supports classpath")
     void get_path_with_classpath() {
-        Generator<String> generator = generatorFactory.getRegistrableGenerator("test", "test.txt", String.class);
+        GeneratorRegistry.putGenerator(new RegistrableGenerator<>("test", "test.txt", String.class));
+
+        Generator<String> generator = GeneratorRegistry.getGenerator("test");
         String string = generator.get();
         assertThat(string).isNotNull();
     }
 
     @Test
     @Disabled
-    @DisplayName("getPath는 절대경로를 지원합니다.")
+    @DisplayName("path type supports absolute path but couldn't test in github")
     void get_path_with_absolute_path() {
-        Generator<String> generator = generatorFactory.getRegistrableGenerator("test", "/Users/wonjae/Desktop/text.txt", String.class);
+        Generator<String> generator = GeneratorRegistry.getGenerator("test", "/Users/wonjae/Desktop/text.txt", String.class);
         String string = generator.get();
         assertThat(string).isNotNull();
     }
 
     @Test
-    @DisplayName("getPath는 classpath를 지원합니다. 만약 존재하지 않는 경로라면, GenerateException 예외가 발생합니다.")
+    @DisplayName("throws GeneratorException when no files in the path")
     void get_path_with_classpath_exception() {
-        assertThatThrownBy(() -> generatorFactory.getRegistrableGenerator("test", "asdf.txt", String.class))
+        assertThatThrownBy(() -> GeneratorRegistry.getGenerator("test", "asdf.txt", String.class))
+                .isInstanceOf(GeneratorException.class);
+
+        assertThatThrownBy(() -> GeneratorRegistry.putGenerator(new RegistrableGenerator<>("test", "asdf.txt", String.class)))
                 .isInstanceOf(GeneratorException.class);
     }
 
     @Test
     @Disabled
-    @DisplayName("getPath는 절대경로를 지원합니다. 만약 존재하지 않는 경로라면, GenerateException 예외가 발생합니다.")
+    @DisplayName("path type supports absolute path. throws GeneratorException when no files in the path. but couldn't test in github")
     void get_path_with_absolute_path_throw_exception() {
-        assertThatThrownBy(() -> generatorFactory.getRegistrableGenerator("test", "/Users/wonjae/Desktop/asdf.txt", String.class))
+        assertThatThrownBy(() -> GeneratorRegistry.getGenerator("test", "/Users/wonjae/Desktop/asdf.txt", String.class))
                 .isInstanceOf(GeneratorException.class);
     }
 }
