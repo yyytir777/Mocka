@@ -46,6 +46,10 @@ subprojects {
     tasks.named("jacocoTestReport").configure {
         reports { xml.required = true; html.required = true }
     }
+
+    tasks.withType(Javadoc).configureEach {
+        destinationDir = file("$buildDir/docs/javadoc")
+    }
 }
 
 jacoco {
@@ -64,5 +68,21 @@ sonar {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "yyytir777"
         property "sonar.projectKey", "yyytir777_jodag"
+    }
+}
+
+tasks.register('publishAllJavadocs') {
+    dependsOn(subprojects.javadoc)
+
+    doLast {
+        copy {
+            from("$projectDir/jodag-core/build/docs/javadoc")
+            into("$rootDir/docs/jodag-core")
+        }
+
+        copy {
+            from("$projectDir/jodag-spring/build/docs/javadoc")
+            into("$rootDir/docs/jodag-spring")
+        }
     }
 }

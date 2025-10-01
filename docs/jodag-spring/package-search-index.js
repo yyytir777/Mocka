@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"jodag.annotation"},{"l":"jodag.exception"},{"l":"jodag.generator"},{"l":"jodag.generator.orm"},{"l":"jodag.generator.orm.hibernate"},{"l":"jodag.generator.orm.hibernate.association"},{"l":"jodag.generator.orm.mybatis"}];updateSearchResults();
