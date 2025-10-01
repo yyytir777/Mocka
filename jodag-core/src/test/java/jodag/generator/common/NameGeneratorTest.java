@@ -14,21 +14,16 @@ class NameGeneratorTest {
     @Test
     @DisplayName("Verify the NameGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
-        // given & when
         NameGenerator nameGenerator = generatorFactory.asName();
-
-        // then
         assertThat(nameGenerator).isInstanceOf(NameGenerator.class);
     }
 
     @Test
     @DisplayName("NameGenerator is managed as a singleton")
     void nameGenerator_is_singleton() {
-        // given & when
         NameGenerator nameGenerator1 = generatorFactory.asName();
         NameGenerator nameGenerator2 = generatorFactory.asName();
 
-        // then
         assertThat(nameGenerator1).isNotNull();
         assertThat(nameGenerator2).isNotNull();
         assertThat(nameGenerator1).isSameAs(nameGenerator2);
@@ -38,10 +33,8 @@ class NameGeneratorTest {
     @Test
     @DisplayName("NameGenerator returns a value in name format")
     void get_value_from_emailGenerator() {
-        // given & when
         NameGenerator nameGenerator = generatorFactory.asName();
 
-        // then
         String name = nameGenerator.get();
         assertThat(name).isNotEmpty();
     }
@@ -49,10 +42,8 @@ class NameGeneratorTest {
     @Test
     @DisplayName("NameGenerator returns values in name format")
     void get_values_from_nameGenerator() {
-        // given & when
         NameGenerator nameGenerator = generatorFactory.asName();
 
-        // then
         for(int i = 0; i < 1000; i++) {
             String name = nameGenerator.get();
             System.out.println("name = " + name);

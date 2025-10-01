@@ -26,10 +26,7 @@ class DateGeneratorTest {
     @Test
     @DisplayName("Verify the DateGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
-        // given & when
         DateGenerator dateGenerator = generatorFactory.asDate();
-
-        // then
         assertThat(dateGenerator).isInstanceOf(DateGenerator.class);
     }
 

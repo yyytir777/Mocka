@@ -1,6 +1,5 @@
 package jodag.generator;
 
-import jodag.generator.common.DateGenerator;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.primitive.StringGenerator;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-// TODO StringGeneratorTest 리팩토링
 @DisplayName("StringGenerator Test Code")
 class StringGeneratorTest {
 
@@ -26,7 +24,7 @@ class StringGeneratorTest {
     @DisplayName("StringGenerator is managed as a singleton")
     void stringGenerator_is_singleton() {
         StringGenerator newStringGenerator = generatorFactory.asString();
-        assertThat(newStringGenerator).isInstanceOf(StringGenerator.class);
+        assertThat(newStringGenerator).isSameAs(stringGenerator);
     }
 
     @Test

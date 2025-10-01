@@ -24,11 +24,9 @@ class CountryGeneratorTest {
     @Test
     @DisplayName("CountryGenerator is managed as a singleton")
     void countryGenerator_is_singleton() {
-        // given & when
         CountryGenerator countryGenerator1 = generatorFactory.asCountry();
         CountryGenerator countryGenerator2 = generatorFactory.asCountry();
 
-        // then
         assertThat(countryGenerator1).isNotNull();
         assertThat(countryGenerator2).isNotNull();
         assertThat(countryGenerator1).isSameAs(countryGenerator2);
@@ -38,10 +36,7 @@ class CountryGeneratorTest {
     @Test
     @DisplayName("CountryGenerator returns random country")
     void get_value_from_countryGenerator() {
-        // given & when
         CountryGenerator countryGenerator = generatorFactory.asCountry();
-
-        // then
         String name = countryGenerator.get();
         assertThat(name).isNotEmpty();
     }
@@ -49,10 +44,8 @@ class CountryGeneratorTest {
     @Test
     @DisplayName("CountryGenerator returns random countries")
     void get_values_from_countryGenerator() {
-        // given & when
         CountryGenerator countryGenerator = generatorFactory.asCountry();
 
-        // then
         for(int i = 0; i < 1000; i++) {
             String country = countryGenerator.get();
             System.out.println("country = " + country);

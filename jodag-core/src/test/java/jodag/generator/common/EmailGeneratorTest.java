@@ -16,21 +16,15 @@ class EmailGeneratorTest {
     @Test
     @DisplayName("Verify the EmailGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
-        // given & when
         EmailGenerator emailGenerator = generatorFactory.asEmail();
-
-        // then
         assertThat(emailGenerator).isInstanceOf(EmailGenerator.class);
     }
 
     @Test
     @DisplayName("EmailGenerator is managed as a singleton")
     void emailGenerator_is_singleton() {
-        // given & when
         EmailGenerator emailGenerator = generatorFactory.asEmail();
         EmailGenerator emailGenerator1 = generatorFactory.asEmail();
-
-        // then
         assertThat(emailGenerator).isSameAs(emailGenerator1);
     }
 
@@ -38,11 +32,8 @@ class EmailGeneratorTest {
     @Test
     @DisplayName("EmailGenerator returns a value in email format")
     void get_value_from_emailGenerator() {
-        // given
         EmailGenerator emailGenerator = generatorFactory.asEmail();
         Pattern pattern = Pattern.compile("\\w+@\\w+\\.\\w+");
-
-        // when & then
         String email = emailGenerator.get();
         assertThat(email).matches(pattern);
     }

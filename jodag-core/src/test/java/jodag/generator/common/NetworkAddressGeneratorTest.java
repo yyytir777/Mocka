@@ -16,21 +16,16 @@ class NetworkAddressGeneratorTest {
     @Test
     @DisplayName("Verify the NetworkAddressGenerator retrieved through GeneratorFactory is the correct class")
     void get_instance() {
-        // given & when
         NetworkAddressGenerator networkAddressGenerator = generatorFactory.asNetworkAddress();
-
-        // then
         assertThat(networkAddressGenerator).isInstanceOf(NetworkAddressGenerator.class);
     }
 
     @Test
     @DisplayName("NetworkAddressGenerator is managed as a singleton")
     void networkAddressGenerator_is_singleton() {
-        // given & when
         NetworkAddressGenerator networkAddressGenerator1 = generatorFactory.asNetworkAddress();
         NetworkAddressGenerator networkAddressGenerator2 = generatorFactory.asNetworkAddress();
 
-        // then
         assertThat(networkAddressGenerator1).isNotNull();
         assertThat(networkAddressGenerator2).isNotNull();
         assertThat(networkAddressGenerator1).isSameAs(networkAddressGenerator2);
@@ -40,10 +35,7 @@ class NetworkAddressGeneratorTest {
     @Test
     @DisplayName("NetworkAddressGenerator get() throws UnsupportedException")
     void get_value_from_networkAddressGenerator() {
-        // given & when
         NetworkAddressGenerator networkAddressGenerator = generatorFactory.asNetworkAddress();
-
-        // then
         assertThatThrownBy(networkAddressGenerator::get).isInstanceOf(UnsupportedOperationException.class);
     }
 
