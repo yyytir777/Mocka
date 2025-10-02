@@ -17,7 +17,8 @@ public class StringGenerator extends AbstractGenerator<String> {
 
     @Override
     public String get() {
-        return get((int) randomProvider.getGaussian(7, 2));
+        int length = (int) randomProvider.getGaussian(7, 2);
+        return getString(Math.max(1, length));
     }
 
     /**
