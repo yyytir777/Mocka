@@ -3,6 +3,7 @@ package jodag.random;
 import jodag.random.index.RandomIndexProvider;
 import jodag.random.index.ThreadLocalRandomIndexProvider;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,7 +29,7 @@ public class RandomProvider {
     }
 
     public Random getRandom() {
-        return ThreadLocalRandom.current();
+        return new SecureRandom();
     }
 
     /**
