@@ -3,6 +3,7 @@ package jodag.generator.orm.hibernate;
 import jakarta.persistence.*;
 import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
+import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.FieldValueGenerator;
 import jodag.random.RandomProvider;
@@ -22,6 +23,15 @@ import java.util.function.Supplier;
 
 import static org.springframework.util.ClassUtils.isPrimitiveOrWrapper;
 
+/**
+ * Generates random values for Hibernate entity fields based on their types and JPA annotations.
+ *
+ * <p>
+ * This generator analyzes field metadata (type, annotations, constraints) and produces
+ * appropriate random values for entity instantiation. It supports various data types including
+ * primitives, dates, enums, embeddables, and respects JPA validation constraints.
+ * </p>
+ */
 @Component
 public class HibernateFieldValueGenerator implements FieldValueGenerator {
 
@@ -54,23 +64,32 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             Map.entry(Character.class, () -> generatorFactory.asCharacter().get())
     );
 
-    @Override
+    /**
+     * Generates a random value for the given field based on its type and annotations.
+     *
+     * @param field the field to generate a value for
+     * @return a randomly generated value appropriate for the field type,
+     *         or null if the field should not be generated
+     * @throws RuntimeException if {@code @Email} is used on a non-String field
+     * @throws UnsupportedOperationException if the field type is not supported
+     */
+     @Override
     public Object get(Field field) {
         Class<?> type = field.getType();
 
-        // 필드 생성이 필요 없는 경우 ex) generatevalue, transient, elementcollection ...
+        // no need to generate... ex) generateValue, transient, elementCollection ...
         if(isNotGenerable(field)) {
             return null;
         }
 
-        // Email 애노테이션 + String 필드
+        // Email annotation + String
         if(field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
             return generatorFactory.asEmail().get();
         } else if(!field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
             throw new RuntimeException("Email 애노테이션은 String 타입에만 사용 가능합니다.");
         }
 
-        // String인 필드 + length가 명시되어 있을 때
+        // string + length
         if(hasAnnotation(field, Column.class)) {
             Column column = field.getAnnotation(Column.class);
 
@@ -83,28 +102,28 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             }
         }
 
-        // enum일 경우
+        // enum
         if(type.isEnum() && hasAnnotation(field, Enumerated.class)) {
             Object[] enumConstants = type.getEnumConstants();
             if(enumConstants.length == 0) return null;
             return enumConstants[randomProvider.getInt(enumConstants.length)];
         }
 
-        // primitive일 경우
+        // primitive
         if(isPrimitiveOrWrapper(type)) {
             Supplier<?> generator = primitiveGeneratorMap.get(type);
             if(generator != null) return generator.get();
         }
 
 
-        // java.math일 경우
+        // java.math
         if(type.equals(BigDecimal.class)) {
             return generatorFactory.asBigDecimal().get();
         } else if(type.equals(BigInteger.class)) {
             return generatorFactory.asBigInteger().get();
         }
 
-        // 날짜 타입일 경우 (java.util, java.time, java.sql)
+        // java.util, java.time, java.sql
         if (type.getPackageName().startsWith("java.time")) {
             return generatorFactory.asDateTime().get(type);
         } else if (type.getPackageName().startsWith("java.sql")) {
@@ -113,13 +132,14 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             return generatorFactory.asLegacyDate().get(type);
         }
 
-        // 배열인 경우 byte[], char[]
+        // byte[], char[]
         if (type.isArray()) {
             Class<?> componentType = type.getComponentType();
             if (componentType.isPrimitive()) {
-                // primitive 배열: byte[], char[], int[], ...
+                // primitive array : byte[], char[]
                 if (componentType == byte.class) return generatorFactory.asByteArray().get();
                 else if (componentType == char.class) return generatorFactory.asCharacterArray().get();
+                throw new UnsupportedOperationException();
             }
         }
 
@@ -132,9 +152,24 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             return createEmbeddableInstance(field.getType());
         }
 
-        throw new UnsupportedOperationException("지원하지 않는 타입입니다.");
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     * Recursively creates an instance of an embeddable class and populates its fields.
+     *
+     * <p>
+     * This method is used for handling {@code @Embedded} types that are marked with
+     * {@code @Embeddable}. It creates an instance and recursively generates values
+     * for all its fields.
+     * </p>
+     *
+     * @param type the embeddable class to instantiate
+     * @return a fully populated instance of the embeddable class
+     * @throws RuntimeException if instantiation or field access fails
+     * @see Embedded
+     * @see Embeddable
+     */
     private Object createEmbeddableInstance(Class<?> type) {
         try {
             Object instance = type.getDeclaredConstructor().newInstance();
@@ -146,12 +181,6 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private boolean isDateTimeType(Class<?> type) {
-        return Temporal.class.isAssignableFrom(type)
-                || type.equals(java.util.Calendar.class)
-                || java.util.Date.class.isAssignableFrom(type);
     }
 
     private boolean hasAnnotation(Field field, Class<? extends Annotation> clazz) {

@@ -5,29 +5,38 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+/**
+ * A component that stores and manages MyBatis-related metadata such as
+ * result maps, mapped classes, property fields, and association mappings.
+ * <p>
+ * This class is designed to centralize MyBatis metadata for convenient
+ * access and debugging.
+ * </p>
+ */
 @Component
 public class MyBatisMetadata {
 
-    // XML설정파일 (resultMapId -> Resource)
-    private final Map<String, Resource> RESOURCE_MAP = new HashMap<>();
-
-    // resultMapId -> 매핑 대상 클래스
-    private final Map<String, Class<?>> RESULT_MAP_CLASS = new HashMap<>();
-
-    // 매핑 클래스 -> 해당 클래스의 필드 메타데이터
-    private final Map<Class<?>, List<PropertyField>> MAPPER_CLASS_FIELD_MAP = new HashMap<>();
-
-    // 두 클래스간의 연관관계 (부모-자식 association/collection)
-    private final Map<Path, AssociationType> ASSOCIATION_MAPPINGS_MAP = new HashMap<>();
-
-    // 순환 참조 방지 Set
-    private final Set<Class<?>> VISITED_MAP = new HashSet<>();
 
     /**
-     * resultMapId가 key, clazz가 value
-     * @param resultId
-     * @param clazz
+     * Stores XML resources keyed by their filename.
      */
+    private final Map<String, Resource> RESOURCE_MAP = new HashMap<>();
+
+    /**
+     * Maps a resultMapId to its target class type.
+     */
+    private final Map<String, Class<?>> RESULT_MAP_CLASS = new HashMap<>();
+
+    /**
+     * Maps a class type to its list of mapped property fields.
+     */
+    private final Map<Class<?>, List<PropertyField>> MAPPER_CLASS_FIELD_MAP = new HashMap<>();
+
+    /**
+     * Stores association/collection relationships between two classes
+     */
+    private final Map<Path, AssociationType> ASSOCIATION_MAPPINGS_MAP = new HashMap<>();
+
     public void addClass(String resultId, Class<?> clazz) {
         RESULT_MAP_CLASS.computeIfAbsent(resultId, k -> clazz);
     }

@@ -19,11 +19,37 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+/**
+ * Creates and populates Hibernate entity instances with generated data.
+ *
+ * <p>
+ * This creator handles Hibernate-specific entity creation including:
+ * <ul>
+ *   <li>Basic field value generation using {@link HibernateFieldValueGenerator}</li>
+ *   <li>JPA association handling (OneToMany, ManyToOne, OneToOne, ManyToMany)</li>
+ *   <li>Circular reference prevention through visited path tracking</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Collection Size Configuration:</b></p>
+ * The number of elements generated for collection associations (OneToMany, ManyToMany)
+ * is configured through {@link ORMProperties#getAssociationSize()}.
+ *
+ * @see ORMResolver
+ * @see AbstractCreator
+ * @see HibernateFieldValueGenerator
+ * @see AssociationMatcherFactory
+ */
 @Component
 public class HibernateCreator extends AbstractCreator implements ORMResolver {
 
     private final HibernateLoader hibernateLoader;
     private final HibernateFieldValueGenerator hibernateFieldValueGenerator;
+
+    /**
+     * The number of elements to generate for collection associations (OneToMany, ManyToMany).
+     * Configured via {@link ORMProperties#getAssociationSize()}.
+     */
     private final Integer ASSOCIATION_SIZE;
 
     public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator hibernateFieldValueGenerator, ORMProperties ormProperties) {
@@ -37,15 +63,15 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     );
 
     /**
-     * 엔티티의 타입, 캐시 정보를 통해 해당 엔티티의 인스턴스를 생성합니다. <br>
-     * 1. OneToMany, ManyToMany 연관관계 일 때 <br>
-     * - caches에 연관관계 엔티티가 존재하는
-     * - generateType 조건 체크 (CHILD or CHILDREN 이어야 함) <br>
+     * Creates an entity instance with the specified generation strategy. (except {@code GenerateType.ALL}
      *
-     *
-     * @param clazz 인스턴스를 생성할 클래스
-     * @return 주어진 타입에 대한 인스턴스
-     * @param <T> 인스턴스 클래스의 타입
+     * @param clazz         the entity class to instantiate
+     * @param generateType  the generation strategy determining which associations to populate
+     * @param <T>           the type of the entity
+     * @return a new entity instance with populated fields
+     * @throws RuntimeException if entity instantiation or field access fails
+     * @see GenerateType
+     * @see AssociationMatcherFactory#support(Field, GenerateType, ORMType)
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, GenerateType generateType) {
@@ -54,10 +80,9 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
         GenerateType nextGenerateType = generateType.next();
 
         try {
-            // No Argument Constructor로 T 타입의 인스턴스 생성
             T instance = clazz.getDeclaredConstructor().newInstance();
 
-            // 주어진 클래스의 Field 순회
+            // iter Fields of the given class
             for(Field field : clazz.getDeclaredFields()) {
                 field.setAccessible(true);
                 Object value;
@@ -77,9 +102,7 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
                         addChildToParent(parent, instance); // child -> parent로 갈 때 parent의 children에 child 추가 (컬렉션에 값을 추가해야함)
                         value = parent;
                     }
-                } else { // 연관관계가 아닌 일반 필드 생성
-                    // 한 필드에 대한 애노테이션 메타데이터
-                    // 필드클래스와 애노테이션을 분석하여 해당 필드를 랜덤으로 채움 -> 값이 없는 경우도 존재
+                } else {
                     value = generateValue(field);
                 }
                 field.set(instance, value);
@@ -91,11 +114,16 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     }
 
     /**
-     * GenerateType.ALL인 전략에서 사용하는 메서드입니다. <br>
-     * 주어진 clazz를 시작으로 연결된 모든 엔티티를 생성합니다.
-     * @param clazz 생성하고자 하는 클래스 (시작점)
-     * @param caches 생성한 클래스의 인스턴스를 담는 캐시
-     * @return clazz의 인스턴스
+     * Creates an entity instance with all associated entity. ({@code GenerateType.ALL})
+     *
+     * @param clazz   the entity class to instantiate (starting point)
+     * @param caches  a cache map storing created instances by class name
+     * @param visited a set tracking visited relationship paths to prevent circular references
+     * @param <T>     the type of the entity
+     * @return a new entity instance with the entire relationship graph populated
+     * @throws RuntimeException if entity instantiation or field access fails
+     * @see VisitedPath
+     * @see GenerateType#ALL
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
@@ -130,13 +158,11 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
                             for(int i = 0; i < ASSOCIATION_SIZE; i++) {
                                 Object child = create(getGenericType(field), new HashMap<>(), visited);
                                 addParentToChild(child, instance);
-//                                System.out.printf("↳ %s → %s%n", child.getClass().getSimpleName(), instance.getClass().getSimpleName());
                                 ((List<Object>)value).add(child);
                             }
                         } else {
                             Object parent = create(field.getType(), caches, visited);
                             addChildToParent(parent, instance);
-//                            System.out.printf("↳ %s → %s%n", instance.getClass().getSimpleName(), parent.getClass().getSimpleName());
                             value = parent;
                         }
                     } finally {
@@ -154,9 +180,7 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     }
 
     /**
-     * child를 parent의 컬렉션에 추가
-     * @param parent parent
-     * @param child child
+     * Adds a child entity to a parent's collection field.
      */
     @SuppressWarnings("unchecked")
     private void addChildToParent(Object parent, Object child) throws IllegalAccessException {
@@ -183,10 +207,7 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     }
 
     /**
-     * parent를 child의 필드에 추가
-     * @param child child
-     * @param parent parent
-     * @throws IllegalAccessException 필드에 값을 넣을 수 없을 때 throw
+     * Sets a parent reference in a child entity's field.
      */
     private void addParentToChild(Object child, Object parent) throws IllegalAccessException {
         for (Field childField : child.getClass().getDeclaredFields()) {
@@ -208,11 +229,10 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     }
 
     /**
-     * 클래스의 필드 값을 분석하여 해당 필드의 랜덤 값을 리턴함
+     * Generates a value for a non-association field.
      */
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) throws NoSuchMethodException {
-        // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
         if(field.isAnnotationPresent(ValueSource.class)) {
             return handleValueSource(field);
         }
@@ -220,6 +240,11 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
     }
 
 
+    /**
+     * Loads all Hibernate entity classes from the application context.
+     * @return a set of all discovered Hibernate entity classes
+     * @see HibernateLoader#load()
+     */
     @Override
     public Set<Class<?>> load() {
         return hibernateLoader.load();
