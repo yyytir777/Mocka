@@ -80,7 +80,8 @@ public class ValueSourceTest {
         List<String> test = new BufferedReader(new InputStreamReader(PathResourceLoader.getPath("test.txt"))).lines().toList();
         String name = valueSource3.getName();
         System.out.println("name = " + name);
-        assertThat(test).doesNotContain(name);
+        assertThat(test).isNotEmpty()
+                .doesNotContain(name);
         assertThat(test1).contains(name);
     }
 
