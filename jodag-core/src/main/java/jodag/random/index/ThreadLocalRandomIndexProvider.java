@@ -3,6 +3,9 @@ package jodag.random.index;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Thread-safe implementation of {@link RandomIndexProvider} using {@link ThreadLocalRandom}.
+ */
 public class ThreadLocalRandomIndexProvider implements RandomIndexProvider {
 
     private static final ThreadLocalRandomIndexProvider INSTANCE = new ThreadLocalRandomIndexProvider();

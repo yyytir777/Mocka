@@ -1,14 +1,12 @@
 package jodag.generator.orm.mybatis;
 
 import jodag.annotation.ValueSource;
-import jodag.exception.GeneratorException;
-import jodag.exception.ValueSourceException;
 import jodag.generator.GenerateType;
-import jodag.generator.Generator;
-import jodag.generator.factory.GeneratorRegistry;
+import jodag.generator.orm.AbstractCreator;
 import jodag.generator.orm.ORMType;
+import jodag.generator.orm.hibernate.HibernateFieldValueGenerator;
+import jodag.generator.orm.hibernate.HibernateLoader;
 import jodag.generator.orm.hibernate.VisitedPath;
-import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMProperties;
 import jodag.generator.orm.ORMResolver;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
@@ -19,12 +17,38 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+/**
+ * Creates and populates MyBatis entity instances with generated data.
+ *
+ * <p>
+ * This creator handles MyBatis-specific entity creation including:
+ * <ul>
+ *   <li>Basic field value generation using {@link MyBatisFieldValueGenerator}</li>
+ *   <li>xml association handling</li>
+ *   <li>Circular reference prevention through visited path tracking</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Collection Size Configuration:</b></p>
+ * The number of elements generated for collection associations
+ * is configured through {@link ORMProperties#getAssociationSize()}.
+ *
+ * @see ORMResolver
+ * @see AbstractCreator
+ * @see MyBatisFieldValueGenerator
+ * @see AssociationMatcherFactory
+ */
 @Component
-public class MyBatisCreator implements ORMResolver {
+public class MyBatisCreator extends AbstractCreator implements ORMResolver {
 
     private final MyBatisLoader myBatisLoader;
     private final MyBatisFieldValueGenerator myBatisFieldValueGenerator;
     private final MyBatisMetadata myBatisMetadata;
+
+    /**
+     * The number of elements to generate for collection associations (one-to-many, many-to-many).
+     * Configured via {@link ORMProperties#getAssociationSize()}.
+     */
     private final Integer ASSOCIATION_SIZE;
 
     public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator myBatisFieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
@@ -35,7 +59,17 @@ public class MyBatisCreator implements ORMResolver {
     }
 
 
-    @Override
+    /**
+     * Creates an entity instance with the specified generation strategy. (except {@code GenerateType.ALL}
+     *
+     * @param clazz         the entity class to instantiate
+     * @param generateType  the generation strategy determining which associations to populate
+     * @param <T>           the type of the entity
+     * @return a new entity instance with populated fields
+     * @throws RuntimeException if entity instantiation or field access fails
+     * @see GenerateType
+     * @see AssociationMatcherFactory#support(Field, GenerateType, ORMType)
+     */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, GenerateType generateType) {
         if (generateType == null) return null;
@@ -45,22 +79,18 @@ public class MyBatisCreator implements ORMResolver {
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
 
-            // 클래스 순회
             List<PropertyField> fields = myBatisMetadata.getFields(clazz);
-            // MyBatis 순회 때 사용할 PropertyField (Field를 wrapper한 클래스)
+            // iter Fields of the given class
             for(PropertyField field : fields) {
                 field.getField().setAccessible(true);
                 Object value;
 
-                // 해당 필드가 id이면 continue -> id는 자동 증가로 설정
                 if (field.isId()) continue;
 
-                //연관관계 있을 때
                 Class<?> targetType = resolveFieldType(field.getField());
                 AssociationType associationType = isAssociations(clazz, targetType);
                 if (associationType != null) {
                     if (generateType == GenerateType.SELF) continue;
-                    // collection
                     if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS)) continue;
 
                     if(associationType == AssociationType.ONE_TO_MANY || associationType == AssociationType.MANY_TO_MANY) {
@@ -76,7 +106,7 @@ public class MyBatisCreator implements ORMResolver {
                         addChildToParent(parent, instance);
                         value = parent;
                     }
-                } else { // 일반 필드일 때
+                } else {
                     value = generateValue(field);
                 }
                 field.getField().set(instance, value);
@@ -87,8 +117,18 @@ public class MyBatisCreator implements ORMResolver {
         }
     }
 
-    // GenerateType.ALL일 때
-    @Override
+    /**
+     * Creates an entity instance with all associated entity. ({@code GenerateType.ALL})
+     *
+     * @param clazz   the entity class to instantiate (starting point)
+     * @param caches  a cache map storing created instances by class name
+     * @param visited a set tracking visited relationship paths to prevent circular references
+     * @param <T>     the type of the entity
+     * @return a new entity instance with the entire relationship graph populated
+     * @throws RuntimeException if entity instantiation or field access fails
+     * @see VisitedPath
+     * @see GenerateType#ALL
+     */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
         GenerateType generateType = GenerateType.ALL;
@@ -148,11 +188,9 @@ public class MyBatisCreator implements ORMResolver {
             throw new RuntimeException(e);
         }    }
 
-    @Override
-    public Set<Class<?>> load() {
-        return myBatisLoader.load();
-    }
-
+    /**
+     * Adds a child entity to a parent's collection field.
+     */
     @SuppressWarnings("unchecked")
     private void addChildToParent(Object parent, Object child) throws IllegalAccessException {
 
@@ -178,6 +216,9 @@ public class MyBatisCreator implements ORMResolver {
         }
     }
 
+    /**
+     * Sets a parent reference in a child entity's field.
+     */
     private void addParentToChild(Object child, Object parent) throws IllegalAccessException {
         for (Field childField : child.getClass().getDeclaredFields()) {
             if (childField.getType().equals(parent.getClass()) || isAssociations(childField.getType(), parent.getClass()) != null) {
@@ -193,6 +234,9 @@ public class MyBatisCreator implements ORMResolver {
         return (Class<Object>) genericType.getActualTypeArguments()[0];
     }
 
+    /**
+     * Generates a value for a non-association field.
+     */
     @SuppressWarnings("unchecked")
     private <T> T generateValue(PropertyField field) {
         // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
@@ -201,26 +245,6 @@ public class MyBatisCreator implements ORMResolver {
         }
 
         return (T) myBatisFieldValueGenerator.get(field.getField());
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T handleValueSource(Field field) {
-        ValueSource valueSource = field.getAnnotation(ValueSource.class);
-        String path = valueSource.path();
-        Class<?> type = valueSource.type();
-        String key = valueSource.generatorKey();
-
-        // 1. generateKey
-        if (!key.isEmpty()) {
-            return (T) GeneratorRegistry.getGenerator(key).get();
-        }
-
-        // 2. (path, type)
-        if (!valueSource.path().isEmpty() && valueSource.type() != Object.class) {
-            return (T) GeneratorRegistry.getGenerator(path, path, type).get();
-        }
-
-        throw new GeneratorException("Cannot resolve generator from ValueSource: " + valueSource);
     }
 
     // clazz -> field의 연관관계가 존재하는지
@@ -238,5 +262,15 @@ public class MyBatisCreator implements ORMResolver {
             ParameterizedType genericType = (ParameterizedType) field.getGenericType();
             return (Class<Object>) genericType.getActualTypeArguments()[0];
         }
+    }
+
+    /**
+     * Loads all Hibernate entity classes from the application context.
+     * @return a set of all discovered Hibernate entity classes
+     * @see HibernateLoader#load()
+     */
+    @Override
+    public Set<Class<?>> load() {
+        return myBatisLoader.load();
     }
 }

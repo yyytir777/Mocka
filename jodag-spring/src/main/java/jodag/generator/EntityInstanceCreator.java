@@ -8,13 +8,20 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * `@Generate` 애노테이션을 등록한 엔티티에 한해 인스턴스를 생성하는 클래스입니다.
- * `FieldValueGenerator`에 의존하고 있으며, 주어진 클래스에 대한 generator를 넘기므로 싱글톤으로 관리하고 있습니다.
- * @see HibernateFieldValueGenerator
+ * {@code EntityInstanceCreator} is responsible for creating entity instances
+ * through the configured {@link ORMCreator}. <br>
+ * It supports multiple ORM implementations and allows instance creation
+ * with different {@link GenerateType} strategies.
+ *
+ * <p>This class is managed as a Spring {@link Component} and is typically
+ * injected into factories or services that need entity instance generation.</p>
  */
 @Component
 public class EntityInstanceCreator {
 
+    /**
+     * The {@link ORMCreator} responsible for delegating entity creation logic.
+     */
     private final ORMCreator ormCreator;
 
     private EntityInstanceCreator(ORMCreator ormCreator) {
@@ -22,10 +29,18 @@ public class EntityInstanceCreator {
     }
 
     /**
-     * 주어진 클래스 타입에 대한 `EntityGenerator`를 생성합니다.
-     * @param clazz 인스턴스를 생성할 클래스
-     * @param <T> 인스턴스 클래스의 타입
-     * @return 주어진 타입에 대한 `EntityGenerator` 인스턴스
+     * Creates an entity instance for the given class using the default ORM. <br>
+     * This method should be used when there is only one ORM implementation configured.
+     * <p>
+     * If the {@link GenerateType} is {@code ALL}, all related entities
+     * (both parent and child relationships) are generated recursively.
+     * Otherwise, the instance is created according to the specified strategy.
+     * </p>
+     *
+     * @param clazz        the class type of the entity to generate
+     * @param generateType the generation strategy (e.g., {@link GenerateType})
+     * @param <T>          the type of the entity
+     * @return a new instance of the given entity class
      */
     public <T> T createInstance(Class<T> clazz, GenerateType generateType) {
         if(generateType.equals(GenerateType.ALL)) {
@@ -35,8 +50,21 @@ public class EntityInstanceCreator {
     }
 
     /**
-     * 주어진 클래스 타입에 대한 인스턴스를 생성합니다. <br>
-     * 여러 개의 ORM을 사용할 때 ORMType을 파라미터로 사용하여 사용하고자 하는 구현체를 바인딩합니다.
+     * Creates an entity instance for the given class using a specific ORM implementation.<br>
+     * This method should be used when multiple ORM implementations are configured,
+     * and you want to explicitly select which {@link ORMType} should be used for entity creation.
+     *
+     * <p>
+     * If the {@link GenerateType} is {@code ALL}, all related entities
+     * (both parent and child relationships) are generated recursively.
+     * Otherwise, the instance is created according to the specified strategy.
+     * </p>
+     *
+     * @param ormType      the ORM implementation type to use
+     * @param clazz        the class type of the entity to generate
+     * @param generateType the generation strategy (e.g., SINGLE, CHILD, PARENT, ALL)
+     * @param <T>          the type of the entity
+     * @return a new instance of the given entity class
      */
     public <T> T createInstance(ORMType ormType, Class<T> clazz, GenerateType generateType) {
         if(generateType.equals(GenerateType.ALL)) {

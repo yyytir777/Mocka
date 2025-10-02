@@ -17,13 +17,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * GenerateAnnotationProcessor 클래스 설명 <br>
- *  1. Spring Boot 애플리케이션 실행 <br>
- *  2. Spring이 @Component 클래스 스캔 <br>
- *  3. GenerateAnnotationProcessor 빈 생성 <br>
- *  4. @PostConstruct 메서드 실행 <br>
- *  5. beanFactory를 통해 basePackage get <br>
- *  6. basePackage와 scanner를 통해 애노테이션 필터 처리 -> @Entity와 @Generate 붙은 클래스 get <br>
+ * Loads and discovers all Hibernate entity classes in the application.
+ *
+ * <p>
+ * This loader scans the application's base package to find all classes annotated with
+ * {@code @Entity} and registers them for entity generation. The scanning process is
+ * triggered during Spring's bean initialization phase.
+ * </p>
+ *
+ * <p><b>Execution Flow:</b></p>
+ * <ol>
+ *   <li>Spring Boot application starts</li>
+ *   <li>Spring scans for {@code @Component} classes</li>
+ *   <li>HibernateLoader bean is created</li>
+ *   <li>{@link #load()} method is called to scan entity classes</li>
+ *   <li>Base package is retrieved from {@link AutoConfigurationPackages}</li>
+ *   <li>Classpath scanning with {@code @Entity} filter is performed</li>
+ *   <li>Discovered entity classes are collected and returned</li>
+ * </ol>
  */
 @Component
 public class HibernateLoader implements BeanFactoryAware, ORMLoader {
@@ -36,6 +47,7 @@ public class HibernateLoader implements BeanFactoryAware, ORMLoader {
         this.beanFactory = beanFactory;
     }
 
+    @Override
     public Set<Class<?>> load() {
         Long startMs = System.currentTimeMillis();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);

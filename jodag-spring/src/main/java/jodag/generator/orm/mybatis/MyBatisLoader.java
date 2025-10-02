@@ -4,6 +4,7 @@ import jodag.generator.orm.ORMLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,41 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Loads and parses MyBatis mapper XML files to discover entity classes and their relationships.
+ *
+ * <p>
+ * This loader scans MyBatis mapper XML files to extract entity metadata including:
+ * <ul>
+ *   <li>Entity classes mapped in {@code <resultMap>} elements</li>
+ *   <li>Field mappings from {@code <id>} and {@code <result>} elements</li>
+ *   <li>Association relationships from {@code <association>} elements</li>
+ *   <li>Collection relationships from {@code <collection>} elements</li>
+ * </ul>
+ * </p>
+ *
+ * <p><b>Parsing Process:</b></p>
+ * <ol>
+ *   <li>Resolves mapper XML resources from configured location pattern</li>
+ *   <li>First pass: Parses basic fields (id and result elements)</li>
+ *   <li>Second pass: Parses associations and collections (requires classes from first pass)</li>
+ *   <li>Infers association types (one-to-one, many-to-one, one-to-many, many-to-many)</li>
+ *   <li>Stores all metadata in {@link MyBatisMetadata}</li>
+ * </ol>
+ *
+ * <p><b>Configuration:</b></p>
+ * The mapper location can be configured via Spring property:
+ * <pre>
+ * jodag:
+ *   orm:
+ *      mybatis:
+ *         location: classpath*:mapper/**&#47;*.xml  # default
+ * </pre>
+ */
 @Component
 public class MyBatisLoader implements ORMLoader {
 
-    @Value("${mybatis.location:classpath*:mapper/**/*.xml}")
+    @Value("${jodag.orm.mybatis.location:classpath*:mapper/**/*.xml}")
     private String mapperLocations;
 
     private final MyBatisMetadata myBatisMetadata;
@@ -30,11 +62,7 @@ public class MyBatisLoader implements ORMLoader {
         this.myBatisMetadata = myBatisMetadata;
     }
 
-    public MyBatisMetadata getMyBatisMetadata() {
-        return myBatisMetadata;
-    }
-
-    public Set<Class<?>> load() {
+     public Set<Class<?>> load() {
         Long startMs = System.currentTimeMillis();
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -47,32 +75,19 @@ public class MyBatisLoader implements ORMLoader {
             throw new IllegalStateException("MyBatis mapper resource resolution failed: " + mapperLocations, e);
         }
 
-        // 연관관계를 제외한 필드값 파싱
+        // parse fields
         for(Resource resource : resources) {
             parseXml(resource);
         }
 
-        // 연관관계 속성 파싱
+        // parse associations
         for (Resource resource : resources) {
             parseXmlAssociation(resource);
         }
 
-//        print();
-
         Long endMs = System.currentTimeMillis();
         log.info("Finished parsing Mapper.xml in {}ms. Add {} mappers in SpringGeneratorFactory", (endMs - startMs), myBatisMetadata.getResourceCount());
         return myBatisMetadata.getMapperClasses();
-    }
-
-
-    private void print() {
-        myBatisMetadata.printResources();
-        System.out.println("====================");
-        myBatisMetadata.printMapperClass();
-        System.out.println("====================");
-        myBatisMetadata.printFields();
-        System.out.println("====================");
-        myBatisMetadata.printAssociations();
     }
 
     private void parseXml(Resource resource) {
@@ -120,9 +135,7 @@ public class MyBatisLoader implements ORMLoader {
             try {
                 Field field = clazz.getDeclaredField(property);
                 myBatisMetadata.addFieldToClass(clazz, PropertyField.of(field, isId));
-            } catch (NoSuchFieldException ignored) {
-                // 해당 필드가 없으면 무시 (xml파일과 클래스 파일을 비교하여 공통된 필드만 사용 예정)
-            }
+            } catch (NoSuchFieldException ignored) {}
         }
     }
 
@@ -179,11 +192,11 @@ public class MyBatisLoader implements ORMLoader {
         for (int i = 0; i < associations.getLength(); i++) {
             Element association = (Element) associations.item(i);
 
-            // 외부 resultMap참조
+            // refer external resultMap
             String result = association.getAttribute("resultMap");
             String property = association.getAttribute("property");
 
-            // origin class의 필드 가져오기
+            // get field of origin class
             Field field = null;
             try {
                 field = clazz.getDeclaredField(property);
@@ -191,7 +204,7 @@ public class MyBatisLoader implements ORMLoader {
             } catch (NoSuchFieldException ignored) {}
 
 
-            // 2. association이 참조하는 대상 클래스 찾기
+            // 2. find the target class referred association
             Class<?> assocType = null;
             if (!result.isEmpty()) {
                 assocType = myBatisMetadata.getMapperClass(result);
@@ -205,7 +218,7 @@ public class MyBatisLoader implements ORMLoader {
                 }
             }
 
-            // 3. 연관관계 타입 추론 및 등록
+            // 3. infer association type and register
             if (assocType != null) {
                 AssociationType assocKind = inferAssociationType(clazz, field, assocType);
                 myBatisMetadata.addAssociation(Path.of(clazz, assocType), assocKind);
@@ -232,7 +245,7 @@ public class MyBatisLoader implements ORMLoader {
         for (int i = 0; i < associations.getLength(); i++) {
             Element association = (Element) associations.item(i);
 
-            // 외부 resultMap참조
+            // refer external resultMap
             String result = association.getAttribute("resultMap");
             if (!result.isEmpty()) {
                 Class<?> mapperClass = myBatisMetadata.getMapperClass(result);
@@ -245,7 +258,7 @@ public class MyBatisLoader implements ORMLoader {
                 continue;
             }
 
-            // inline 방식 (ofType)
+            // inline
             String javaType = association.getAttribute("ofType");
             if (!javaType.isEmpty()) {
                 String property = association.getAttribute("property");

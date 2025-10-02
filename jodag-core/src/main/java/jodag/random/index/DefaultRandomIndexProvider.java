@@ -2,7 +2,10 @@ package jodag.random.index;
 
 import java.util.Random;
 
-public class DefaultRandomIndexProvider implements RandomIndexProvider {
+/**
+ * Default implementation of {@link RandomIndexProvider} using a single shared {@link Random} instance.
+ */
+ public class DefaultRandomIndexProvider implements RandomIndexProvider {
 
     private static final DefaultRandomIndexProvider INSTANCE = new DefaultRandomIndexProvider();
     private static final Random random = new Random();
