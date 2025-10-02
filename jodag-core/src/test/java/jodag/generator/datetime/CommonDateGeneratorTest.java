@@ -4,11 +4,15 @@ import jodag.generator.factory.GeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.*;
+import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("CommonDateGenerator Test Code")
 public class CommonDateGeneratorTest {
@@ -29,6 +33,39 @@ public class CommonDateGeneratorTest {
 
         SqlDateGenerator newSqlDateGenerator = generatorFactory.asSqlDate();
         assertThat(newSqlDateGenerator).isSameAs(sqlDateGenerator);
+    }
+
+    @Test
+    @DisplayName("dateTimeGenerator.get() method returns LocalDateTime")
+    void get_method_returns_LocalDateTime() {
+        Temporal temporal = dateTimeGenerator.get();
+        System.out.println("temporal = " + temporal);
+        assertThat(temporal).isInstanceOf(LocalDateTime.class);
+    }
+
+    @Test
+    @DisplayName("dateTimeGenerator.get(Class<?> type) returns all date type the class supports")
+    void get_method_returns_all_date_type_dateTimeGenerator_supports() {
+        Temporal temporal_localDate = dateTimeGenerator.get(LocalDate.class);
+        assertThat(temporal_localDate).isNotNull().isInstanceOf(LocalDate.class);
+
+        Temporal temporal_localTime = dateTimeGenerator.get(LocalTime.class);
+        assertThat(temporal_localTime).isNotNull().isInstanceOf(LocalTime.class);
+
+        Temporal temporal_localDateTime = dateTimeGenerator.get(LocalDateTime.class);
+        assertThat(temporal_localDateTime).isNotNull().isInstanceOf(LocalDateTime.class);
+
+        Temporal temporal_offSetTime = dateTimeGenerator.get(OffsetTime.class);
+        assertThat(temporal_offSetTime).isNotNull().isInstanceOf(OffsetTime.class);
+
+        Temporal temporal_offSetDateTime = dateTimeGenerator.get(OffsetDateTime.class);
+        assertThat(temporal_offSetDateTime).isNotNull().isInstanceOf(OffsetDateTime.class);
+
+        Temporal temporal_instant = dateTimeGenerator.get(Instant.class);
+        assertThat(temporal_instant).isNotNull().isInstanceOf(Instant.class);
+
+        assertThatThrownBy(() -> dateTimeGenerator.get(String.class))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
@@ -80,6 +117,27 @@ public class CommonDateGeneratorTest {
     }
 
     @Test
+    @DisplayName("legacyDateGenerator.get() method returns Date")
+    void get_method_returns_Date() {
+        Date date = legacyDateGenerator.get();
+        assertThat(date).isNotNull().isInstanceOf(Date.class);
+    }
+
+    @Test
+    @DisplayName("legacyDateGenerator.get(Class<?> type) returns all date type the class supports")
+    void get_method_returns_all_date_type_legacyDateGenerator_supports() {
+        Object date = legacyDateGenerator.get(Date.class);
+        assertThat(date).isNotNull().isInstanceOf(Date.class);
+
+        Object calendar = legacyDateGenerator.get(Calendar.class);
+        assertThat(calendar).isNotNull().isInstanceOf(Calendar.class);
+
+
+        assertThatThrownBy(() -> legacyDateGenerator.get(String.class))
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
     @DisplayName("return Date (java.util)")
     void get_java_util_date() {
         Date utilDate = legacyDateGenerator.getDate();
@@ -94,6 +152,26 @@ public class CommonDateGeneratorTest {
         Calendar calendar = legacyDateGenerator.getCalendar();
         System.out.println("calendar = " + calendar);
         assertThat(calendar).isNotNull().isInstanceOf(Calendar.class);
+    }
+
+    @Test
+    @DisplayName("sqlDateGenerator.get() method returns java.sql.Date")
+    void get_method_returns_sql_date() {
+        java.sql.Date date = sqlDateGenerator.get();
+        assertThat(date).isNotNull().isInstanceOf(java.sql.Date.class);
+    }
+
+    @Test
+    @DisplayName("sqlDateGenerator.get(Class<?> type) returns all date type sqlDateGenerator supports")
+    void get_method_returns_all_date_type_sqlDateGenerator_supports() {
+        Object date = sqlDateGenerator.get(java.sql.Date.class);
+        assertThat(date).isNotNull().isInstanceOf(java.sql.Date.class);
+
+        Object time = sqlDateGenerator.get(java.sql.Time.class);
+        assertThat(time).isNotNull().isInstanceOf(java.sql.Time.class);
+
+        Object timestamp = sqlDateGenerator.get(Timestamp.class);
+        assertThat(timestamp).isNotNull().isInstanceOf(java.sql.Timestamp.class);
     }
 
     @Test

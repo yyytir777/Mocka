@@ -1,6 +1,5 @@
 package jodag.generator.orm.mybatis;
 
-import jodag.annotation.Email;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.FieldValueGenerator;
 import jodag.random.RandomProvider;
@@ -23,7 +22,6 @@ import static org.springframework.util.ClassUtils.isPrimitiveOrWrapper;
  * </p>
  * <ul>
  *   <li>Primitive and wrapper types (int, long, float, double, boolean, char, etc.)</li>
- *   <li>{@code String} fields, with special handling for {@link Email} annotated fields</li>
  *   <li>{@code Enum} types</li>
  *   <li>{@link BigDecimal}, {@link BigInteger}</li>
  *   <li>Date/time classes from {@code java.util}, {@code java.time}, and {@code java.sql}</li>
@@ -71,13 +69,6 @@ public class MyBatisFieldValueGenerator implements FieldValueGenerator {
     @Override
     public Object get(Field field) {
         Class<?> type = field.getType();
-
-        // Email + String
-        if(field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
-            return generatorFactory.asEmail().get();
-        } else if(!field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
-            throw new RuntimeException("Email 애노테이션은 String 타입에만 사용 가능합니다.");
-        }
 
         // enum
         if (type.isEnum()) {

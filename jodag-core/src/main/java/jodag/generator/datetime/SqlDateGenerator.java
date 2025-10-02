@@ -19,7 +19,7 @@ public class SqlDateGenerator extends AbstractDateGenerator<Date> {
 
     @Override
     public Date get() {
-        throw new UnsupportedOperationException("Unsupported type");
+        return getDate();
     }
 
     @SuppressWarnings("unchecked")

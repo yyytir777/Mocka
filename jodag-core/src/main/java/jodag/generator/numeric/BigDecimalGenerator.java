@@ -29,7 +29,7 @@ public class BigDecimalGenerator extends AbstractGenerator<BigDecimal> {
     }
 
     public BigDecimal get(BigDecimal min, BigDecimal max, int scale) {
-        if (min.compareTo(max) <= 0) throw new IllegalArgumentException("min must be smaller than max");
+        if (min.compareTo(max) > 0) throw new IllegalArgumentException("min must be smaller than max");
 
         BigDecimal range = max.subtract(min);
         BigDecimal randomValue = range.multiply(BigDecimal.valueOf(randomProvider.getDouble(0, 1)));

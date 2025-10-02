@@ -2,7 +2,6 @@ package jodag.entity.hibernate;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
 
 @Entity
@@ -16,7 +15,6 @@ public class TestEntity {
     private String name;
 
     @Column
-    @Email
     private String email;
 
     @Column
