@@ -5,11 +5,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jodag.annotation.ValueSource;
-import jodag.exception.GeneratorException;
-import jodag.exception.ValueSourceException;
 import jodag.generator.*;
-import jodag.generator.factory.GeneratorFactory;
-import jodag.generator.factory.GeneratorRegistry;
+import jodag.generator.orm.AbstractCreator;
 import jodag.generator.orm.ORMProperties;
 import jodag.generator.orm.ORMType;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
@@ -23,7 +20,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 @Component
-public class HibernateCreator implements ORMResolver {
+public class HibernateCreator extends AbstractCreator implements ORMResolver {
 
     private final HibernateLoader hibernateLoader;
     private final HibernateFieldValueGenerator hibernateFieldValueGenerator;
@@ -222,25 +219,6 @@ public class HibernateCreator implements ORMResolver {
         return (T) hibernateFieldValueGenerator.get(field);
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> T handleValueSource(Field field) {
-        ValueSource valueSource = field.getAnnotation(ValueSource.class);
-        String path = valueSource.path();
-        Class<?> type = valueSource.type();
-        String key = valueSource.generatorKey();
-
-        // 1. generateKey
-        if (!key.isEmpty()) {
-            return (T) GeneratorRegistry.getGenerator(key).get();
-        }
-
-        // 2. (path, type)
-        if (!valueSource.path().isEmpty() && valueSource.type() != Object.class) {
-            return (T) GeneratorRegistry.getGenerator(path, path, type).get();
-        }
-
-        throw new ValueSourceException("Cannot resolve generator from ValueSource: " + valueSource);
-    }
 
     @Override
     public Set<Class<?>> load() {

@@ -1,14 +1,10 @@
 package jodag.generator.orm.mybatis;
 
 import jodag.annotation.ValueSource;
-import jodag.exception.GeneratorException;
-import jodag.exception.ValueSourceException;
 import jodag.generator.GenerateType;
-import jodag.generator.Generator;
-import jodag.generator.factory.GeneratorRegistry;
+import jodag.generator.orm.AbstractCreator;
 import jodag.generator.orm.ORMType;
 import jodag.generator.orm.hibernate.VisitedPath;
-import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.ORMProperties;
 import jodag.generator.orm.ORMResolver;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
@@ -20,7 +16,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 @Component
-public class MyBatisCreator implements ORMResolver {
+public class MyBatisCreator extends AbstractCreator implements ORMResolver {
 
     private final MyBatisLoader myBatisLoader;
     private final MyBatisFieldValueGenerator myBatisFieldValueGenerator;
@@ -201,26 +197,6 @@ public class MyBatisCreator implements ORMResolver {
         }
 
         return (T) myBatisFieldValueGenerator.get(field.getField());
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> T handleValueSource(Field field) {
-        ValueSource valueSource = field.getAnnotation(ValueSource.class);
-        String path = valueSource.path();
-        Class<?> type = valueSource.type();
-        String key = valueSource.generatorKey();
-
-        // 1. generateKey
-        if (!key.isEmpty()) {
-            return (T) GeneratorRegistry.getGenerator(key).get();
-        }
-
-        // 2. (path, type)
-        if (!valueSource.path().isEmpty() && valueSource.type() != Object.class) {
-            return (T) GeneratorRegistry.getGenerator(path, path, type).get();
-        }
-
-        throw new GeneratorException("Cannot resolve generator from ValueSource: " + valueSource);
     }
 
     // clazz -> field의 연관관계가 존재하는지
