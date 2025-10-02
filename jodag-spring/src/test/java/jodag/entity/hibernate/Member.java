@@ -1,7 +1,6 @@
 package jodag.entity.hibernate;
 
 import jakarta.persistence.*;
-import jodag.annotation.Email;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -23,7 +22,6 @@ public class Member {
     @Column(length = 10, nullable = false)
     private String name;
 
-    @Email
     @Column(length = 20, nullable = false, unique = true)
     private String email;
 

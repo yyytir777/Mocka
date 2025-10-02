@@ -65,7 +65,7 @@ public class NumericGeneratorTest {
     }
 
     @Test
-    @DisplayName("returns BigInteger with given bit length")
+    @DisplayName("returns BigDecimal with given bit length")
     void get_bigDecimal_with_bit_length() {
         int bitLength = 64;
         int scale = 64;
@@ -79,4 +79,30 @@ public class NumericGeneratorTest {
 
         assertThat(bigDecimal.scale()).isEqualTo(scale);
     }
+
+
+    @Test
+    @DisplayName("returns BigDecimal with given scale")
+    void get_bigDecimal_with_scale() {
+        int scale = 10;
+        BigDecimal bigDecimal = generatorFactory.asBigDecimal().get(scale);
+        System.out.println("bigDecimal = " + bigDecimal);
+
+        assertThat(bigDecimal).isInstanceOf(BigDecimal.class);
+        assertThat(bigDecimal.scale()).isEqualTo(scale);
+    }
+
+    @Test
+    @DisplayName("returns BigDecimal with given min, max, scale")
+    void get_bigDecimal_with_min_max_scale() {
+        int scale = 10;
+        BigDecimal min = BigDecimal.valueOf(1.5);
+        BigDecimal max = BigDecimal.valueOf(3.5);
+        BigDecimal bigDecimal = generatorFactory.asBigDecimal().get(min, max, scale);
+        System.out.println("bigDecimal = " + bigDecimal);
+
+        assertThat(bigDecimal).isInstanceOf(BigDecimal.class).isLessThanOrEqualTo(max).isGreaterThanOrEqualTo(min);
+        assertThat(bigDecimal.scale()).isEqualTo(scale);
+    }
+
 }

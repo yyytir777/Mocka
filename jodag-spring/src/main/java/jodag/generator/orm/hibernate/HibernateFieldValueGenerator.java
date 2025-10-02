@@ -1,9 +1,7 @@
 package jodag.generator.orm.hibernate;
 
 import jakarta.persistence.*;
-import jodag.annotation.Email;
 import jodag.annotation.LoremIpsum;
-import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.FieldValueGenerator;
 import jodag.random.RandomProvider;
@@ -15,7 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -80,13 +77,6 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
         // no need to generate... ex) generateValue, transient, elementCollection ...
         if(isNotGenerable(field)) {
             return null;
-        }
-
-        // Email annotation + String
-        if(field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
-            return generatorFactory.asEmail().get();
-        } else if(!field.getGenericType().equals(String.class) && hasAnnotation(field, Email.class)) {
-            throw new RuntimeException("Email 애노테이션은 String 타입에만 사용 가능합니다.");
         }
 
         // string + length
