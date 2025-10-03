@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@DisplayName("jodag-core 통합 테스트")
+@DisplayName("jodag-core integration test code")
 public class JodagCoreIntegrationTest {
 
     private final GeneratorFactory generatorFactory = new GeneratorFactory();

@@ -6,11 +6,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jodag.annotation.ValueSource;
 import jodag.generator.*;
-import jodag.generator.orm.AbstractCreator;
-import jodag.generator.orm.ORMProperties;
-import jodag.generator.orm.ORMType;
+import jodag.generator.orm.*;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
-import jodag.generator.orm.ORMResolver;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -41,10 +38,10 @@ import java.util.*;
  * @see AssociationMatcherFactory
  */
 @Component
-public class HibernateCreator extends AbstractCreator implements ORMResolver {
+public class  HibernateCreator extends AbstractCreator implements ORMResolver {
 
-    private final HibernateLoader hibernateLoader;
-    private final HibernateFieldValueGenerator hibernateFieldValueGenerator;
+    private final ORMLoader hibernateLoader;
+    private final FieldValueGenerator fieldValueGenerator;
 
     /**
      * The number of elements to generate for collection associations (OneToMany, ManyToMany).
@@ -52,9 +49,9 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
      */
     private final Integer ASSOCIATION_SIZE;
 
-    public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator hibernateFieldValueGenerator, ORMProperties ormProperties) {
+    public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator fieldValueGenerator, ORMProperties ormProperties) {
         this.hibernateLoader = hibernateLoader;
-        this.hibernateFieldValueGenerator = hibernateFieldValueGenerator;
+        this.fieldValueGenerator = fieldValueGenerator;
         this.ASSOCIATION_SIZE =  ormProperties.getAssociationSize();
     }
 
@@ -236,7 +233,7 @@ public class HibernateCreator extends AbstractCreator implements ORMResolver {
         if(field.isAnnotationPresent(ValueSource.class)) {
             return handleValueSource(field);
         }
-        return (T) hibernateFieldValueGenerator.get(field);
+        return (T) fieldValueGenerator.get(field);
     }
 
 
