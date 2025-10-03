@@ -1,7 +1,6 @@
 package jodag.generator.orm.hibernate;
 
 import jakarta.persistence.*;
-import jodag.annotation.LoremIpsum;
 import jodag.generator.factory.GeneratorFactory;
 import jodag.generator.orm.FieldValueGenerator;
 import jodag.random.RandomProvider;
@@ -84,10 +83,6 @@ public class HibernateFieldValueGenerator implements FieldValueGenerator {
             Column column = field.getAnnotation(Column.class);
 
             if(field.getGenericType().equals(String.class) && column.length() > 0) {
-
-                if(hasAnnotation(field, LoremIpsum.class)) {
-                    return generatorFactory.asLoremIpsum().get(column.length());
-                }
                 return generatorFactory.asString().getUpTo(column.length());
             }
         }

@@ -2,7 +2,6 @@ package jodag.entity.hibernate;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jodag.annotation.LoremIpsum;
 
 @Entity
 public class TestEntity {
@@ -11,7 +10,6 @@ public class TestEntity {
     private Long id;
 
     @Column(length = 128)
-    @LoremIpsum
     private String name;
 
     @Column
