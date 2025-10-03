@@ -48,7 +48,7 @@ subprojects {
     }
 
     tasks.withType(Javadoc).configureEach {
-        destinationDir = file("$buildDir/docs/javadoc")
+        destinationDir = file("$rootDir/docs/$project.name")
     }
 }
 
