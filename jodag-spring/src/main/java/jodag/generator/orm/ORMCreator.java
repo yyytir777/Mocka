@@ -40,12 +40,9 @@ public class ORMCreator {
     private static final String MYBATIS_BEAN_NAME = "sqlSessionFactory";
     private static final String HIBERNATE_BEAN_NAME = "entityManagerFactory";
 
-    public ORMCreator(BeanFactory beanFactory,
-                      ORMProperties ormProperties,
-                      HibernateCreator hibernateCreator,
-                      MyBatisCreator myBatisCreator) {
+    public ORMCreator(BeanFactory beanFactory, ORMProperties ormProperties, List<ORMResolver>  ormResolvers) {
         this.beanFactory = beanFactory;
-        this.ormResolver = resolver(ormProperties, hibernateCreator, myBatisCreator);
+        this.ormResolver = resolver(ormProperties, ormResolvers);
     }
 
     /**
@@ -189,43 +186,48 @@ public class ORMCreator {
      * </ul>
      *
      * @param ormProperties      the ORM configuration properties from application.yaml
-     * @param hibernateCreator   the Hibernate entity creator instance
-     * @param myBatisCreator     the MyBatis entity creator instance
+     * @param ormResolvers  the list of available {@link ORMResolver} implementations
      * @return a map of ORM types to their corresponding resolvers
      * @throws GeneratorException if no ORM dependencies are found in the classpath
      */
-    public Map<ORMType, ORMResolver> resolver(ORMProperties ormProperties, HibernateCreator hibernateCreator, MyBatisCreator myBatisCreator) {
+    public Map<ORMType, ORMResolver> resolver(ORMProperties ormProperties, List<ORMResolver> ormResolvers) {
         boolean hasMyBatis = beanFactory.containsBean(MYBATIS_BEAN_NAME);
         boolean hasHibernate = beanFactory.containsBean(HIBERNATE_BEAN_NAME);
 
-        // 어떠한 의존성도 없을 때
+        // no dependencies of ORM
         if (!hasMyBatis && !hasHibernate) {
             throw new GeneratorException("ORM isn't exists");
         }
 
-        // 변수 설정 시
+        // List<ORMResolver> -> Map<ORMType, ORMResolver>
+        Map<ORMType, ORMResolver> resolverMap = ormResolvers.stream()
+                .collect(Collectors.toMap(this::resolveType, resolver -> resolver));
+
+
+        // set ormProperties
         List<ORMType> ormTypes = ormProperties.getOrmType();
         if (ormTypes != null && ormTypes.size() > 1) {
             return ormTypes.stream()
                     .collect(Collectors.toMap(
-                            type -> type,
-                            type -> switch (type) {
-                                case MYBATIS -> myBatisCreator;
-                                case HIBERNATE -> hibernateCreator;
-                            }
-                    ));
+                            type -> type, resolverMap::get));
         } else if(ormTypes != null && ormTypes.size() == 1) {
             return switch (ormTypes.get(0)) {
-                case MYBATIS -> Map.of(ORMType.MYBATIS, myBatisCreator);
-                case HIBERNATE -> Map.of(ORMType.HIBERNATE, hibernateCreator);
+                case MYBATIS -> Map.of(ORMType.MYBATIS, resolverMap.get(ORMType.MYBATIS));
+                case HIBERNATE -> Map.of(ORMType.HIBERNATE, resolverMap.get(ORMType.HIBERNATE));
             };
         }
 
         // 변수 설정 X
         if(hasMyBatis && hasHibernate) {
-            return Map.of(ORMType.MYBATIS, myBatisCreator, ORMType.HIBERNATE, hibernateCreator);
+            return Map.of(ORMType.MYBATIS, resolverMap.get(ORMType.MYBATIS), ORMType.HIBERNATE, resolverMap.get(ORMType.HIBERNATE));
         } else {
-            return hasMyBatis ?  Map.of(ORMType.MYBATIS, myBatisCreator) : Map.of(ORMType.HIBERNATE, hibernateCreator);
+            return hasMyBatis ?  Map.of(ORMType.MYBATIS, resolverMap.get(ORMType.MYBATIS)) : Map.of(ORMType.HIBERNATE, resolverMap.get(ORMType.HIBERNATE));
         }
+    }
+
+    private ORMType resolveType(ORMResolver resolver) {
+        if (resolver instanceof HibernateCreator) return ORMType.HIBERNATE;
+        if (resolver instanceof MyBatisCreator) return ORMType.MYBATIS;
+        throw new IllegalArgumentException("Unsupported ORMResolver: " + resolver);
     }
 }

@@ -2,14 +2,12 @@ package jodag.generator.orm.mybatis;
 
 import jodag.annotation.ValueSource;
 import jodag.generator.GenerateType;
-import jodag.generator.orm.AbstractCreator;
-import jodag.generator.orm.ORMType;
+import jodag.generator.orm.*;
 import jodag.generator.orm.hibernate.HibernateFieldValueGenerator;
 import jodag.generator.orm.hibernate.HibernateLoader;
 import jodag.generator.orm.hibernate.VisitedPath;
-import jodag.generator.orm.ORMProperties;
-import jodag.generator.orm.ORMResolver;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -41,8 +39,8 @@ import java.util.*;
 @Component
 public class MyBatisCreator extends AbstractCreator implements ORMResolver {
 
-    private final MyBatisLoader myBatisLoader;
-    private final MyBatisFieldValueGenerator myBatisFieldValueGenerator;
+    private final ORMLoader myBatisLoader;
+    private final FieldValueGenerator fieldValueGenerator;
     private final MyBatisMetadata myBatisMetadata;
 
     /**
@@ -51,9 +49,9 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     private final Integer ASSOCIATION_SIZE;
 
-    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator myBatisFieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
+    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
         this.myBatisLoader = myBatisLoader;
-        this.myBatisFieldValueGenerator = myBatisFieldValueGenerator;
+        this.fieldValueGenerator = fieldValueGenerator;
         this.myBatisMetadata = myBatisMetadata;
         this.ASSOCIATION_SIZE = ormProperties.getAssociationSize();
     }
@@ -244,7 +242,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
             return handleValueSource(field.getField());
         }
 
-        return (T) myBatisFieldValueGenerator.get(field.getField());
+        return (T) fieldValueGenerator.get(field.getField());
     }
 
     // clazz -> field의 연관관계가 존재하는지
