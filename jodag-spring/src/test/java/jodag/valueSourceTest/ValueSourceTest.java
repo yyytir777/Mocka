@@ -99,7 +99,7 @@ public class ValueSourceTest {
         ValueSource5 valueSource5 = generator.get();
 
         assertThat(valueSource5.getName()).matches("[A-Za-z]+( [A-Za-z]+)*");
-        assertThat(valueSource5.getEmail()).matches("[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+");
+        assertThat(valueSource5.getEmail()).matches("[A-Za-z0-9_]{5,10}@[A-Za-z0-9_]{3,7}\\.[a-zA-Z]{2,5}");
         System.out.println("valueSource5 = " + valueSource5);
     }
 }
