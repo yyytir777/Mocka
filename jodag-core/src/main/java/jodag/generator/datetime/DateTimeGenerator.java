@@ -29,7 +29,7 @@ public class DateTimeGenerator extends AbstractDateGenerator<Temporal> {
         if (type.equals(OffsetTime.class)) return getOffsetTime();
         if (type.equals(OffsetDateTime.class)) return getOffsetDateTime();
         if (type.equals(Instant.class)) return getInstant();
-        throw new UnsupportedOperationException("지원하지 않는 타입");
+        throw new UnsupportedOperationException("Unsupported type: " + type);
     }
 
     public LocalDate getLocalDate() {

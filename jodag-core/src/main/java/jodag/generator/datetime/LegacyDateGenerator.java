@@ -28,7 +28,7 @@ public class LegacyDateGenerator extends AbstractDateGenerator<Date> {
     public <T> T get(Class<?> type) {
         if (type.equals(java.util.Date.class)) return (T) getDate();
         if (type.equals(java.util.Calendar.class)) return (T) getCalendar();
-        throw new UnsupportedOperationException("지원하지 않는 타입");
+        throw new UnsupportedOperationException("Unsupported type: " + type);
     }
 
     public Date getDate() {

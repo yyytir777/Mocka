@@ -28,7 +28,7 @@ public class SqlDateGenerator extends AbstractDateGenerator<Date> {
         if (type.equals(java.sql.Time.class)) return (T) getTime();
         if (type.equals(java.sql.Timestamp.class)) return (T) getTimestamp();
 
-        throw new UnsupportedOperationException("지원하지 않는 타입");
+        throw new UnsupportedOperationException("Unsupported type: " + type);
     }
 
     public Date getDate() {

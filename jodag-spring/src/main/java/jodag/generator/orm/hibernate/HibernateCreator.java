@@ -4,6 +4,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jodag.annotation.FileSource;
 import jodag.annotation.ValueSource;
 import jodag.generator.*;
 import jodag.generator.orm.*;
@@ -49,7 +50,8 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
      */
     private final Integer ASSOCIATION_SIZE;
 
-    public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator fieldValueGenerator, ORMProperties ormProperties) {
+    public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator fieldValueGenerator, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
+        super(fileSourceCreator);
         this.hibernateLoader = hibernateLoader;
         this.fieldValueGenerator = fieldValueGenerator;
         this.ASSOCIATION_SIZE =  ormProperties.getAssociationSize();
@@ -77,12 +79,14 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
         GenerateType nextGenerateType = generateType.next();
 
         try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
+            T instance = initInstance(clazz);
 
             // iter Fields of the given class
             for(Field field : clazz.getDeclaredFields()) {
                 field.setAccessible(true);
                 Object value;
+
+                if(field.get(instance) != null) continue;
 
                 if(isAssociations(field)) {
                     if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE)) continue;
@@ -131,7 +135,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
         }
 
         try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
+            T instance = initInstance(clazz);
             caches.put(clazz.getSimpleName(), instance);
 
             for(Field field : clazz.getDeclaredFields()) {

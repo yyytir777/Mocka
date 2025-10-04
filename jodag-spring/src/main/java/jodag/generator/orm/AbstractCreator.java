@@ -1,12 +1,21 @@
 package jodag.generator.orm;
 
+import jodag.annotation.FileSource;
 import jodag.annotation.ValueSource;
 import jodag.exception.ValueSourceException;
+import jodag.generator.FileSourceCreator;
 import jodag.generator.factory.GeneratorRegistry;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class AbstractCreator {
+
+    private final FileSourceCreator fileSourceCreator;
+
+    public AbstractCreator(FileSourceCreator fileSourceCreator) {
+        this.fileSourceCreator = fileSourceCreator;
+    }
 
     /**
      * Handles field value generation for fields annotated with {@link ValueSource}.
@@ -59,4 +68,15 @@ public abstract class AbstractCreator {
         throw new ValueSourceException("Cannot resolve generator from ValueSource: " + valueSource);
     }
 
+    protected  <T> T initInstance(Class<T> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        T instance;
+        FileSource fileSource = clazz.getAnnotation(FileSource.class);
+        if(fileSource != null) {
+            instance = fileSourceCreator.createFromFileSource(clazz, fileSource);
+        } else {
+            instance = clazz.getDeclaredConstructor().newInstance();
+        }
+
+        return instance;
+    }
 }
