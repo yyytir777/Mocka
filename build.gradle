@@ -67,7 +67,7 @@ sonar {
     properties {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "yyytir777"
-        property "sonar.projectKey", "yyytir777_jodag"
+        property "sonar.projectKey", "yyytir777_entity-instantiator"
     }
 }
 
@@ -76,13 +76,13 @@ tasks.register('publishAllJavadocs') {
 
     doLast {
         copy {
-            from("$projectDir/jodag-core/build/docs/javadoc")
-            into("$rootDir/docs/jodag-core")
+            from("$projectDir/entity-instantiator-core/build/docs/javadoc")
+            into("$rootDir/docs/entity-instantiator-core")
         }
 
         copy {
-            from("$projectDir/jodag-spring/build/docs/javadoc")
-            into("$rootDir/docs/jodag-spring")
+            from("$projectDir/entity-instantiator-spring/build/docs/javadoc")
+            into("$rootDir/docs/entity-instantiator-spring")
         }
     }
 }

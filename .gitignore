@@ -43,6 +43,6 @@ bin/
 .DS_Store
 
 gradle.properties
-/jodag-test
+/entity-instantiator-test
 settings.gradle
 *.drawio
