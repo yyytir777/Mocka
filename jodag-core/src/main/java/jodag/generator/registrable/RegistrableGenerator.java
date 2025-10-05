@@ -1,6 +1,6 @@
 package jodag.generator.registrable;
 
-import jodag.PathResourceLoader;
+import jodag.file.PathResourceLoader;
 import jodag.generator.AbstractGenerator;
 
 import java.io.*;

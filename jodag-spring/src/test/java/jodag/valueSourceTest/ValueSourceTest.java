@@ -1,7 +1,7 @@
 package jodag.valueSourceTest;
 
 import jodag.JodagTestApplication;
-import jodag.PathResourceLoader;
+import jodag.file.PathResourceLoader;
 import jodag.entity.*;
 import jodag.exception.GeneratorException;
 import jodag.generator.factory.GeneratorRegistry;

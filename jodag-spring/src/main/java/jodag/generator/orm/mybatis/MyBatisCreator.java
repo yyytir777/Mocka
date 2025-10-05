@@ -1,13 +1,12 @@
 package jodag.generator.orm.mybatis;
 
 import jodag.annotation.ValueSource;
+import jodag.generator.FileSourceCreator;
 import jodag.generator.GenerateType;
 import jodag.generator.orm.*;
-import jodag.generator.orm.hibernate.HibernateFieldValueGenerator;
 import jodag.generator.orm.hibernate.HibernateLoader;
 import jodag.generator.orm.hibernate.VisitedPath;
 import jodag.generator.orm.hibernate.association.AssociationMatcherFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -49,7 +48,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     private final Integer ASSOCIATION_SIZE;
 
-    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
+    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
+        super(fileSourceCreator);
         this.myBatisLoader = myBatisLoader;
         this.fieldValueGenerator = fieldValueGenerator;
         this.myBatisMetadata = myBatisMetadata;
@@ -75,7 +75,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
         GenerateType nextGenerateType = generateType.next();
 
         try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
+            T instance = initInstance(clazz);
 
             List<PropertyField> fields = myBatisMetadata.getFields(clazz);
             // iter Fields of the given class
@@ -83,6 +83,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
                 field.getField().setAccessible(true);
                 Object value;
 
+                if(field.getField().get(instance) != null) continue;
                 if (field.isId()) continue;
 
                 Class<?> targetType = resolveFieldType(field.getField());
@@ -115,6 +116,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
         }
     }
 
+
     /**
      * Creates an entity instance with all associated entity. ({@code GenerateType.ALL})
      *
@@ -136,7 +138,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
         }
 
         try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
+            T instance = initInstance(clazz);
             caches.put(clazz.getSimpleName(), instance);
 
             // 클래스 순회
@@ -184,7 +186,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
             return instance;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
-        }    }
+        }
+    }
 
     /**
      * Adds a child entity to a parent's collection field.

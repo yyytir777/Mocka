@@ -1,7 +1,8 @@
-package jodag;
+package jodag.file;
 
 
 import jodag.exception.GeneratorException;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -51,5 +52,9 @@ public class PathResourceLoader {
         } catch (IOException ioe) {
             throw new GeneratorException("Failed to load resource " + path, ioe);
         }
+    }
+
+    public static String getExtension(String path) {
+        return FilenameUtils.getExtension(path);
     }
 }
