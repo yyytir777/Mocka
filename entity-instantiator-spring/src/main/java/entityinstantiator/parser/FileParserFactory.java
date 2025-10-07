@@ -1,4 +1,4 @@
-package entityinstantiator.file.parser;
+package entityinstantiator.parser;
 
 public final class FileParserFactory {
 

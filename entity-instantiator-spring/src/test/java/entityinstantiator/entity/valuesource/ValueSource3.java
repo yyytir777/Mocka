@@ -1,4 +1,4 @@
-package entityinstantiator.entity;
+package entityinstantiator.entity.valuesource;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

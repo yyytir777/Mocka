@@ -1,8 +1,8 @@
 package entityinstantiator.valueSourceTest;
 
 import entityinstantiator.EntityInstantiatorSpringTestApplication;
+import entityinstantiator.entity.valuesource.*;
 import entityinstantiator.file.PathResourceLoader;
-import entityinstantiator.entity.*;
 import entityinstantiator.exception.GeneratorException;
 import entityinstantiator.generator.factory.GeneratorRegistry;
 import entityinstantiator.generator.EntityGenerator;

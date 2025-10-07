@@ -1,16 +1,16 @@
-package entityinstantiator.entity;
+package entityinstantiator.entity.valuesource;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import entityinstantiator.annotation.ValueSource;
 
 @Entity
-public class ValueSource2 {
+public class ValueSource4 {
 
     @Id
     private Long id;
 
-    @ValueSource(path = "test.txt", type = String.class)
+    @ValueSource(path = "asd.txt", type = String.class)
     private String name;
 
     public String getName() {

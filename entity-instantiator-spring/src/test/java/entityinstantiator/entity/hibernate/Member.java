@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@FileSource(path = "file-source/test.xml")
 public class Member {
 
     @Id

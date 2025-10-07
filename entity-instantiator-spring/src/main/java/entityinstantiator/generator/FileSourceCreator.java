@@ -2,8 +2,8 @@ package entityinstantiator.generator;
 
 import entityinstantiator.file.PathResourceLoader;
 import entityinstantiator.annotation.FileSource;
-import entityinstantiator.file.parser.FileParser;
-import entityinstantiator.file.parser.FileParserFactory;
+import entityinstantiator.parser.FileParser;
+import entityinstantiator.parser.FileParserFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -41,12 +41,5 @@ public class FileSourceCreator {
 
         FileParser parser = FileParserFactory.of(extension);
         return parser.parse(inputStream, clazz);
-
-//        try {
-//
-//            return instance;
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
     }
 }

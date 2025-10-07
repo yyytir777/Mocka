@@ -14,7 +14,7 @@ import java.util.List;
  *
  * <p><b>Configuration Example (application.yaml):</b></p>
  * <pre>
- * jodag:
+ * entity-instantiator:
  *   orm:
  *     orm-type: [HIBERNATE, MYBATIS]  # List of ORM types to use
  *     association-size: 10             # Size of collection instances to generate
@@ -28,7 +28,7 @@ public class ORMProperties {
     private Integer associationSize = 5;
     private final MyBatis myBatis = new MyBatis();
 
-    public void setOrmTypes(List<ORMType> ormType) {
+    public void setOrmType(List<ORMType> ormType) {
         this.ormType = ormType;
     }
 

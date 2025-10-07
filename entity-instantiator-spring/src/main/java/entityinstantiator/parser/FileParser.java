@@ -1,4 +1,5 @@
-package entityinstantiator.file.parser;
+package entityinstantiator.parser;
+
 
 import java.io.InputStream;
 

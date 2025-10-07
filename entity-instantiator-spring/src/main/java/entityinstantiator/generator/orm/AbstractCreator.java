@@ -69,11 +69,12 @@ public abstract class AbstractCreator {
     }
 
     protected  <T> T initInstance(Class<T> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        T instance;
+        T instance = null;
         FileSource fileSource = clazz.getAnnotation(FileSource.class);
         if(fileSource != null) {
             instance = fileSourceCreator.createFromFileSource(clazz, fileSource);
-        } else {
+        }
+        if(instance == null) {
             instance = clazz.getDeclaredConstructor().newInstance();
         }
 
