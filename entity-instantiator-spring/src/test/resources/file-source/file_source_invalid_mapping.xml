@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <asdf>
+        <name>Lim Wonjae</name>
+        <email>lim@example.com</email>
+        <temp>temp1</temp>
+    </asdf>
+    <asdf>
+        <name>John Doe</name>
+        <email>john@example.com</email>
+        <temp>temp2</temp>
+    </asdf>
+    <asdf>
+        <name>Jane Smith</name>
+        <email>jane@example.com</email>
+        <temp>temp3</temp>
+    </asdf>
+</entityInstantiator>
