@@ -22,6 +22,6 @@ public class BooleanGeneratorTest {
     @DisplayName("return Boolean value")
     void get_boolean() {
         Boolean bool = booleanGenerator.get();
-        Assertions.assertThat(bool).isIn(Boolean.TRUE, Boolean.FALSE);
+        Assertions.assertThat(bool).isInstanceOf(Boolean.class);
     }
 }

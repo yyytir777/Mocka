@@ -15,6 +15,7 @@ public class BooleanGenerator extends AbstractGenerator<Boolean> {
         return INSTANCE;
     }
 
+    /** returns a random boolean value. */
     @Override
     public Boolean get() {
         return randomProvider.getBoolean();

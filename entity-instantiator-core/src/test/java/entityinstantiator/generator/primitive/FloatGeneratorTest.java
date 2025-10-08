@@ -25,7 +25,7 @@ public class FloatGeneratorTest {
     @DisplayName("returns Float value")
     void get_float() {
         Float f = floatGenerator.get();
-        assertThat(f).isBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+        assertThat(f).isInstanceOf(Float.class);
     }
 
     @Test
@@ -33,21 +33,21 @@ public class FloatGeneratorTest {
     void get_float_in_range() {
         float min = 0, max = 30;
         Float f = floatGenerator.getFloat(min, max);
-        assertThat(f).isBetween(min, max);
+        assertThat(f).isInstanceOf(Float.class).isBetween(min, max);
     }
 
     @Test
     @DisplayName("returns positive Float value")
     void get_positive_float() {
         Float f = floatGenerator.getPositiveFloat();
-        assertThat(f).isPositive();
+        assertThat(f).isInstanceOf(Float.class).isPositive();
     }
 
     @Test
     @DisplayName("returns negative Float value")
     void get_negative_float() {
         Float f = floatGenerator.getNegativeFloat();
-        assertThat(f).isNegative();
+        assertThat(f).isInstanceOf(Float.class).isNegative();
     }
 
     @Test
@@ -56,8 +56,7 @@ public class FloatGeneratorTest {
         List<Float> list = List.of(1F, 2F, 3F, 4F, 5F, 6F, 7F, 8F, 9F, 10F);
         Float f = floatGenerator.pickFrom(list);
 
-        assertThat(f).isIn(list);
-        assertThat(f).isBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+        assertThat(f).isInstanceOf(Float.class).isIn(list);
     }
 
     @Test
@@ -66,7 +65,6 @@ public class FloatGeneratorTest {
         Float[] floats = {1F, 2F, 3F, 4F, 5F, 6F, 7F, 8F, 9F, 10F};
         Float f = floatGenerator.pickFrom(floats);
 
-        assertThat(f).isIn(List.of(floats));
-        assertThat(f).isBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+        assertThat(f).isInstanceOf(Float.class).isIn(List.of(floats));
     }
 }

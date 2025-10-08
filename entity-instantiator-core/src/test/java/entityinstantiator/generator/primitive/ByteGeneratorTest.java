@@ -25,7 +25,7 @@ public class ByteGeneratorTest {
     @DisplayName("returns Byte value")
     void get_byte() {
         Byte b = byteGenerator.get();
-        assertThat(b).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isInstanceOf(Byte.class);
     }
 
     @Test
@@ -33,35 +33,35 @@ public class ByteGeneratorTest {
     void get_byte_in_range() {
         byte min = 0, max = 30;
         Byte b = byteGenerator.getByte(min, max);
-        assertThat(b).isBetween(min, max);
+        assertThat(b).isInstanceOf(Byte.class).isBetween(min, max);
     }
 
     @Test
     @DisplayName("returns positive Byte value")
     void get_positive_byte() {
         Byte b = byteGenerator.getPositiveByte();
-        assertThat(b).isPositive();
+        assertThat(b).isInstanceOf(Byte.class).isPositive();
     }
 
     @Test
     @DisplayName("returns negative Byte value")
     void get_negative_byte() {
         Byte b = byteGenerator.getNegativeByte();
-        assertThat(b).isNegative();
+        assertThat(b).isInstanceOf(Byte.class).isNegative();
     }
 
     @Test
     @DisplayName("returns even Byte value")
     void get_even_byte() {
         Byte b = byteGenerator.getEvenByte();
-        assertThat(b).isEven();
+        assertThat(b).isInstanceOf(Byte.class).isEven();
     }
 
     @Test
     @DisplayName("returns odd Byte value")
     void get_odd_byte() {
         Byte b = byteGenerator.getOddByte();
-        assertThat(b).isOdd();
+        assertThat(b).isInstanceOf(Byte.class).isOdd();
     }
 
     @Test
@@ -70,7 +70,7 @@ public class ByteGeneratorTest {
         List<Byte> list = List.of((byte) 1, (byte) 2, (byte) 3);
         Byte b = byteGenerator.pickFrom(list);
 
-        assertThat(b).isIn(list).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isIn(list).isInstanceOf(Byte.class);
     }
 
     @Test
@@ -79,6 +79,6 @@ public class ByteGeneratorTest {
         Byte[] bytes = {(byte) 1, (byte) 2, (byte) 3};
         Byte b = byteGenerator.pickFrom(bytes);
 
-        assertThat(b).isIn(List.of(bytes)).isBetween(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        assertThat(b).isIn(List.of(bytes)).isInstanceOf(Byte.class);
     }
 }

@@ -2,6 +2,7 @@ package entityinstantiator.generator.regex;
 
 
 import entityinstantiator.generator.primitive.CharacterGenerator;
+import entityinstantiator.generator.primitive.StringGenerator;
 import entityinstantiator.random.RandomProvider;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
 
     private final RandomProvider random;
     private final CharacterGenerator characterGenerator;
+    private final StringGenerator stringGenerator;
     private static final String DIGITS = "0123456789";
     private static final String WORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
     private static final String WHITESPACES = " \t\n\r\f";
@@ -42,6 +44,7 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
     public RegexStringVisitor(RandomProvider random) {
         this.random = random;
         this.characterGenerator = CharacterGenerator.getInstance();
+        this.stringGenerator = StringGenerator.getInstance();
     }
 
     @Override
@@ -217,7 +220,7 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
         if (ctx.charRange() != null) {
             char start = ctx.charRange().LITERAL(0).getText().charAt(0);
             char end = ctx.charRange().LITERAL(1).getText().charAt(0);
-            return characterGenerator.getAllCharacter(start, end);
+            return stringGenerator.getAllCharacter(start, end);
         } else if (ctx.LITERAL() != null) {
             return ctx.LITERAL().getText();
         } else if (ctx.ESCAPE() != null) {

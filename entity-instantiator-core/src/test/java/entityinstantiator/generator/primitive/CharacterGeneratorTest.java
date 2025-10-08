@@ -60,7 +60,7 @@ public class CharacterGeneratorTest {
     }
 
     @Test
-    @DisplayName("return value of english character")
+    @DisplayName("returns a character for each locale and range")
     void get_english_character() {
         Character c = characterGenerator.getCharacter(Locale.ENGLISH);
         assertThat(Character.isAlphabetic(c)).isTrue();
@@ -69,7 +69,7 @@ public class CharacterGeneratorTest {
         assertThat(c1).isBetween('가', '힣');
 
         Character c2 = characterGenerator.getCharacter((char) 0x0000, (char) 0xFFFF);
-        assertThat(c2).isBetween((char) 0x0000, (char) 0xFFFF);
+        assertThat(c2).isInstanceOf(Character.class).isBetween((char) 0x0000, (char) 0xFFFF);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class CharacterGeneratorTest {
     void get_character_value_in_string() {
         String input = "characterGenerator";
         Character character = characterGenerator.getCharacter(input);
-        assertThat(character).isIn(input.chars().mapToObj(c -> (char) c).toList());
+        assertThat(character).isInstanceOf(Character.class).isIn(input.chars().mapToObj(c -> (char) c).toList());
     }
 
     @Test
@@ -87,16 +87,6 @@ public class CharacterGeneratorTest {
         Set<Character> set = input.chars().mapToObj(c -> (char) c).collect(Collectors.toSet());
         Character character = characterGenerator.getCharacterNotIn(set);
         System.out.println("character = " + character);
-        assertThat(character).isNotIn(set);
-    }
-
-    @Test
-    @DisplayName("returns String containing characters from given range")
-    void get_string_containing_characters_from_given_range() {
-        char start = 'a', end = 'z';
-        String characters = characterGenerator.getAllCharacter(start, end);
-        for(char c = start ; c <= end; c++) {
-            assertThat(characters.contains(String.valueOf(c))).isTrue();
-        }
+        assertThat(character).isInstanceOf(Character.class).isNotIn(set);
     }
 }

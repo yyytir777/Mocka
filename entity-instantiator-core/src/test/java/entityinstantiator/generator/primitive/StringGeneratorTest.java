@@ -1,7 +1,6 @@
-package entityinstantiator.generator;
+package entityinstantiator.generator.primitive;
 
 import entityinstantiator.generator.factory.GeneratorFactory;
-import entityinstantiator.generator.primitive.StringGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +57,15 @@ class StringGeneratorTest {
         StringGenerator stringGenerator = generatorFactory.asString();
         String string = stringGenerator.get(100);
         assertThat(string.length()).isLessThanOrEqualTo(100);
+    }
+
+    @Test
+    @DisplayName("returns String containing characters from given range")
+    void get_string_containing_characters_from_given_range() {
+        char start = 'a', end = 'z';
+        String characters = stringGenerator.getAllCharacter(start, end);
+        for(char c = start ; c <= end; c++) {
+            assertThat(characters.contains(String.valueOf(c))).isTrue();
+        }
     }
 }

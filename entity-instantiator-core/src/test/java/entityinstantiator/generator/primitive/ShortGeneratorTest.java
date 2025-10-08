@@ -2,6 +2,7 @@ package entityinstantiator.generator.primitive;
 
 import entityinstantiator.generator.factory.GeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class ShortGeneratorTest {
     @DisplayName("returns Short value")
     void get_short() {
         Short s = generatorFactory.asShort().get();
-        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
+        assertThat(s).isInstanceOf(Short.class);
     }
 
     @Test
@@ -33,35 +34,35 @@ public class ShortGeneratorTest {
     void get_short_in_range() {
         short min = 0, max = 30;
         Short s = generatorFactory.asShort().getShort(min, max);
-        assertThat(s).isBetween(min, max);
+        assertThat(s).isInstanceOf(Short.class).isBetween(min, max);
     }
 
     @Test
     @DisplayName("returns positive Short value")
     void get_positive_short() {
         Short s = generatorFactory.asShort().getPositiveShort();
-        assertThat(s).isPositive();
+        assertThat(s).isInstanceOf(Short.class).isPositive();
     }
 
     @Test
     @DisplayName("returns negative Short value")
     void get_negative_short() {
         Short s = generatorFactory.asShort().getNegativeShort();
-        assertThat(s).isNegative();
+        assertThat(s).isInstanceOf(Short.class).isNegative();
     }
 
     @Test
     @DisplayName("returns even Short value")
     void get_even_short() {
         Short s = generatorFactory.asShort().getEvenShort();
-        assertThat(s).isEven();
+        assertThat(s).isInstanceOf(Short.class).isEven();
     }
 
     @Test
     @DisplayName("returns odd Short value")
     void get_odd_short() {
         Short s = generatorFactory.asShort().getOddShort();
-        assertThat(s).isOdd();
+        assertThat(s).isInstanceOf(Short.class).isOdd();
     }
 
     @Test
@@ -70,8 +71,7 @@ public class ShortGeneratorTest {
         List<Short> list = List.of((short) 1, (short) 2, (short) 3);
         Short s = generatorFactory.asShort().pickFrom(list);
 
-        assertThat(s).isIn(list);
-        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
+        assertThat(s).isInstanceOf(Short.class).isIn(list);
     }
 
     @Test
@@ -80,7 +80,6 @@ public class ShortGeneratorTest {
         Short[] shorts = {(short) 1, (short) 2, (short) 3};
         Short s = generatorFactory.asShort().pickFrom(shorts);
 
-        assertThat(s).isIn(List.of(shorts));
-        assertThat(s).isBetween(Short.MIN_VALUE, Short.MAX_VALUE);
+        assertThat(s).isInstanceOf(Short.class).isIn(List.of(shorts));
     }
 }

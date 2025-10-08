@@ -47,4 +47,13 @@ public class StringGenerator extends AbstractGenerator<String> {
         }
         return sb.toString();
     }
+
+    /** returns a string containing all characters in the Unicode range [a,b] */
+    public String getAllCharacter(char a, char b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = a; i <= b; i++) {
+            sb.append((char) i);
+        }
+        return sb.toString();
+    }
 }

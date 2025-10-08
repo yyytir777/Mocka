@@ -25,7 +25,7 @@ public class IntegerGeneratorTest {
     @DisplayName("returns Integer value")
     void get_integer() {
         Integer integer = integerGenerator.get();
-        assertThat(integer).isBetween(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        assertThat(integer).isInstanceOf(Integer.class);
     }
 
     @Test
@@ -33,35 +33,35 @@ public class IntegerGeneratorTest {
     void get_integer_in_range() {
         int min = 0, max = 30;
         Integer integer = integerGenerator.getInteger(min, max);
-        assertThat(integer).isBetween(min, max);
+        assertThat(integer).isInstanceOf(Integer.class).isBetween(min, max);
     }
 
     @Test
     @DisplayName("returns positive Integer value")
     void get_positive_integer() {
         Integer integer = integerGenerator.getPositiveInteger();
-        assertThat(integer).isPositive();
+        assertThat(integer).isInstanceOf(Integer.class).isPositive();
     }
 
     @Test
     @DisplayName("returns negative Integer value")
     void get_negative_integer() {
         Integer integer = integerGenerator.getNegativeInteger();
-        assertThat(integer).isNegative();
+        assertThat(integer).isInstanceOf(Integer.class).isNegative();
     }
 
     @Test
     @DisplayName("returns even Integer value")
     void get_even_integer() {
         Integer integer = integerGenerator.getEvenInteger();
-        assertThat(integer).isEven();
+        assertThat(integer).isInstanceOf(Integer.class).isEven();
     }
 
     @Test
     @DisplayName("returns odd Integer value")
     void get_odd_integer() {
         Integer integer = integerGenerator.getOddInteger();
-        assertThat(integer).isOdd();
+        assertThat(integer).isInstanceOf(Integer.class).isOdd();
     }
 
     @Test
@@ -70,8 +70,7 @@ public class IntegerGeneratorTest {
         List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         Integer integer = integerGenerator.pickFrom(list);
 
-        assertThat(integer).isIn(list);
-        assertThat(integer).isBetween(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        assertThat(integer).isInstanceOf(Integer.class).isIn(list);
     }
 
     @Test
@@ -80,7 +79,6 @@ public class IntegerGeneratorTest {
         Integer[] integers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Integer integer = integerGenerator.pickFrom(integers);
 
-        assertThat(integer).isIn(List.of(integers));
-        assertThat(integer).isBetween(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        assertThat(integer).isInstanceOf(Integer.class).isIn(List.of(integers));
     }
 }

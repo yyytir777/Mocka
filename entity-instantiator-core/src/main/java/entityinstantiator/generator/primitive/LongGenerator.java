@@ -17,49 +17,57 @@ public class LongGenerator extends AbstractGenerator<Long> {
         return INSTANCE;
     }
 
+    /** returns a random long value. */
     @Override
     public Long get() {
         return getLong();
     }
 
+    /** returns a random long within the full long range [Long.MIN_VALUE, Long.MAX_VALUE]. */
     public Long getLong() {
         return getLong(Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
+    /** returns a random long between the given min and max values [min, max]. */
     public Long getLong(Long min, Long max) {
         return randomProvider.getLong(min, max);
     }
 
-    public Long getNextLong(Long l) {
-        return randomProvider.getLong(l);
+    /** returns a random long between [0, n]. */
+    public Long getNextLong(Long n) {
+        return randomProvider.getLong(0, n);
     }
 
+    /** returns a random even long within the valid range, avoiding overflow at Long.MAX_VALUE. */
     public Long getEvenLong() {
         long value = getLong();
         if(value == Long.MAX_VALUE) value--;
         return (value % 2 == 0) ? value : value + 1;
     }
 
+    /** returns a random odd long within the valid range, avoiding overflow at Long.MAX_VALUE. */
     public Long getOddLong() {
         long value = getLong();
         if(value == Long.MAX_VALUE) value--;
         return (value % 2 != 0) ? value : value + 1;
     }
 
+    /** returns a random positive long (1L, Long.MAX_VALUE]. */
     public Long getPositiveLong() {
-        return getLong(0L, Long.MAX_VALUE);
+        return getLong(1L, Long.MAX_VALUE);
     }
 
-
+    /** returns a random negative long [Long.MIN_VALUE, -1L). */
     public Long getNegativeLong() {
-        return getLong(Long.MIN_VALUE, 0L);
+        return getLong(Long.MIN_VALUE, -1L);
     }
 
+    /** picks a random long from the given list. */
     public Long pickFrom(List<Long> list) {
         return list.get(randomProvider.getNextIdx(list.size()));
     }
 
-
+    /** picks a random long from the given array. */
     public Long pickFrom(Long[] longs) {
         return longs[randomProvider.getNextIdx(longs.length)];
     }

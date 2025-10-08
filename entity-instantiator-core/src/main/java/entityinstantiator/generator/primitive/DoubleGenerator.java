@@ -17,31 +17,43 @@ public class DoubleGenerator extends AbstractGenerator<Double> {
         return INSTANCE;
     }
 
+    /** returns a random double value */
     @Override
     public Double get() {
         return getDouble();
     }
 
+    /** returns a random double within the full double range [-Double.MAX_VALUE, Double.MAX_VALUE]. */
     public Double getDouble() {
-        return getDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+        return getDouble(-Double.MAX_VALUE, Double.MAX_VALUE);
     }
 
+    /** returns a random double between the given min and max values [min, max]. */
     public Double getDouble(double min, double max) {
+        if (Double.isInfinite(max - min)) {
+            return randomProvider.getBoolean()
+                    ? randomProvider.getDouble(Double.MIN_VALUE, max)
+                    : randomProvider.getDouble(min,-Double.MIN_VALUE);
+        }
         return randomProvider.getDouble(min, max);
     }
 
+    /** returns a random positive double (Double.MIN_VALUE, Double.MAX_VALUE]. */
     public Double getPositiveDouble() {
-        return getDouble(0, Double.MAX_VALUE);
+        return getDouble(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
+    /** returns a random negative double [-Double.MAX_VALUE, -Double.MIN_VALUE). */
     public Double getNegativeDouble() {
-        return getDouble(-Double.MAX_VALUE, 0);
+        return getDouble(-Double.MAX_VALUE, -Double.MIN_VALUE);
     }
 
+    /** picks a random double from the given list. */
     public Double pickFrom(List<Double> list) {
         return list.get(randomProvider.getNextIdx(list.size()));
     }
 
+    /** picks a random double from the given array. */
     public Double pickFrom(Double[] doubles) {
         return doubles[randomProvider.getNextIdx(doubles.length)];
     }
