@@ -1,4 +1,4 @@
-package entityinstantiator.entity.filesource.xml;
+package entityinstantiator.entity.filesource.csv;
 
 
 import entityinstantiator.annotation.FileSource;
@@ -8,8 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source_invalid_mapping.xml")
-public class FileSourceXmlInvalidMappingFailEntity {
+@FileSource(path = "file-source/file_source_invalid_path.csv")
+public class FileSourceCsvInvalidPathFailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,9 @@ public class FileSourceXmlInvalidMappingFailEntity {
     private String email;
     private String temp;
 
-    public FileSourceXmlInvalidMappingFailEntity() {}
+    public FileSourceCsvInvalidPathFailEntity() {}
 
-    public FileSourceXmlInvalidMappingFailEntity(Long id, String name, String email, String temp) {
+    public FileSourceCsvInvalidPathFailEntity(Long id, String name, String email, String temp) {
         this.id = id;
         this.name = name;
         this.email = email;

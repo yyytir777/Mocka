@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
-@DisplayName("FileSource Test Code")
+@DisplayName("FileSource JSON Test Code")
 @SpringBootTest(classes = EntityInstantiatorSpringTestApplication.class)
 public class FileSourceJsonTest {
 
