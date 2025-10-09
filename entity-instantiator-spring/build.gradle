@@ -65,7 +65,7 @@ dependencies {
     testImplementation 'com.h2database:h2'
 
     // xml
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2' // EDL 1.0
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.4' // EDL 1.0
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.2' // 	EDL 1.0
 
     // json
