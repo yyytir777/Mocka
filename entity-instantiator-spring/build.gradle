@@ -72,5 +72,5 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2' // Apache 2.0
 
     // csv
-    implementation 'org.apache.commons:commons-csv:1.11.0' // Apache 2.0
+    implementation 'org.apache.commons:commons-csv:1.14.1' // Apache 2.0
 }
