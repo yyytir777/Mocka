@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <fileSourceXmlEntity>
+        <name>Lim Wonjae</name>
+        <email>lim@example.com</email>
+        <temp>temp1</temp>
+    </fileSourceXmlEntity>
+    <fileSourceXmlEntity>
+        <name>John Doe</name>
+        <email>john@example.com</email>
+        <temp>temp2</temp>
+    </fileSourceXmlEntity>
+    <fileSourceXmlEntity>
+        <name>Jane Smith</name>
+        <email>jane@example.com</email>
+        <temp>temp3</temp>
+    </fileSourceXmlEntity>

@@ -1,5 +1,4 @@
-rootProject.name = 'jodag'
+rootProject.name = 'entity-instantiator'
 
-include 'jodag-core'
-include 'jodag-spring'
-//include 'jodag-test'
+include 'entity-instantiator-core'
+include 'entity-instantiator-spring'

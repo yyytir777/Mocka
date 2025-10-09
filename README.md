@@ -1,4 +1,4 @@
-Jodag
+Entity Instantiator
 ===
 [![Test Jodag Library](https://github.com/yyytir777/jodag/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/jodag/actions/workflows/test.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_jodag&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_jodag)
@@ -7,8 +7,8 @@ Jodag
 You can register your own **text-based datasets** using line-separated files (CRLF format), allowing you to freely define and use any type of data you want. <br>
 - It consists of two modules:
 
-> **jodag-core**: a lightweight, pure Java library with no dependencies.<br> 
-> **jodag-spring**: an extension for generating data based on Spring JPA Entity.
+> **entityinstantiator-core**: a lightweight, pure Java library with no dependencies.<br> 
+> **entityinstantiator-spring**: an extension for generating data based on Spring JPA Entity.
 
 
 Jodag-core
@@ -36,8 +36,8 @@ How To Use
 
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:jodag-core:0.0.3'
-    implementation 'io.github.yyytir777:jodag-spring:0.0.3'
+    implementation 'io.github.yyytir777:entityinstantiator-core:0.0.3'
+    implementation 'io.github.yyytir777:entityinstantiator-spring:0.0.3'
 }
 ```
 
@@ -47,12 +47,12 @@ dependencies {
 <dependencies>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>jodag-core</artifactId>
+        <artifactId>entityinstantiator-core</artifactId>
         <version>0.0.3</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>jodag-spring</artifactId>
+        <artifactId>entityinstantiator-spring</artifactId>
         <version>0.0.3</version>
     </dependency>
 </dependencies>
