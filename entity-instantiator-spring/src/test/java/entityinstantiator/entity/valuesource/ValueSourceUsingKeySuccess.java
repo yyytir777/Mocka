@@ -5,12 +5,12 @@ import jakarta.persistence.Id;
 import entityinstantiator.annotation.ValueSource;
 
 @Entity
-public class ValueSource4 {
+public class ValueSourceUsingKeySuccess {
 
     @Id
     private Long id;
 
-    @ValueSource(path = "asd.txt", type = String.class)
+    @ValueSource(path = "test.txt", type = String.class)
     private String name;
 
     public String getName() {

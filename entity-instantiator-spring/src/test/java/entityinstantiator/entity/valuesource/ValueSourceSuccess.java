@@ -5,28 +5,28 @@ import jakarta.persistence.Id;
 import entityinstantiator.annotation.ValueSource;
 
 @Entity
-public class ValueSource5 {
+public class ValueSourceSuccess {
     @Id
     private Long id;
 
-    @ValueSource(generatorKey = "name")
+    @ValueSource(generatorKey = "test")
     private String name;
 
-    @ValueSource(generatorKey = "email")
-    private String email;
+    @ValueSource(generatorKey = "test1")
+    private String description;
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
-        return "ValueSource5{" +
-                "email='" + email + '\'' +
+        return "ValueSourceEntity{" +
+                "description='" + description + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }

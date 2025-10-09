@@ -5,12 +5,12 @@ import jakarta.persistence.Id;
 import entityinstantiator.annotation.ValueSource;
 
 @Entity
-public class ValueSource3 {
+public class ValueSourceInvalidMatchFail {
 
     @Id
     private Long id;
 
-    @ValueSource(path = "test.txt", type = String.class, generatorKey = "test1")
+    @ValueSource(generatorKey = "invalid_match.txt")
     private String name;
 
     public String getName() {
