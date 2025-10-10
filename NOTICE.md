@@ -36,3 +36,9 @@ This project includes software from the following open source projects:
   Licensed under the BSD 3-Clause License
   https://www.antlr.org/
   Note: This project uses ANTLR4 to generate source code from grammar files (.g4).
+
+
+- Entity Relationship Diagram Template by [Jee Jung]
+  Licensed under CC BY 4.0
+  https://creativecommons.org/licenses/by/4.0/
+  Note: This project uses the **Entity Relationship Diagram Template** to create ERD images for documentation purposes.
