@@ -33,9 +33,12 @@ public class CsvFileParser implements FileParser {
                     .setSkipHeaderRecord(true)
                     .setIgnoreHeaderCase(true)
                     .setTrim(true)
-                    .build();
+                    .get();
 
-            CSVParser parser = new CSVParser(reader, format);
+            CSVParser parser = CSVParser.builder()
+                    .setReader(reader)
+                    .setFormat(format).get();
+
             List<T> list = new ArrayList<>();
             for (CSVRecord record : parser) {
                 T instance = clazz.getDeclaredConstructor().newInstance();

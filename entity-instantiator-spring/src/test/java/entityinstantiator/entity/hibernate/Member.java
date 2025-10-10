@@ -1,7 +1,6 @@
 package entityinstantiator.entity.hibernate;
 
 import jakarta.persistence.*;
-import entityinstantiator.annotation.FileSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

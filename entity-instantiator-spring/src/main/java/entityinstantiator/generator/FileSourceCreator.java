@@ -28,11 +28,6 @@ public class FileSourceCreator {
      * @param <T> the type of entity to return
      * @return a new instance of {@code clazz} populated with data from the file
      */
-    /*
-    1. fileSource에서 파일 get
-    2. 파일 형식에 따라 엔티티 인스턴스 생성(같은 이름의 필드에 이름 삽입)
-    3. 이 과정에서 파싱에러 / 필드 이름 에러 등 -> 런타임예외로 처리
-     */
     public <T> T createFromFileSource(Class<T> clazz, FileSource fileSource) {
 
         String stringPath = fileSource.path();

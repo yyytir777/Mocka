@@ -1,10 +1,12 @@
 package entityinstantiator.generator.orm;
 
 import entityinstantiator.annotation.FileSource;
+import entityinstantiator.annotation.RegexSource;
 import entityinstantiator.annotation.ValueSource;
 import entityinstantiator.exception.ValueSourceException;
 import entityinstantiator.generator.FileSourceCreator;
 import entityinstantiator.generator.factory.GeneratorRegistry;
+import entityinstantiator.generator.regex.RegexGenerator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class AbstractCreator {
 
     private final FileSourceCreator fileSourceCreator;
+    private final RegexGenerator regexGenerator = RegexGenerator.getInstance();
 
     public AbstractCreator(FileSourceCreator fileSourceCreator) {
         this.fileSourceCreator = fileSourceCreator;
@@ -67,6 +70,13 @@ public abstract class AbstractCreator {
 
         throw new ValueSourceException("Cannot resolve generator from ValueSource: " + valueSource);
     }
+
+    protected  String handleRegexSource(Field field) {
+        RegexSource regexSource = field.getAnnotation(RegexSource.class);
+        String pattern = regexSource.pattern();
+        return regexGenerator.get(pattern);
+    }
+
 
     protected  <T> T initInstance(Class<T> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         T instance = null;
