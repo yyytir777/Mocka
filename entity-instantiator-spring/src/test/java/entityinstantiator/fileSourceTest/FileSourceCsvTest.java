@@ -1,10 +1,12 @@
 package entityinstantiator.fileSourceTest;
 
 import entityinstantiator.EntityInstantiatorSpringTestApplication;
+import entityinstantiator.entity.filesource.csv.FileSourceCsvAllTypeEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEmptyFailEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvInvalidPathFailEntity;
 import entityinstantiator.entity.filesource.json.FileSourceJsonInvalidPathFailEntity;
+import entityinstantiator.entity.filesource.xml.FileSourceXmlAllTypeEntity;
 import entityinstantiator.generator.EntityGenerator;
 import entityinstantiator.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +32,15 @@ public class FileSourceCsvTest {
         FileSourceCsvEntity fileSourceCsvEntity = generator.get();
         System.out.println("fileSourceCsvEntity = " + fileSourceCsvEntity);
         assertThat(fileSourceCsvEntity).isNotNull().isInstanceOf(FileSourceCsvEntity.class);
+    }
+
+    @Test
+    @DisplayName("supports variant type fields in file_source_all_type.csv")
+    public void supports_variant_type_fields_in_file_source_all_type() {
+        EntityGenerator<FileSourceCsvAllTypeEntity> generator = springGeneratorFactory.getGenerator(FileSourceCsvAllTypeEntity.class);
+        FileSourceCsvAllTypeEntity fileSourceCsvAllTypeEntity = generator.get();
+        System.out.println("fileSourceCsvAllTypeEntity = " + fileSourceCsvAllTypeEntity);
+        assertThat(fileSourceCsvAllTypeEntity).isNotNull().isInstanceOf(FileSourceCsvAllTypeEntity.class);
     }
 
     @Test

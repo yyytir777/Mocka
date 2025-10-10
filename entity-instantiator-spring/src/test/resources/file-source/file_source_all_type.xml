@@ -20,7 +20,7 @@
         <sqlDate>2025-10-08</sqlDate>
         <timestamp>2025-10-08 13:45:30</timestamp>
 
-        <byteArray>aGVsbG8=</byteArray>
+        <byteArray>abcdefg</byteArray>
         <charArray>hello</charArray>
         <type>ADMIN</type>
     </member>

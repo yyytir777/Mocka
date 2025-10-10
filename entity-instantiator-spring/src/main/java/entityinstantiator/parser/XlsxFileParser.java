@@ -25,16 +25,37 @@ public class XlsxFileParser implements FileParser {
         try {
             Workbook workbook = WorkbookFactory.create(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = sheet.iterator();
 
-            if(!rowIterator.hasNext())
+
+            // 시트가 없거나, 행이 하나도 없는 경우 → 헤더 없음
+            if (sheet == null || sheet.getPhysicalNumberOfRows() == 0) {
                 throw new RuntimeException("Empty XLSX file: no header found.");
+            }
 
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (!rowIterator.hasNext()) {
+                throw new RuntimeException("Empty XLSX file: no header found.");
+            }
+
+            rowIterator = sheet.iterator();
             List<String> headers = getHeader(rowIterator);
-            List<T> list = getRecord(rowIterator, clazz, headers);
+            if (headers.isEmpty()) {
+                throw new RuntimeException("Empty XLSX file: header row is blank.");
+            }
 
-            if (list.isEmpty())
-                throw new RuntimeException("Empty XLSX content: no data rows found.");
+            if (!rowIterator.hasNext()) {
+                throw new RuntimeException("Empty XLSX file: no data found.");
+            }
+
+            Row row = rowIterator.next();
+            if(row.getFirstCellNum() == -1) {
+                throw new RuntimeException("Empty XLSX file: no data found.");
+            }
+
+            List<T> list = getRecord(rowIterator, clazz, headers);
+            if (list.isEmpty()) {
+                throw new RuntimeException("Empty XLSX file: no valid records found.");
+            }
 
             return list.get(randomProvider.getNextIdx(list.size()));
         } catch (IOException | InvocationTargetException | NoSuchMethodException | InstantiationException |
@@ -58,6 +79,7 @@ public class XlsxFileParser implements FileParser {
 
         while(rowIterator.hasNext()) {
             Row row = rowIterator.next();
+            if(row.getFirstCellNum() == -1) break;
             T instance = clazz.getDeclaredConstructor().newInstance();
 
             Map<String, Field> fieldMap = new HashMap<>();

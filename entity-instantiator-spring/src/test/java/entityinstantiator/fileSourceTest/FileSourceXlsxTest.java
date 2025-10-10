@@ -4,6 +4,8 @@ import entityinstantiator.EntityInstantiatorSpringTestApplication;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEmptyFailEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvInvalidPathFailEntity;
+import entityinstantiator.entity.filesource.xlsx.FileSourceXlsxAllTypeEntity;
+import entityinstantiator.entity.filesource.xlsx.FileSourceXlsxEmptyFailEntity;
 import entityinstantiator.entity.filesource.xlsx.FileSourceXlsxEntity;
 import entityinstantiator.entity.hibernate.Member;
 import entityinstantiator.generator.EntityGenerator;
@@ -26,7 +28,7 @@ public class FileSourceXlsxTest {
 
     @Test
     @DisplayName("generates an instance by loading data from an Xlsx file")
-    public void create_instance_by_loading_data_from_csv() {
+    public void create_instance_by_loading_data_from_xlsx() {
         EntityGenerator<FileSourceXlsxEntity> generator = springGeneratorFactory.getGenerator(FileSourceXlsxEntity.class);
         FileSourceXlsxEntity fileSourceXlsxEntity = generator.get();
         System.out.println("fileSourceXlsxEntity = " + fileSourceXlsxEntity);
@@ -34,25 +36,19 @@ public class FileSourceXlsxTest {
     }
 
     @Test
-    void test() {
-        EntityGenerator<Member> generator = springGeneratorFactory.getGenerator(Member.class);
-        Member member = generator.get();
-        System.out.println("member = " + member);
+    @DisplayName("supports variant type fields in file_source_all_type.xlsx")
+    public void supports_variant_type_fields_in_file_source_all_type() {
+        EntityGenerator<FileSourceXlsxAllTypeEntity> generator = springGeneratorFactory.getGenerator(FileSourceXlsxAllTypeEntity.class);
+        FileSourceXlsxAllTypeEntity fileSourceXlsxAllTypeEntity = generator.get();
+        System.out.println("fileSourceXlsxAllTypeEntity = " + fileSourceXlsxAllTypeEntity);
+        assertThat(fileSourceXlsxAllTypeEntity).isNotNull().isInstanceOf(FileSourceXlsxAllTypeEntity.class);
     }
 
-//    @Test
-//    @DisplayName("throws RuntimeException when creating an instance by loading data from empty CSV file")
-//    public void throw_exception_when_loading_data_from_empty_csv() {
-//        EntityGenerator<FileSourceCsvEmptyFailEntity> generator = springGeneratorFactory.getGenerator(FileSourceCsvEmptyFailEntity.class);
-//        assertThatThrownBy(generator::get)
-//                .isInstanceOf(RuntimeException.class);
-//    }
-//
-//    @Test
-//    @DisplayName("throws RuntimeException when creating an instance by loading data from invalid path CSV file")
-//    public void throw_exception_when_loading_data_from_invalid_path_csv() {
-//        EntityGenerator<FileSourceCsvInvalidPathFailEntity> generator = springGeneratorFactory.getGenerator(FileSourceCsvInvalidPathFailEntity.class);
-//        assertThatThrownBy(generator::get)
-//                .isInstanceOf(RuntimeException.class);
-//    }
+    @Test
+    @DisplayName("throws RuntimeException when creating an instance by loading data from empty Xlsx file")
+    public void throw_exception_when_loading_data_from_empty_xlsx() {
+        EntityGenerator<FileSourceXlsxEmptyFailEntity> generator = springGeneratorFactory.getGenerator(FileSourceXlsxEmptyFailEntity.class);
+        assertThatThrownBy(generator::get)
+                .isInstanceOf(RuntimeException.class);
+    }
 }

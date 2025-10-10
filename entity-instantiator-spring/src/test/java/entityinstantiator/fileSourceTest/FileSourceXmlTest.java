@@ -28,6 +28,15 @@ public class FileSourceXmlTest {
     }
 
     @Test
+    @DisplayName("supports variant type fields in file_source_all_type.xml")
+    public void supports_variant_type_fields_in_file_source_all_type() {
+        EntityGenerator<FileSourceXmlAllTypeEntity> generator = springGeneratorFactory.getGenerator(FileSourceXmlAllTypeEntity.class);
+        FileSourceXmlAllTypeEntity fileSourceXmlAllTypeEntity = generator.get();
+        System.out.println("fileSourceXmlAllTypeEntity = " + fileSourceXmlAllTypeEntity);
+        assertThat(fileSourceXmlAllTypeEntity).isNotNull().isInstanceOf(FileSourceXmlAllTypeEntity.class);
+    }
+
+    @Test
     @DisplayName("throws RuntimeException when creating an instance by loading data from empty XML file")
     public void throw_exception_when_loading_data_from_empty_xml() {
         EntityGenerator<FileSourceXmlEmptyFailEntity> generator = springGeneratorFactory.getGenerator(FileSourceXmlEmptyFailEntity.class);

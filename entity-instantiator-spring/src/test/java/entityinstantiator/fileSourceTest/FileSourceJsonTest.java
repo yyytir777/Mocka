@@ -1,10 +1,8 @@
 package entityinstantiator.fileSourceTest;
 
 import entityinstantiator.EntityInstantiatorSpringTestApplication;
-import entityinstantiator.entity.filesource.json.FileSourceJsonEmptyFailEntity;
-import entityinstantiator.entity.filesource.json.FileSourceJsonEntity;
-import entityinstantiator.entity.filesource.json.FileSourceJsonInvalidGrammarFailEntity;
-import entityinstantiator.entity.filesource.json.FileSourceJsonInvalidPathFailEntity;
+import entityinstantiator.entity.filesource.csv.FileSourceCsvAllTypeEntity;
+import entityinstantiator.entity.filesource.json.*;
 import entityinstantiator.entity.filesource.xml.FileSourceXmlEmptyFailEntity;
 import entityinstantiator.entity.filesource.xml.FileSourceXmlEntity;
 import entityinstantiator.entity.filesource.xml.FileSourceXmlInvalidGrammarFailEntity;
@@ -33,6 +31,15 @@ public class FileSourceJsonTest {
         EntityGenerator<FileSourceJsonEntity> generator = springGeneratorFactory.getGenerator(FileSourceJsonEntity.class);
         FileSourceJsonEntity fileSourceJsonEntity = generator.get();
         assertThat(fileSourceJsonEntity).isNotNull().isInstanceOf(FileSourceJsonEntity.class);
+    }
+
+    @Test
+    @DisplayName("supports variant type fields in file_source_all_type.json")
+    public void supports_variant_type_fields_in_file_source_all_type() {
+        EntityGenerator<FileSourceJsonAllTypeEntity> generator = springGeneratorFactory.getGenerator(FileSourceJsonAllTypeEntity.class);
+        FileSourceJsonAllTypeEntity fileSourceJsonAllTypeEntity = generator.get();
+        System.out.println("fileSourceJsonAllTypeEntity = " + fileSourceJsonAllTypeEntity);
+        assertThat(fileSourceJsonAllTypeEntity).isNotNull().isInstanceOf(FileSourceJsonAllTypeEntity.class);
     }
 
     @Test

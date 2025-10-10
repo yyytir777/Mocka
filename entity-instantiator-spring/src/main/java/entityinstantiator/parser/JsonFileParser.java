@@ -6,7 +6,11 @@ import entityinstantiator.random.RandomProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JsonFileParser implements FileParser {
 
@@ -20,29 +24,44 @@ public class JsonFileParser implements FileParser {
         return INSTANCE;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T parse(InputStream inputStream, Class<T> clazz) {
         try {
             if (inputStream == null || inputStream.available() == 0) {
                 throw new RuntimeException("Empty JSON input: no content to parse.");
             }
 
-            JsonParser parser = MAPPER.createParser(inputStream);
-            if (parser.nextToken() == null) {
-                throw new RuntimeException("Empty JSON file: no valid JSON content found.");
+            Object root = MAPPER.readValue(inputStream, Object.class);
+            Object result;
+            if (root instanceof List<?> list) {
+                result = list.get(randomProvider.getNextIdx(list.size()));
+            } else {
+                return null;
             }
 
-            if (parser.currentToken().isStructStart()
-                    && parser.currentToken().name().equals("START_ARRAY")) {
-                List<T> list = MAPPER.readValue(parser,
-                        MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
+            Map<String, Object> fieldMap = (Map<String, Object>) result;
+            T instance = clazz.getDeclaredConstructor().newInstance();
+            for (Map.Entry<String, Object> entry : fieldMap.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
 
-                if (list.isEmpty()) throw new RuntimeException("Empty JSON input: no content to parse.");
-                return list.get(randomProvider.getNextIdx(list.size()));
+                try {
+                    Field field = clazz.getDeclaredField(key);
+                    field.setAccessible(true);
+
+                    if(value != null) {
+                        field.set(instance, convertValue(field.getType(), value));
+                    }
+                } catch (NoSuchFieldException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
-            return MAPPER.readValue(parser, clazz);
+            return instance;
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse JSON file: " + e.getMessage(), e);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 }

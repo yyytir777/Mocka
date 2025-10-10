@@ -1,5 +1,7 @@
-package entityinstantiator.entity.hibernate;
+package entityinstantiator.entity.filesource.csv;
 
+import entityinstantiator.annotation.FileSource;
+import entityinstantiator.entity.hibernate.MemberType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -12,7 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class Member {
+@FileSource(path = "file-source/file_source_all_type.csv")
+public class FileSourceCsvAllTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +64,7 @@ public class Member {
 
     // Serializable
 
-    public Member() {
+    public FileSourceCsvAllTypeEntity() {
 
     }
 
@@ -73,14 +76,14 @@ public class Member {
     }
     public String getEmail() {return this.email;}
 
-    public Member(Long id, String name, String email, MemberType type) {
+    public FileSourceCsvAllTypeEntity(Long id, String name, String email, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.type = type;
     }
 
-    public Member(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, byte[] byteArray, char[] charArray, Character[] primitiveCharacterArray, MemberType type) {
+    public FileSourceCsvAllTypeEntity(Long id, String name, String email, BigInteger balance, BigDecimal amount, LocalDate localDate, LocalTime localTime, LocalDateTime localDateTime, OffsetDateTime offsetDateTime, OffsetTime offsetTime, Instant instant, Date date, Calendar calendar, Time time, java.sql.Date sqlDate, Timestamp timestamp, byte[] byteArray, char[] charArray, Character[] primitiveCharacterArray, MemberType type) {
         this.id = id;
         this.name = name;
         this.email = email;
