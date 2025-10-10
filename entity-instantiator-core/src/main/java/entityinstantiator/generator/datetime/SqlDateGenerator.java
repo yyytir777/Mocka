@@ -19,7 +19,7 @@ public class SqlDateGenerator extends AbstractDateGenerator<Date> {
 
     @Override
     public Date get() {
-        return getDate();
+        return new Date(System.currentTimeMillis());
     }
 
     @SuppressWarnings("unchecked")

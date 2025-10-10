@@ -148,8 +148,12 @@ public class GeneratorRegistry {
      * <p>After calling this method, any custom {@code RegistrableGenerator}
      * must be registered again before use.
      */
-    public static void clearRegistrableGenerator() {
+    public static void clearAllRegistrableGenerator() {
         GENERATOR_MAP.entrySet().removeIf(entry -> entry.getValue() instanceof RegistrableGenerator<?>);
+    }
+
+    public static void clearRegistrableGenerator(String key) {
+        GENERATOR_MAP.remove(key);
     }
 
     /**

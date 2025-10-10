@@ -39,7 +39,7 @@ public class CharacterGenerator extends AbstractGenerator<Character> {
     }
 
     /** returns a random character between the given min and max values [min, mix] */
-    public Character getCharacter(char min, char max) {
+    public Character getCharacter(Character min, Character max) {
         int range = (max - min) + 1;
         return (char) (randomProvider.getInt(range) + min);
     }

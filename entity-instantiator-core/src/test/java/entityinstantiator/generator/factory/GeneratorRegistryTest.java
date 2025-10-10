@@ -26,7 +26,7 @@ class GeneratorRegistryTest {
 
     @AfterEach
     void tearDown() {
-        GeneratorRegistry.clearRegistrableGenerator();
+        GeneratorRegistry.clearAllRegistrableGenerator();
     }
 
     @Test
@@ -85,7 +85,7 @@ class GeneratorRegistryTest {
         Generator<Object> generator = GeneratorRegistry.getGenerator(GENERATOR_KEY);
         assertThat(generator).isNotNull().isInstanceOf(Generator.class);
 
-        GeneratorRegistry.clearRegistrableGenerator();
+        GeneratorRegistry.clearAllRegistrableGenerator();
 
         assertThatThrownBy(() -> GeneratorRegistry.getGenerator(GENERATOR_KEY))
                 .isInstanceOf(GeneratorException.class);

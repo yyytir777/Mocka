@@ -29,7 +29,7 @@ public class DoubleGenerator extends AbstractGenerator<Double> {
     }
 
     /** returns a random double between the given min and max values [min, max]. */
-    public Double getDouble(double min, double max) {
+    public Double getDouble(Double min, Double max) {
         if (Double.isInfinite(max - min)) {
             return randomProvider.getBoolean()
                     ? randomProvider.getDouble(Double.MIN_VALUE, max)

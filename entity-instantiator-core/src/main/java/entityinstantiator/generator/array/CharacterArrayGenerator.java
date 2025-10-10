@@ -18,11 +18,17 @@ public class CharacterArrayGenerator extends AbstractGenerator<char[]> {
         return INSTANCE;
     }
 
+    /**
+     * Returns a random char array with a default length of 10
+     */
     @Override
     public char[] get() {
         return get(10);
     }
 
+    /**
+     * Returns a random char array with the specified length
+     */
     public char[] get(int length) {
         char[] characters = new char[length];
         for (int i = 0; i < length; i++) {
@@ -31,10 +37,16 @@ public class CharacterArrayGenerator extends AbstractGenerator<char[]> {
         return characters;
     }
 
+    /**
+     * Returns a random Character array with a default length of 10
+     */
     public Character[] getCharacter() {
         return getCharacter(10);
     }
 
+    /**
+     * Returns a random Character array with the specified length
+     */
     public Character[] getCharacter(int length) {
         Character[] characters = new Character[length];
         for (int i = 0; i < length; i++) {

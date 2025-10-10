@@ -6,8 +6,7 @@ Entity Instantiator
 **Entity Instantiator** is a Spring-based library for automatic entity instance generator.
 It can create not only single entities but also complex entity relationships.
 By mapping files to entity classes or fields, it provides flexible and customizable instance generation.
-it supports **Hibernate** and **MyBatis** as ORM frameworks. // 여기 추가하기 자동으로 orm을 확인하여 스캔한다고 추가하기
-
+It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatically detects which one is in use to scan and generate the appropriate entity instances.
 
 You can create entity instances without assigning field values manually:
 ```java
@@ -19,25 +18,23 @@ This project consists of two modules:
 - **Entity Instantiator Core** – generates field values when instantiating entities.
 - **Entity Instantiator Spring** – handles the logic for generating entity instances.
 
-Please visit the Javadocs for detailed usage of each module.
+Please visit the GitHub Pages for detailed usage of each module.
 
-| module                         | version                                                                                         | Github Page                                                                                               |
-|--------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **Entity Instantiator Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-core) | [**Core Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Core)     |
-| **Entity Instantiator Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-core) | [**Spring Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Spring) |
+| module                         | version                                                                                                         | Github Page                                                                                               |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Entity Instantiator Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-core)   | [**Core Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Core)     |
+| **Entity Instantiator Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-spring) | [**Spring Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Spring) |
 
-----
+
 ## Key Features
-- **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more. // regex 가능도 추가하기
+- **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
+- **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
 - **Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
 - **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
 - **Entity Relationship Support** : Not only generates entities but also creates associated entities recursively.
 - **Extensibility** : Implement your own custom generators to support new data types seamlessly.
 - **Flexibility** : Map entity fields or entire classes to specific datasets or files for tailored instance generation.
 - **Test Optimization** : Automatically generate large volumes of entities to accelerate unit, integration, and data-populating tests.
-
-
----
 
 
 ## Import Library
@@ -205,6 +202,4 @@ B b = generator.get(GenerateType.ALL);
 If you generate entity B with `GenerateType.ALL`, entities A, B, and C will all be created together.
 
 ![GenerateType ALL.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20ALL.png)
-
----
 
