@@ -2,7 +2,6 @@ name : Test Entity Instantiator Library
 
 on:
   push:
-  pull_request:
 
 jobs:
   test-entity-instantiator-core:

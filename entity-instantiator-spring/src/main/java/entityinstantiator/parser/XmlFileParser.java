@@ -40,6 +40,7 @@ public class XmlFileParser implements FileParser {
             inputStream.mark(Integer.MAX_VALUE);
 
             XMLInputFactory factory = XMLInputFactory.newInstance();
+            factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
             XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
 
             while (reader.hasNext()) {

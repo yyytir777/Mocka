@@ -10,6 +10,7 @@ public final class FileParserFactory {
             case "csv" -> CsvFileParser.getInstance();
             case "yaml", "yml" -> YamlFileParser.getInstance();
             case "xml" -> XmlFileParser.getInstance();
+            case "xlsx" -> XlsxFileParser.getInstance();
             default -> null;
         };
     }

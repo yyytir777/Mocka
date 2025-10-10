@@ -1,5 +1,6 @@
 package entityinstantiator.entity.hibernate;
 
+import entityinstantiator.annotation.FileSource;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
+@FileSource(path = "file-source/member.xml")
 public class Member {
 
     @Id
