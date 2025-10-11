@@ -28,27 +28,25 @@ public class PathResourceLoader {
      * @param path the absolute path or the resource path within the classpath
      * @return an {@link InputStream} to read the file from the given path
      * @throws IllegalArgumentException if the given path is {@code null} or empty
-     * @throws FileNotFoundException if the file does not exist at the given path
-     * @throws IOException if an error occurs while reading the file
+     * @throws GeneratorException if the file does not exist at the given path
+     * @throws GeneratorException if an error occurs while reading the file
      */
     public static InputStream getPath(String path) {
-        if (path == null || path.isBlank()) {
-            throw new GeneratorException("Path is blank");
-        }
+        if (path == null || path.isBlank()) throw new IllegalArgumentException("Path is blank");
 
         try {
             Path filePath = Paths.get(path);
             if (filePath.isAbsolute()) {
                 return Files.newInputStream(filePath);
             }
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
 
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
-
-            if (is == null) {
+            if(inputStream == null){
                 throw new FileNotFoundException("Resource not found : " + path);
             }
-
-            return is;
+            return inputStream;
+        } catch (FileNotFoundException e) {
+            throw new GeneratorException(e.getMessage());
         } catch (IOException ioe) {
             throw new GeneratorException("Failed to load resource " + path, ioe);
         }
