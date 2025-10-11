@@ -42,8 +42,8 @@ Please visit the GitHub Pages for detailed usage of each module.
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:entity-instantiator-core:0.0.4'
-    implementation 'io.github.yyytir777:entity-instantiator-spring:0.0.4'
+    implementation 'io.github.yyytir777:entity-instantiator-core:1.0.0'
+    implementation 'io.github.yyytir777:entity-instantiator-spring:1.0.0'
 }
 ```
 
@@ -53,12 +53,12 @@ dependencies {
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>entity-instantiator-core</artifactId>
-        <version>0.0.4</version>
+        <version>1.0.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>entity-instantiator-spring</artifactId>
-        <version>0.0.4</version>
+        <version>1.0.0</version>
     </dependency>
 </dependencies>
 ```
