@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <person>
+        <a>Wonjae1</a>
+        <agasdfe>25</agasdfe>
+    </person>
+    <person>
+        <nasdfame>Wonjae2</nasdfame>
+        <agasdfe>30</agasdfe>
+    </person>
+</entityInstantiator>

@@ -20,20 +20,16 @@ public class EntityInstantiatorWrapper<T> {
     @XmlAnyElement(lax = true)
     private List<Element> list;
 
-    public List<T> getList(Class<T> clazz) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(clazz);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
+    public List<T> getList(Class<T> clazz) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(clazz);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            List<T> result = new ArrayList<>();
-            for (Element element : list) {
-                JAXBElement<T> entity = unmarshaller.unmarshal(element, clazz);
-                result.add(entity.getValue());
-            }
-            return result;
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
+        List<T> result = new ArrayList<>();
+        for (Element element : list) {
+            JAXBElement<T> entity = unmarshaller.unmarshal(element, clazz);
+            result.add(entity.getValue());
         }
+        return result;
     }
     public void setList(List<Element> list) {
         this.list = list;

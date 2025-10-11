@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <person>
+        <name>Wonjae1</name>
+        <age>25</age>
+    </person>
+    <person>
+        <name>Wonjae2</name>
+        <age>30</age>
+    </person>
+</entityInstantiator>
