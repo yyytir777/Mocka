@@ -40,6 +40,10 @@ public class RegexGeneratorTest {
             "(19|20)\\d{2}", "[가-힣]{2,4}", "[ㄱ-ㅎㅏ-ㅣ가-힣]+", "[一-龯]", "[ぁ-んァ-ン]", "[А-Яа-я]{3}"
     );
 
+    private static final List<String> INVALID_REGEX = List.of(
+            "{As", "{10,10,10}"
+    );
+
     @Test
     @DisplayName("return instance of RegexGenerator.class")
     void get_instance() {
@@ -68,5 +72,14 @@ public class RegexGeneratorTest {
     @DisplayName("invoking RegexGenerator의 get() method throws UnsupportedOperationException()")
     void invoke_get_method_of_regexGenerator_throws_unsupportedOperationException() {
         Assertions.assertThrows(UnsupportedOperationException.class, regexGenerator::get);
+    }
+
+    @Test
+    @DisplayName("throws IllegalArgumentException via invalid regex grammar")
+    void throws_IllegalArgumentException_via_invalid_regex_grammar() {
+        for (String invalidRegex : INVALID_REGEX) {
+            assertThatThrownBy(() -> regexGenerator.get(invalidRegex))
+            .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }

@@ -1,167 +1,205 @@
 Entity Instantiator
 ===
-[![Test Jodag Library](https://github.com/yyytir777/jodag/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/jodag/actions/workflows/test.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_jodag&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_jodag)
+[![Test Entity_Instantiator Library](https://github.com/yyytir777/jodag/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/jodag/actions/workflows/test.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_entity-instantiator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_entity-instantiator)
 
-**Jodag** is a Java library for **automatic data generation** based on predefined files. <br>
-You can register your own **text-based datasets** using line-separated files (CRLF format), allowing you to freely define and use any type of data you want. <br>
-- It consists of two modules:
+**Entity Instantiator** is a Spring-based library for automatic entity instance generator.
+It can create not only single entities but also complex entity relationships.
+By mapping files to entity classes or fields, it provides flexible and customizable instance generation.
+It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatically detects which one is in use to scan and generate the appropriate entity instances.
 
-> **entityinstantiator-core**: a lightweight, pure Java library with no dependencies.<br> 
-> **entityinstantiator-spring**: an extension for generating data based on Spring JPA Entity.
+You can create entity instances without assigning field values manually:
+```java
+Generator<Member> generator = springGenerator.getGenerator(Member.class);
+Member member = generator.get();
+```
+
+This project consists of two modules:
+- **Entity Instantiator Core** – generates field values when instantiating entities.
+- **Entity Instantiator Spring** – handles the logic for generating entity instances.
+
+Please visit the GitHub Pages for detailed usage of each module.
+
+| module                         | version                                                                                                         | Github Page                                                                                               |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Entity Instantiator Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-core)   | [**Core Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Core)     |
+| **Entity Instantiator Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-spring) | [**Spring Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Spring) |
 
 
-Jodag-core
-===
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-core)
-- **Jodag-core** helps you to automatically generate common data like name, email, etc
-- `GenerateFactory` Class manages instances of the `Generator` class, which is responsible for generating each type of data.
-- You can add custom registerable Generator, `RegistableGenerator` by injecting file paths containing your own datasets
-- Supports random selection, range-based values, and reusable generators.
+## Key Features
+- **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
+- **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
+- **Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
+- **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
+- **Entity Relationship Support** : Not only generates entities but also creates associated entities recursively.
+- **Extensibility** : Implement your own custom generators to support new data types seamlessly.
+- **Flexibility** : Map entity fields or entire classes to specific datasets or files for tailored instance generation.
+- **Test Optimization** : Automatically generate large volumes of entities to accelerate unit, integration, and data-populating tests.
 
-
-Jodag-spring
-===
-![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/jodag-spring?logoColor=%23000000)
-- **Jodag-spring** is a Spring Boot extension that helps you auto-generate entity data based on JPA `@Entity` classes.
-- It allows you to generate countless Entity instances fit perfectly into your project, using `SpringGeneratorFactory` and `EntityGenerator`.
-- Ideal library for creating dummy test data or prepopulating your database.
-
-How To Use
-===
 
 ## Import Library
 
 ### Gradle
-
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:entityinstantiator-core:0.0.3'
-    implementation 'io.github.yyytir777:entityinstantiator-spring:0.0.3'
+    implementation 'io.github.yyytir777:entity-instantiator-core:0.0.4'
+    implementation 'io.github.yyytir777:entity-instantiator-spring:0.0.4'
 }
 ```
 
 ### Maven
-
 ```xml
 <dependencies>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>entityinstantiator-core</artifactId>
-        <version>0.0.3</version>
+        <artifactId>entity-instantiator-core</artifactId>
+        <version>0.0.4</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>entityinstantiator-spring</artifactId>
-        <version>0.0.3</version>
+        <artifactId>entity-instantiator-spring</artifactId>
+        <version>0.0.4</version>
     </dependency>
 </dependencies>
 ```
 
-## Use Generator
+## What Can You Do With It?
 
-### Common Generator
-- Common Generator is predefined Generator used by EntityGenerator to fill fields with random value
-- Generators are provided for every type supported by Hibernate.
-- Default Generator(like name, email, country ...) is available.
-- `GeneratorFactory` provides all Common Generators through static methods.
-
+### 1. Generate Entity Instances
 ```java
-NameGenerator nameGenerator = GeneratorFactory.name();
-String name = nameGenerator.get();
-
-EmailGenerator emailGenerator = GeneratorFactory.email();
-String email = emailGenerator.get();
-
-PrimitiveGenerator primitiveGenerator = GeneratorFactory.primitive();
-Integer integer = primitiveGenerator.getInteger();
+Generator<Member> generator = springGenerator.getGenerator(Member.class);
+Member member = generator.get();
 ```
 
-
-### Registerable Generator
-- `Registerable Generator` is custom Generator registered by library user.
-- You can register Generator by providing an external file path, like this...
+### 2. Map Entity Fields to a Generator or File
 ```java
-GeneratorFactory.register("test_generator", "/Users/{user}/Desktop/test.txt", String.class);
-Generator registerableGenerator = GeneratorFactory.getRegistableGenerator("test_generator");
-String value = registableGenerator.get();
-```
-
-### Entity Generator
-- `Entity Generator` is responsible only for creating entity instances.
-- `SpringGeneratorFactory` is responsible for CRUD of `EntityGenerator`.
-- An entity instance is created along with its associated entities, regardless of the relationship type (`@OneToOne`, `@OneToMany`, `@ManyToOne`, `@ManyToMany`).  
-- You can configure the entity generation strategy through `GenerateType.class`
-
-```java
-Generator<Member> memberGenerator = SpringGeneratorFactory.getGenerator(Member.class);
-
-// GenerateType.SELF: only the entity itself is created.
-// - Associated entities are not generated.
-// - e.g., member is not null, but member.post == null
-Member member = memberGenerator.get(GenerateType.SELF);
-
-
-// GenerateType.CHILDREN: the entity and its child entities are created.
-// - Parent entities are not generated.
-// - e.g., member and member.post are not null, but member.group (parent) == null
-Member member = memberGenerator.get(GenerateType.CHILDREN);
-
-
-// GenerateType.PARENTS: the entity and its parent entities are created.
-// - child entities are not generated.
-// - e.g., member and member.post (parent) == null, but member.group is not null
-Member member = memberGenerator.get(GenerateType.CHILDREN);
-
-
-// GenerateType.ALL: the entity and its parents and children entities are created.
-// All entities associated with the entity are generated.
-// - e.g., member and member.post is not null, but member.group is not null
-Member member = memberGenerator.get(GenerateType.CHILDREN);
-```
-
-
-
-Example Test Codes
-===
-```java
-@SpringBootTest(classes = TestConfig.class)
-@DisplayName("Jodag-Spring 메인 기능 테스트 코드")
-public class JodagSpringMainTest {
-
-    @Test
-    @DisplayName("엔티티 클래스는 자동으로 SpringGeneratorFactory에 저장됩니다.")
-    void auto_register_generate_class_in_sprigGeneratorFactory() {
-        List<String> generatorNames = SpringGeneratorFactory.getGeneratorNames();
-        assertThat(Member.class.getSimpleName()).isIn(generatorNames);
-    }
-
-    @Test
-    @DisplayName("Member 엔티티 및 인스턴스 생성")
-    void test() {
-        Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
-
-        Member member = generator.get();
-        System.out.println("member = " + member.toString());
-        assertThat(member.getId()).isNull(); // id는 JPA 생성전략에 따라 null로 설정 (@GeneratedValue(strategy = GenerationType.IDENTITY))
-        assertThat(member.getEmail()).isNotNull();
-        assertThat(member.getName()).isNotNull();
-
-        List<String> generatorNames = SpringGeneratorFactory.getGeneratorNames();
-        System.out.println("generatorNames = " + generatorNames);
-        assertThat("Member").isIn(generatorNames);
-    }
-
-    @Test
-    @DisplayName("Member 엔티티 인스턴스 10개 생성")
-    void create_10_instances() {
-        Generator<Member> generator = SpringGeneratorFactory.getGenerator(Member.class);
-
-        for (int i = 0; i < 10; i++) {
-            Member member = generator.get();
-            System.out.println("member : " + member.toString());
-            assertThat(member.getName()).isNotNull();
-        }
-    }
+@Entity
+public class Member {
+    @ValueSource(generatorKey = "name")
+    private String name;
 }
 ```
+
+```java
+@Entity
+public class Member {
+    @ValueSource(path = "name.txt", type=String.class)
+    private String name;
+}
+```
+
+### 3. Map Entire Entities to Files
+- Supports **YAML**, **XML**, **JSON**, and **CSV**
+```java
+@Entity
+@FileSource(path = "member.csv")
+public class Member {
+    
+}
+```
+
+#### 4. Map Entity Fields to Regex Patterns
+
+```java
+@Entity
+public class Member {
+    @RegexSource(pattern = "[a-zA-Z]{10}")
+    private String name;
+}
+```
+
+#### 5. Register Custom Generator based specific file to GeneratorRegistry
+
+```java
+GeneratorFactory.putGenerator(new RegistrableGenerator<>("test_generator", "test.txt", String.class));
+Generator<String> generator = GeneratorFactory.getGenerator("test_generator");
+```
+
+
+## GenerateType
+When generating entity instances, you can specify the GenerateType to control how associated entities are created.
+
+![GenerateType.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType.png)
+
+In the diagram above, entity A and B have a 1:N relationship, and B and C also have a 1:N relationship.
+Let’s use this to explain each GenerateType strategy.
+
+---
+
+### GenerateType.SELF
+Generates only the specified entity instance.<br>
+Even if relationships exist, they are initialized as null.
+
+```java
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator.get(GenerateType.SELF);
+```
+If you generate entity B with `GenerateType.SELF`, only B will be created; associated entities will not be generated.
+
+![GenerateType SELF.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20SELF.png)
+
+---
+
+#### GenerateType.CHILD
+Generates the specified entity and its direct child entities.
+
+```java
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator.get(GenerateType.CHILD);
+```
+If you generate entity B with `GenerateType.CHILD`, both B and its child entity C will be created.
+
+![GenerateType CHILD.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20CHILD.png)
+
+---
+
+#### GenerateType.CHILDREN
+Recursively generates the specified entity and all its descendant entities.
+
+```java
+Generator<A> generator = springGenerator.getGenerator(A.class);
+A a = generator.get(GenerateType.CHILDREN);
+```
+If you generate entity A with `GenerateType.CHILDREN`, entities A, B, and C will all be created recursively.
+
+![GenerateType CHILDREN.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20CHILDREN.png)
+
+---
+
+#### GenerateType.PARENT
+Generates the specified entity and its direct parent entity.
+
+```java
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator.get(GenerateType.PARENT);
+```
+If you generate entity B with `GenerateType.PARENT`, both B and its parent entity A will be created.
+
+![GenerateType PARENT.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20PARENT.png)
+
+---
+
+#### GenerateType.PARENTS
+Recursively generates the specified entity and all its ancestor entities.
+
+```java
+Generator<C> generator = springGenerator.getGenerator(C.class);
+C c = generator.get(GenerateType.PARENTS);
+```
+If you generate entity C with `GenerateType.PARENTS`, entities C, B, and A will all be created recursively.
+
+![GenerateType PARENTS.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20PARENTS.png)
+
+---
+
+#### GenerateType.ALL
+Recursively generates the specified entity and all related entities, both parents and children.
+
+```java
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator.get(GenerateType.ALL);
+```
+If you generate entity B with `GenerateType.ALL`, entities A, B, and C will all be created together.
+
+![GenerateType ALL.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20ALL.png)
+

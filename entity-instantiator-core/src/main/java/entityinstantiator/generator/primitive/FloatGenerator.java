@@ -29,7 +29,7 @@ public class FloatGenerator extends AbstractGenerator<Float> {
     }
 
     /** returns a random float between the given min and max values [min, max]. */
-    public Float getFloat(float min, float max) {
+    public Float getFloat(Float min, Float max) {
         if (Float.isInfinite(max - min)) {
             return randomProvider.getBoolean()
                     ? randomProvider.getFloat(Float.MIN_VALUE, max)

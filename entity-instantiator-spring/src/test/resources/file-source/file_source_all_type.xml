@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <member>
+        <name>wonjae</name>
+        <email>wonjae@example.com</email>
+        <balance>12345678901234567890</balance>
+        <amount>12345.67</amount>
+
+        <localDate>2025-10-08</localDate>
+        <localTime>13:45:30</localTime>
+        <localDateTime>2025-10-08T13:45:30</localDateTime>
+        <offsetDateTime>2025-10-08T13:45:30+09:00</offsetDateTime>
+        <offsetTime>13:45:30+09:00</offsetTime>
+        <instant>2025-10-08T04:45:30Z</instant>
+
+        <date>2025-10-08</date>
+        <calendar>2025-10-08</calendar>
+
+        <time>13:45:30</time>
+        <sqlDate>2025-10-08</sqlDate>
+        <timestamp>2025-10-08 13:45:30</timestamp>
+
+        <byteArray>abcdefg</byteArray>
+        <charArray>hello</charArray>
+        <type>ADMIN</type>
+    </member>
+</entityInstantiator>

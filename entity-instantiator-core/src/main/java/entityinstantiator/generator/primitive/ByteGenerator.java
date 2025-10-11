@@ -29,7 +29,7 @@ public class ByteGenerator extends AbstractGenerator<Byte> {
     }
 
     /** returns a random byte between the given min and max values [min, max]. */
-    public Byte getByte(byte min, byte max) {
+    public Byte getByte(Byte min, Byte max) {
         return (byte) randomProvider.getInt(min, max);
     }
 

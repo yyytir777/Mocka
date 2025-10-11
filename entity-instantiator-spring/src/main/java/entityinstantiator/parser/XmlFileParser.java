@@ -4,7 +4,15 @@ import entityinstantiator.random.RandomProvider;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -13,6 +21,9 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XmlFileParser implements FileParser {
@@ -39,41 +50,46 @@ public class XmlFileParser implements FileParser {
             }
             inputStream.mark(Integer.MAX_VALUE);
 
-            XMLInputFactory factory = XMLInputFactory.newInstance();
-            factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-            XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(inputStream);
 
-            while (reader.hasNext()) {
-                if (reader.next() == XMLStreamConstants.START_ELEMENT) break;
-            }
-            String rootName = reader.getLocalName();
+            Node root = doc.getDocumentElement();
+            NodeList nodes = root.getChildNodes();
+            List<T> list = new ArrayList<>();
 
-            inputStream.reset();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node node = nodes.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    T instance = clazz.getDeclaredConstructor().newInstance();
+                    NodeList fields = node.getChildNodes();
 
-            if (rootName.equals("entityInstantiator")) {
-                JAXBContext context = JAXBContext.newInstance(EntityInstantiatorWrapper.class);
-                Unmarshaller unmarshaller = context.createUnmarshaller();
-                EntityInstantiatorWrapper<T> wrapper =
-                        (EntityInstantiatorWrapper<T>) unmarshaller.unmarshal(inputStream);
-
-                List<T> list = wrapper.getList(clazz);
-
-                if (list == null || list.isEmpty()) {
-                    throw new RuntimeException("Empty XML input: no content to parse.");
+                    for (int j = 0; j < fields.getLength(); j++) {
+                        Node fieldNode = fields.item(j);
+                        if (fieldNode.getNodeType() == Node.ELEMENT_NODE) {
+                            try {
+                                Field field = clazz.getDeclaredField(fieldNode.getNodeName());
+                                field.setAccessible(true);
+                                field.set(instance, convertValue(field.getType(), fieldNode.getTextContent()));
+                            } catch (NoSuchFieldException ignore) {
+                                // 필드 없으면 무시
+                            }
+                        }
+                    }
+                    list.add(instance);
                 }
-
-                return list.get(randomProvider.getNextIdx(list.size()));
             }
 
-            JAXBContext context = JAXBContext.newInstance(clazz);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            return unmarshaller.unmarshal(new StreamSource(inputStream), clazz).getValue();
-        } catch (JAXBException e) {
-            throw new RuntimeException("Failed to parse XML file: " + e.getMessage(), e);
-        } catch (XMLStreamException e) {
-            throw new RuntimeException("XML stream error: malformed XML or unexpected end of file. " + e.getMessage(), e);
+            if (list.isEmpty())
+                throw new RuntimeException("No valid XML entities found for class: " + clazz.getSimpleName());
+
+            return list.get(randomProvider.getNextIdx(list.size()));
         } catch (IOException e) {
             throw new RuntimeException("I/O error while reading XML file: " + e.getMessage(), e);
+        } catch (ParserConfigurationException | SAXException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 }

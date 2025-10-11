@@ -2,6 +2,7 @@ package entityinstantiator.generator.registrable;
 
 import entityinstantiator.exception.GeneratorException;
 import entityinstantiator.generator.Generator;
+import entityinstantiator.generator.factory.GeneratorFactory;
 import entityinstantiator.generator.factory.GeneratorRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -16,13 +17,13 @@ class RegistrableGeneratorTest {
 
     @BeforeEach
     void setUp() {
-        GeneratorRegistry.clearRegistrableGenerator();
+        GeneratorFactory.clearAllRegistrableGenerator();
     }
 
     @Test
     @DisplayName("path type supports classpath")
     void get_path_with_classpath() {
-        GeneratorRegistry.putGenerator(new RegistrableGenerator<>("test", "test.txt", String.class));
+        GeneratorFactory.putGenerator(new RegistrableGenerator<>("test", "test.txt", String.class));
 
         Generator<String> generator = GeneratorRegistry.getGenerator("test");
         String string = generator.get();

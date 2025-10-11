@@ -35,7 +35,7 @@ public class ValueSourceTest {
     @AfterEach
     @DisplayName("Clear RegistrableGenerator each after test")
     public void tearDown() {
-        GeneratorRegistry.clearRegistrableGenerator();
+        GeneratorRegistry.clearAllRegistrableGenerator();
     }
 
     @Test

@@ -45,6 +45,16 @@ public class NumericGeneratorTest {
     }
 
     @Test
+    @DisplayName("returns BigInteger value between the given min and max")
+    void get_value_between_min_max() {
+        BigInteger min = new BigInteger(String.valueOf(1));
+        BigInteger max = new BigInteger(String.valueOf(1000));
+        BigInteger bigInteger = generatorFactory.asBigInteger().get(min, max);
+        System.out.println("bigInteger = " + bigInteger);
+        assertThat(bigInteger).isInstanceOf(BigInteger.class).isBetween(min, max);
+    }
+
+    @Test
     @DisplayName("returns BigInteger with given bit length")
     void get_bigInteger_with_bit_length() {
         int bitLength = 64;

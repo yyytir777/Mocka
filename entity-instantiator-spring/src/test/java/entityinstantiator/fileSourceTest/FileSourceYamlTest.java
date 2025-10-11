@@ -4,11 +4,9 @@ import entityinstantiator.EntityInstantiatorSpringTestApplication;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEmptyFailEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvEntity;
 import entityinstantiator.entity.filesource.csv.FileSourceCsvInvalidPathFailEntity;
+import entityinstantiator.entity.filesource.xml.FileSourceXmlAllTypeEntity;
 import entityinstantiator.entity.filesource.xml.FileSourceXmlInvalidGrammarFailEntity;
-import entityinstantiator.entity.filesource.yaml.FileSourceYamlEmptyFailEntity;
-import entityinstantiator.entity.filesource.yaml.FileSourceYamlEntity;
-import entityinstantiator.entity.filesource.yaml.FileSourceYamlInvalidGrammarFailEntity;
-import entityinstantiator.entity.filesource.yaml.FileSourceYamlInvalidPathFailEntity;
+import entityinstantiator.entity.filesource.yaml.*;
 import entityinstantiator.generator.EntityGenerator;
 import entityinstantiator.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +32,15 @@ public class FileSourceYamlTest {
         FileSourceYamlEntity fileSourceYamlEntity = generator.get();
         System.out.println("fileSourceYamlEntity = " + fileSourceYamlEntity);
         assertThat(fileSourceYamlEntity).isNotNull().isInstanceOf(FileSourceYamlEntity.class);
+    }
+
+    @Test
+    @DisplayName("supports variant type fields in file_source_all_type.yaml")
+    public void supports_variant_type_fields_in_file_source_all_type() {
+        EntityGenerator<FileSourceYamlAllTypeEntity> generator = springGeneratorFactory.getGenerator(FileSourceYamlAllTypeEntity.class);
+        FileSourceYamlAllTypeEntity fileSourceYamlAllTypeEntity = generator.get();
+        System.out.println("fileSourceYamlAllTypeEntity = " + fileSourceYamlAllTypeEntity);
+        assertThat(fileSourceYamlAllTypeEntity).isNotNull().isInstanceOf(FileSourceYamlAllTypeEntity.class);
     }
 
     @Test

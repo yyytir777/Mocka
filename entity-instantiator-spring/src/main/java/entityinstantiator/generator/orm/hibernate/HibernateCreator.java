@@ -1,5 +1,6 @@
 package entityinstantiator.generator.orm.hibernate;
 
+import entityinstantiator.annotation.RegexSource;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -235,6 +236,8 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
     private <T> T generateValue(Field field) throws NoSuchMethodException {
         if(field.isAnnotationPresent(ValueSource.class)) {
             return handleValueSource(field);
+        } else if(field.getType().equals(String.class) && field.isAnnotationPresent(RegexSource.class)) {
+            return (T) handleRegexSource(field);
         }
         return (T) fieldValueGenerator.get(field);
     }
