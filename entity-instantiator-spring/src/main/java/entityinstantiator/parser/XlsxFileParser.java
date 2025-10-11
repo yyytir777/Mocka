@@ -22,8 +22,7 @@ public class XlsxFileParser implements FileParser {
 
     @Override
     public <T> T parse(InputStream inputStream, Class<T> clazz) {
-        try {
-            Workbook workbook = WorkbookFactory.create(inputStream);
+        try (Workbook workbook = WorkbookFactory.create(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
 
 
