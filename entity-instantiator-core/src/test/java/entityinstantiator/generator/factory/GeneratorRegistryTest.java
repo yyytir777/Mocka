@@ -110,4 +110,34 @@ class GeneratorRegistryTest {
         isExisted = GeneratorRegistry.existsRegistrableGenerator(GENERATOR_KEY + "1");
         assertThat(isExisted).isFalse();
     }
+
+    @Test
+    @DisplayName("throws UnsupportedOperationException when invoke putGenerator with unsupported type")
+    void putGenerator_throws_UnsupportedOperationException_when_unsupported_type() {
+        Object invalidGenerator = new Object();
+
+        assertThatThrownBy(() -> GeneratorRegistry.putGenerator(invalidGenerator))
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    @DisplayName("returns existing generator instead of creating new one when key already registered")
+    void getGenerator_returns_existing_generator_when_key_already_registered() {
+        Generator<String> existing = GeneratorRegistry.getGenerator(GENERATOR_KEY);
+        Generator<String> result = GeneratorRegistry.getGenerator(GENERATOR_KEY, GENERATOR_PATH, String.class);
+
+        assertThat(result).isSameAs(existing);
+    }
+
+    @Test
+    @DisplayName("clearRegistrableGenerator removes only the specified generator by key")
+    void clearRegistrableGenerator_removes_only_specified_key() {
+        GeneratorRegistry.putGenerator("tempKey", GENERATOR_PATH, String.class);
+
+        assertThat(GeneratorRegistry.existsRegistrableGenerator("tempKey")).isTrue();
+
+        GeneratorRegistry.clearRegistrableGenerator("tempKey");
+
+        assertThat(GeneratorRegistry.existsRegistrableGenerator("tempKey")).isFalse();
+    }
 }

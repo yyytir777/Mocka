@@ -137,13 +137,19 @@ public class CommonDateGeneratorTest {
     }
 
     @Test
+    @DisplayName("throws UnsupportedOperationException when invoke get(Class<T> type) method with a non-java.util type")
+    void throws_UnsupportedOperationException_when_not_supported_type_in_legacyDate() {
+        assertThatThrownBy(() -> legacyDateGenerator.get(String.class))
+                .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
     @DisplayName("return Date (java.util)")
     void get_java_util_date() {
         Date utilDate = legacyDateGenerator.getDate();
         System.out.println("utilDate = " + utilDate);
         assertThat(utilDate).isNotNull().isInstanceOf(Date.class);
     }
-    
 
     @Test
     @DisplayName("return Calendar")
@@ -195,5 +201,12 @@ public class CommonDateGeneratorTest {
         java.sql.Timestamp sqlTimestamp = sqlDateGenerator.getTimestamp();
         System.out.println("sqlTimestamp = " + sqlTimestamp);
         assertThat(sqlTimestamp).isNotNull().isInstanceOf(java.sql.Timestamp.class);
+    }
+
+    @Test
+    @DisplayName("throws UnsupportedOperationException when invoke get(Class<T> type) method with a non-java.sql type")
+    void throws_UnsupportedOperationException_when_not_supported_type_in_sqlDate() {
+        assertThatThrownBy(() -> sqlDateGenerator.get(String.class))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
