@@ -17,23 +17,23 @@ public class FileSourceCsvEntity {
 
     private String name;
     private String email;
-    private String temp;
+    private String tel;
 
     public FileSourceCsvEntity() {}
 
-    public FileSourceCsvEntity(Long id, String name, String email, String temp) {
+    public FileSourceCsvEntity(Long id, String name, String email, String tel) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.temp = temp;
+        this.tel = tel;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setTemp(String temp) {
-        this.temp = temp;
+    public void setTel(String temp) {
+        this.tel = temp;
     }
 
     public void setEmail(String email) {
@@ -48,8 +48,8 @@ public class FileSourceCsvEntity {
         return id;
     }
 
-    public String getTemp() {
-        return temp;
+    public String getTel() {
+        return tel;
     }
 
     public String getEmail() {
@@ -65,7 +65,7 @@ public class FileSourceCsvEntity {
         return "FileSourceEntity{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", temp='" + temp + '\'' +
+                ", temp='" + tel + '\'' +
                 '}';
     }
 }
