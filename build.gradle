@@ -66,3 +66,25 @@ sonar {
         property "sonar.projectKey", "yyytir777_entity-instantiator"
     }
 }
+
+tasks.register('aggregateJavadocs', Javadoc) {
+    description = "Generates a combined Javadoc for all subprojects"
+    group = "documentation"
+
+    def javaProjects = subprojects.findAll { it.plugins.hasPlugin('java') }
+
+    source javaProjects.collect {
+        it.extensions.getByType(JavaPluginExtension)
+                .sourceSets.named('main').get().allJava
+    }
+
+    classpath = files(javaProjects.collect {
+        it.extensions.getByType(JavaPluginExtension)
+                .sourceSets.named('main').get().compileClasspath
+    })
+
+    destinationDir = file("$buildDir/docs/javadoc")
+
+    options.encoding = 'UTF-8'
+    failOnError = false
+}

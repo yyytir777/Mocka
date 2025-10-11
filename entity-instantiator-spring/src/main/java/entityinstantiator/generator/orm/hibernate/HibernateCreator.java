@@ -20,14 +20,12 @@ import java.util.*;
 /**
  * Creates and populates Hibernate entity instances with generated data.
  *
- * <p>
  * This creator handles Hibernate-specific entity creation including:
  * <ul>
  *   <li>Basic field value generation using {@link HibernateFieldValueGenerator}</li>
  *   <li>JPA association handling (OneToMany, ManyToOne, OneToOne, ManyToMany)</li>
  *   <li>Circular reference prevention through visited path tracking</li>
  * </ul>
- * </p>
  *
  * <p><b>Collection Size Configuration:</b></p>
  * The number of elements generated for collection associations (OneToMany, ManyToMany)

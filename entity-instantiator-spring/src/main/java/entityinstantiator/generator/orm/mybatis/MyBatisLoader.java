@@ -19,8 +19,6 @@ import java.util.Set;
 
 /**
  * Loads and parses MyBatis mapper XML files to discover entity classes and their relationships.
- *
- * <p>
  * This loader scans MyBatis mapper XML files to extract entity metadata including:
  * <ul>
  *   <li>Entity classes mapped in {@code <resultMap>} elements</li>
@@ -28,7 +26,6 @@ import java.util.Set;
  *   <li>Association relationships from {@code <association>} elements</li>
  *   <li>Collection relationships from {@code <collection>} elements</li>
  * </ul>
- * </p>
  *
  * <p><b>Parsing Process:</b></p>
  * <ol>

@@ -21,7 +21,7 @@ import entityinstantiator.generator.Generator;
  * By default, commonly used generators are automatically registered, but additional custom
  * generators can also be registered manually if needed.
  *
- * <h3>Usage Example</h3>
+ * <strong>Usage Example</strong>
  * <pre>{@code
  * GeneratorFactory generatorFactory = new GeneratorFactory();
  *

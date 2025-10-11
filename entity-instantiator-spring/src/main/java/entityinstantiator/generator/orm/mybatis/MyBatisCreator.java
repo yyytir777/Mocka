@@ -16,15 +16,12 @@ import java.util.*;
 
 /**
  * Creates and populates MyBatis entity instances with generated data.
- *
- * <p>
  * This creator handles MyBatis-specific entity creation including:
  * <ul>
  *   <li>Basic field value generation using {@link MyBatisFieldValueGenerator}</li>
  *   <li>xml association handling</li>
  *   <li>Circular reference prevention through visited path tracking</li>
  * </ul>
- * </p>
  *
  * <p><b>Collection Size Configuration:</b></p>
  * The number of elements generated for collection associations

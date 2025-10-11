@@ -161,15 +161,12 @@ public class ORMCreator {
 
     /**
      * Resolves and creates a map of ORM resolvers based on configuration and available dependencies.
-     *
-     * <p>
      * This method determines which ORM frameworks to use by following this priority order:
      * <ol>
      *   <li>If multiple ORM types are explicitly configured in application.yaml, creates resolvers for all specified types</li>
      *   <li>If a single ORM type is explicitly configured, creates a resolver for that type only</li>
      *   <li>If no configuration is provided, auto-detects available ORM frameworks by scanning for beans</li>
      * </ol>
-     * </p>
      *
      * <p><b>Configuration Example (application.yaml):</b></p>
      * <pre>

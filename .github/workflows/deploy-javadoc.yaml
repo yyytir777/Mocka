@@ -1,0 +1,36 @@
+name: Deploy Combined Javadoc
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Generate Combined Javadoc
+        run: |
+          ./gradlew clean aggregateJavadocs
+          mkdir _site
+          cp -r build/docs/javadoc/* _site/
+
+      - name: Disable Jekyll
+        run: touch ./_site/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
