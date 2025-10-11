@@ -37,6 +37,32 @@ This project includes software from the following open source projects:
   https://www.antlr.org/
   Note: This project uses ANTLR4 to generate source code from grammar files (.g4).
 
+- Jakarta XML Bind API
+  Licensed under the Eclipse Distribution License 1.0 (EDL 1.0)
+  https://eclipse.org/org/documents/edl-v10.php
+
+- JAXB Runtime (GlassFish)
+  Licensed under the Eclipse Distribution License 1.0 (EDL 1.0)
+  https://eclipse.org/org/documents/edl-v10.php
+
+- Jackson Databind
+  Licensed under the Apache License 2.0
+  https://github.com/FasterXML/jackson-databind
+
+- Apache Commons CSV
+  Licensed under the Apache License 2.0
+  https://commons.apache.org/proper/commons-csv/
+
+- Apache POI (POI-OOXML)
+  Licensed under the Apache License 2.0
+  https://poi.apache.org/
+
+- Apache Commons IO
+  Licensed under the Apache License 2.0
+  https://commons.apache.org/proper/commons-io/
+
+
+---
 
 - Entity Relationship Diagram Template by [Jee Jung]
   Licensed under CC BY 4.0
