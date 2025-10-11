@@ -65,7 +65,6 @@ public class EntityInstantiatorSpringMainTest {
         Generator<Member> generator = springGeneratorFactory.getGenerator(Member.class);
 
         for (int i = 0; i < 10; i++) {
-            // TODO fileSource 애노테이션 붙은 엔티티 생성 처리 에러 (Cannot invoke "Object.getClass()" because "o" is null - HibernateCreator.java:88)
             Member member = generator.get();
             System.out.println("member : " + member.toString());
             assertThat(member.getName()).isNotNull();

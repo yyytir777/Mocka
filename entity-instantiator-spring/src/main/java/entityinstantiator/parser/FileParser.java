@@ -16,7 +16,7 @@ import java.util.TimeZone;
 public interface FileParser {
     <T> T parse(InputStream inputStream, Class<T> clazz);
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     default Object convertValue(Class<?> type, Object rawValue) {
         if (rawValue == null) return null;
 
@@ -24,7 +24,7 @@ public interface FileParser {
         if (value.isEmpty()) return null;
 
         try {
-            // ✅ Primitive & Wrapper types
+            // Primitive & Wrapper types
             if (type == byte.class || type == Byte.class) return Byte.parseByte(value);
             if (type == short.class || type == Short.class) return Short.parseShort(value);
             if (type == int.class || type == Integer.class) return Integer.parseInt(value);
@@ -34,14 +34,14 @@ public interface FileParser {
             if (type == boolean.class || type == Boolean.class) return Boolean.parseBoolean(value);
             if (type == char.class || type == Character.class) return value.charAt(0);
 
-            // ✅ String
+            // String
             if (type == String.class) return value;
 
-            // ✅ BigDecimal / BigInteger
+            // BigDecimal / BigInteger
             if (type == BigDecimal.class) return new BigDecimal(value);
             if (type == BigInteger.class) return new BigInteger(value);
 
-            // ✅ Date / Time types
+            // Date / Time types
             if (type == LocalDate.class)
                 return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
             if (type == LocalTime.class)
@@ -101,7 +101,7 @@ public interface FileParser {
 
 
 
-            // ✅ Enum
+            // Enum
             if (type.isEnum()) {
                 Class<? extends Enum> enumType = (Class<? extends Enum>) type;
                 return Enum.valueOf(enumType, value);

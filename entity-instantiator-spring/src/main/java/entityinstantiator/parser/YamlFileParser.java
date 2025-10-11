@@ -25,25 +25,10 @@ public class YamlFileParser implements FileParser {
     @SuppressWarnings("unchecked")
     public <T> T parse(InputStream inputStream, Class<T> clazz) {
         try {
-            Object root = yaml.load(inputStream);
-            Object value;
+            List<?> list = yaml.load(inputStream);
+            if (list == null) throw new RuntimeException("YAML root must be a list.");
 
-            if (root instanceof List<?> list) {
-                value = list.get(randomProvider.getNextIdx(list.size()));
-            } else if (root instanceof Map<?, ?> map) {
-                Optional<?> innerList = map.values().stream()
-                        .filter(v -> v instanceof List<?>)
-                        .findFirst();
-
-                if (innerList.isPresent()) {
-                    List<?> list = (List<?>) innerList.get();
-                    value = list.get(randomProvider.getNextIdx(list.size()));
-                } else {
-                    value = root;
-                }
-            } else {
-                throw new RuntimeException("Unsupported YAML structure.");
-            }
+            Object value = list.get(randomProvider.getNextIdx(list.size()));
 
             Map<String, Object> fieldMap = (Map<String, Object>) value;
             T instance = clazz.getDeclaredConstructor().newInstance();
