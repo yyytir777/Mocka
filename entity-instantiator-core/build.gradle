@@ -51,11 +51,6 @@ dependencies {
     implementation 'commons-io:commons-io:2.20.0' // Apache 2.0
 }
 
-// enabled generateGrammarSource
-tasks.named("generateGrammarSource") {
-    enabled = false
-}
-
 // generateGrammarSource settings
 tasks.named('generateGrammarSource') {
     maxHeapSize = "64m"
