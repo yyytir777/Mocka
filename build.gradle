@@ -42,10 +42,6 @@ subprojects {
 
     apply plugin: 'jacoco'
     jacoco { toolVersion = "0.8.11" }
-
-    tasks.named("jacocoTestReport").configure {
-        reports { xml.required = true; html.required = true }
-    }
 }
 
 jacoco {
