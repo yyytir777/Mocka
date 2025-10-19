@@ -112,7 +112,7 @@ public class MyBatisLoader implements ORMLoader {
                 parseAndAddFields(clazz, resultMap, "result",  false);
             }
         } catch (Exception e) {
-            throw new RuntimeException(resource.getFilename() + "을 파싱할 수 없습니다.", e);
+            throw new RuntimeException("Failed to parse " + resource.getFilename(), e);
         }
     }
 
@@ -160,14 +160,14 @@ public class MyBatisLoader implements ORMLoader {
                 parseAndAddCollections(clazz, resultMap);
             }
         } catch (Exception e) {
-            throw new RuntimeException(resource.getFilename() + "을 파싱할 수 없습니다.", e);
+            throw new RuntimeException("Failed to parse " + resource.getFilename(), e);
         }
     }
 
     /**
-     * 1. mapper.xml에서 association태그 찾음
-     * 2. association태그에서 id속성(resultMapId)에 대한 클래스 정보 반환
-     * 3. 받아온 클래스와 기존 클래스간의 연관관계 저장
+     * 1. Finds the association tag in the mapper.xml file. <br>
+     * 2. Retrieves the class information corresponding to the id attribute (resultMapId) of the association tag. <br>
+     * 3. Stores the relationship between the retrieved class and the current class. <br>
      * <pre>{@code
      *  <resultMap id="UserResultMap" type="User">
      *      <id />

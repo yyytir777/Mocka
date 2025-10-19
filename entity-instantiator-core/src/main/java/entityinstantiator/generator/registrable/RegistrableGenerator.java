@@ -7,9 +7,9 @@ import java.io.*;
 import java.util.List;
 
 /**
- * DataRegistry에 등록해서 사용하는 Generator,
- * 각 인스턴스틑 파일 경로를 가지며, get메서드를 통해 파일의 데이터에 랜덤 접근하여 값을 return함
- * @param <T>
+ * A Generator that is registered in the DataRegistry.
+ * Each instance holds a file path and provides random access
+ * to the file’s data through the get method, returning values from it.
  */
 public class RegistrableGenerator<T> extends AbstractGenerator<T> {
 

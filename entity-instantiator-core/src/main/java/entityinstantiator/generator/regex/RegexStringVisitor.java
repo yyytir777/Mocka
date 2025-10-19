@@ -180,19 +180,17 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
     }
 
     /**
-     * CharClass : <br>
-     * 1. 내부 문자 중 하나 선택 [abc] -> c <br>
-     * 2. 범위 선택 [a-z] -> a부터 z중 하나 선택 <br>
-     * 3. 부정 선택 [^a] -> a가 아닌 문자 선택 <br>
+     * CharClass: <br>
+     * 1. Selects one of the characters inside the brackets. e.g. [abc] -> c <br>
+     * 2. Selects a character within a specified range. e.g. [a-z] -> any character from 'a' to 'z' <br>
+     * 3. Negation: selects a character that is not in the brackets. e.g. [^a] -> any character except 'a' <br>
      */
     @Override
     public String visitCharClass(RegexParser.CharClassContext ctx) {
-        // 부정선택일 때
         if (ctx.CARET() != null) {
             return visitCharClassExclude(ctx);
         }
 
-        // 부정선택 아님 - 이제 나오는 '^'는 LITERAL로 취급함
         List<String> candidates = new ArrayList<>();
         if (ctx.classAtom() != null) {
             for (RegexParser.ClassAtomContext classAtomContext : ctx.classAtom()) {
@@ -202,7 +200,6 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
         return candidates.get(random.getNextIdx(candidates.size()));
     }
 
-    // CharClass에서 부정 선택일 때
     private String visitCharClassExclude(RegexParser.CharClassContext ctx) {
         Set<Character> exclude = new HashSet<>();
 
@@ -215,7 +212,6 @@ public class RegexStringVisitor extends RegexBaseVisitor<String> {
         return String.valueOf(characterGenerator.getCharacterNotIn(exclude));
     }
 
-    // escape일 때, charRange일 때, literal일 때, caret일 때 조건 나눠야함
     private String getAll(RegexParser.ClassAtomContext ctx) {
         if (ctx.charRange() != null) {
             char start = ctx.charRange().LITERAL(0).getText().charAt(0);
