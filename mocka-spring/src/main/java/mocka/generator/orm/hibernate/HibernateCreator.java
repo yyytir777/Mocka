@@ -9,6 +9,7 @@ import mocka.annotation.ValueSource;
 import mocka.generator.*;
 import mocka.generator.orm.*;
 import mocka.generator.orm.hibernate.association.AssociationMatcherFactory;
+import mocka.generator.orm.mybatis.AssociationType;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -68,7 +69,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
      * @return a new entity instance with populated fields
      * @throws RuntimeException if entity instantiation or field access fails
      * @see GenerateType
-     * @see AssociationMatcherFactory#support(Field, GenerateType, ORMType)
+     * @see AssociationMatcherFactory#support(Field, GenerateType, ORMType, AssociationType associationType)
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, GenerateType generateType) {
