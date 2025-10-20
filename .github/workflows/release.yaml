@@ -47,7 +47,7 @@ jobs:
         with:
           configuration: |
             {
-              "template": "# 🚀 Release v{{version}}\n\n## ✨ What's New\n{{CHANGELOG}}",
+              "template": "# Release v{{version}}\n\n##  What's New\n{{CHANGELOG}}",
               "pr_template": "- {{TITLE}} (#{{NUMBER}})"
             }
         env:

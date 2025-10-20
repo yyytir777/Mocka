@@ -50,8 +50,8 @@ Please visit the GitHub Wiki for detailed usage of each module.
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:mocka-core:1.0.0'
-    implementation 'io.github.yyytir777:mocka-spring:1.0.0'
+    implementation 'io.github.yyytir777:mocka-core:1.1.0'
+    implementation 'io.github.yyytir777:mocka-spring:1.1.0'
 }
 ```
 
@@ -61,12 +61,12 @@ dependencies {
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-core</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-spring</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 </dependencies>
 ```
