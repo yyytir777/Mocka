@@ -1,9 +1,7 @@
 name: Release to Maven Central Repository & GitHub Releases
 
 on:
-  push:
-    branches:
-      - release/*
+  workflow_dispatch:
 
 jobs:
   release:
@@ -47,7 +45,7 @@ jobs:
         with:
           configuration: |
             {
-              "template": "# Release v{{version}}\n\n##  What's New\n{{CHANGELOG}}",
+              "template": "# Release v{{version}}\n\n## What's New\n{{CHANGELOG}}",
               "pr_template": "- {{TITLE}} (#{{NUMBER}})"
             }
         env:
