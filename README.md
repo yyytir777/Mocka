@@ -1,35 +1,43 @@
-Entity Instantiator
+Mocka
 ===
-[![Test Entity_Instantiator Library](https://github.com/yyytir777/jodag/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/jodag/actions/workflows/test.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_entity-instantiator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_entity-instantiator)
+[![Test Entity_Instantiator Library](https://github.com/yyytir777/Mocka/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/Mocka/actions/workflows/test.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
 
-**Entity Instantiator** is a Spring-based library for automatic entity instance generator.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>
+</p>
+
+<p align="center"><b><span style="font-size: 16px; font-style: italic">`"Make ORM Entity Generation Faster"`</span></b></p>
+
+**Mocka** is a Spring-based library for automatic ORM Entity instance generator.
 It can create not only single entities but also complex entity relationships.
 By mapping files to entity classes or fields, it provides flexible and customizable instance generation.
 It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatically detects which one is in use to scan and generate the appropriate entity instances.
 
-You can create entity instances without assigning field values manually:
+You can create entity instances **without knowing their fields**:
 ```java
 Generator<Member> generator = springGenerator.getGenerator(Member.class);
 Member member = generator.get();
 ```
 
+Such randomly generated ORM entities can be used in various contexts, such as **testing**, **data populating**, and more.
+
 This project consists of two modules:
-- **Entity Instantiator Core** – generates field values when instantiating entities.
-- **Entity Instantiator Spring** – handles the logic for generating entity instances.
+- **Mocka Core** – generates field values when instantiating entities.
+- **Mocka Spring** – handles the logic for generating entity instances.
 
-Please visit the GitHub Pages for detailed usage of each module.
+Please visit the GitHub Wiki for detailed usage of each module.
 
-| module                         | version                                                                                                         | Github Page                                                                                               |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **Entity Instantiator Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-core)   | [**Core Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Core)     |
-| **Entity Instantiator Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/entity-instantiator-spring) | [**Spring Github Page**](https://github.com/yyytir777/EntityInstantiator/wiki/Entity-Instantiator-Spring) |
+| module                         | version                                                                                             | Github Page                                                                       |
+|--------------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Mocka Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core)     | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)        |
+| **Mocka Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-spring)   | [**Spring Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Spring)    |
 
 
 ## Key Features
 - **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
 - **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
-- **Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
+- **ORM Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
 - **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
 - **Entity Relationship Support** : Not only generates entities but also creates associated entities recursively.
 - **Extensibility** : Implement your own custom generators to support new data types seamlessly.
@@ -42,8 +50,8 @@ Please visit the GitHub Pages for detailed usage of each module.
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:entity-instantiator-core:1.0.0'
-    implementation 'io.github.yyytir777:entity-instantiator-spring:1.0.0'
+    implementation 'io.github.yyytir777:mocka-core:1.0.0'
+    implementation 'io.github.yyytir777:mocka-spring:1.0.0'
 }
 ```
 
@@ -52,12 +60,12 @@ dependencies {
 <dependencies>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>entity-instantiator-core</artifactId>
+        <artifactId>mocka-core</artifactId>
         <version>1.0.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>entity-instantiator-spring</artifactId>
+        <artifactId>mocka-spring</artifactId>
         <version>1.0.0</version>
     </dependency>
 </dependencies>
@@ -98,7 +106,7 @@ public class Member {
 }
 ```
 
-#### 4. Map Entity Fields to Regex Patterns
+### 4. Map Entity Fields to Regex Patterns
 
 ```java
 @Entity
@@ -108,7 +116,7 @@ public class Member {
 }
 ```
 
-#### 5. Register Custom Generator based specific file to GeneratorRegistry
+### 5. Register Custom Generator based specific file to GeneratorRegistry
 
 ```java
 GeneratorFactory.putGenerator(new RegistrableGenerator<>("test_generator", "test.txt", String.class));

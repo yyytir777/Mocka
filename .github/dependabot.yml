@@ -6,16 +6,16 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/" # 루트 build.gradle
+    directory: "/"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "gradle"
-    directory: "/entity-instantiator-core"
+    directory: "/mocka-core"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "gradle"
-    directory: "/entity-instantiator-spring"
+    directory: "/mocka-spring"
     schedule:
       interval: "weekly"

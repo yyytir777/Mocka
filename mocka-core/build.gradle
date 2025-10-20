@@ -1,0 +1,67 @@
+plugins {
+    id 'java-library'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id 'signing'
+    id 'antlr'
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates(group.toString(), "mocka-core", version.toString())
+
+    pom {
+        name = "Mocka Core"
+        description = "Core Library Of Mocka, generate automatically ORM entity instances."
+        inceptionYear = "2025"
+        url = "https://github.com/yyytir777/Mocka"
+
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0"
+                distribution = "repo"
+            }
+        }
+
+        developers {
+            developer {
+                id = "yyytir777"
+                name = "Wonjae Lim"
+                url = "https://github.com/yyytir777"
+            }
+        }
+
+        scm {
+            url = "https://github.com/yyytir777/Mocka"
+            connection = "scm:git:git://github.com/yyytir777/Mocka.git"
+            developerConnection = "scm:git:ssh://git@github.com/yyytir777/Mocka.git"
+        }
+    }
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.13.2"
+    implementation "org.antlr:antlr4-runtime:4.13.2" // BSD 3-clause
+    implementation 'commons-io:commons-io:2.20.0' // Apache 2.0
+}
+
+// generateGrammarSource settings
+tasks.named('generateGrammarSource') {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+}
+
+tasks.register("sourcesJar", Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+tasks.named("sourcesJar") {
+    dependsOn(tasks.named("generateGrammarSource"))
+}

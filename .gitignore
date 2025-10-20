@@ -43,7 +43,7 @@ bin/
 .DS_Store
 
 gradle.properties
-/entity-instantiator-test
+/mocka-test
 settings.gradle
 *.drawio
 repeat-test
