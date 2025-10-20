@@ -3,7 +3,7 @@ name: Release to Maven Central Repository & GitHub Releases
 on:
   push:
     branches:
-      - release/*
+      - 'release/*'
 
 jobs:
   release:
