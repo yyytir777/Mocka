@@ -12,6 +12,11 @@ signing {
     sign publishing.publications
 }
 
+tasks.named("jar") {
+    archiveClassifier.set("")
+}
+
+
 tasks.named("bootJar") {
     enabled = false
 }
