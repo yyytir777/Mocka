@@ -1,9 +1,7 @@
 name: Release to Maven Central Repository & GitHub Releases
 
 on:
-  push:
-    branches:
-      - 'release/*'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -21,10 +19,10 @@ jobs:
           distribution: temurin
           java-version: 17
           server-id: ossrh
-          server-username: ${{ MAVEN_USERNAME }}
-          server-password: ${{ MAVEN_PASSWORD }}
+          server-username: ${{ secrets.MAVEN_USERNAME }}
+          server-password: ${{ secrets.MAVEN_PASSWORD }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: ${{ GPG_PASSPHRASE }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Build & Test
         run: ./gradlew clean build
@@ -47,7 +45,7 @@ jobs:
         with:
           configuration: |
             {
-              "template": "# Release v{{version}}\n\n##  What's New\n{{CHANGELOG}}",
+              "template": "# Release v{{version}}\n\n## What's New\n{{CHANGELOG}}",
               "pr_template": "- {{TITLE}} (#{{NUMBER}})"
             }
         env:
