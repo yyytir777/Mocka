@@ -1,10 +1,10 @@
-name : Test Entity Instantiator Library
+name : Test Mocka Library
 
 on:
   push:
 
 jobs:
-  test-entity-instantiator-core:
+  test-mocka-core:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Code
@@ -16,10 +16,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run entity-instantiator-core tests
-        run: ./gradlew clean :entity-instantiator-core:test
+      - name: Run mocka-core tests
+        run: ./gradlew clean :mocka-core:test
 
-  test-entity-instantiator-spring:
+  test-mocka-spring:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Code
@@ -31,5 +31,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run entity-instantiator-spring tests
-        run: ./gradlew clean :entity-instantiator-spring:test
+      - name: Run mocka-spring tests
+        run: ./gradlew clean :mocka-spring:test

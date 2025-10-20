@@ -1,4 +1,4 @@
-rootProject.name = 'entity-instantiator'
+rootProject.name = 'mocka'
 
-include 'entity-instantiator-core'
-include 'entity-instantiator-spring'
+include 'mocka-core'
+include 'mocka-spring'
