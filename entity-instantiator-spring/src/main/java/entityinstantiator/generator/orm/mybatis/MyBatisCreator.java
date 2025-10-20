@@ -87,8 +87,9 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
                 AssociationType associationType = isAssociations(clazz, targetType);
                 if (associationType != null) {
                     if (generateType == GenerateType.SELF) continue;
-                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS)) continue;
+                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS, associationType)) continue;
 
+                    // collection
                     if(associationType == AssociationType.ONE_TO_MANY || associationType == AssociationType.MANY_TO_MANY) {
                         value = new ArrayList<>();
                         Class<?> fieldGenericType = (Class<Object>) ((ParameterizedType) field.getField().getGenericType()).getActualTypeArguments()[0];
@@ -155,7 +156,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getField().getType()) ? getGenericType(field.getField()) : field.getField().getType());
 
                     // collection
-                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS)) continue;
+                    if(!AssociationMatcherFactory.support(field.getField(), generateType, ORMType.MYBATIS, associationType)) continue;
 
                     // 이미 방문 한 필드라면 continue
                     if(visited.contains(path)) continue;
@@ -193,7 +194,11 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
     private void addChildToParent(Object parent, Object child) throws IllegalAccessException {
 
         for (Field field : parent.getClass().getDeclaredFields()) {
-            if (isAssociations(field.getType(), child.getClass()) != null) continue;
+            if (field.getType().isAssignableFrom(child.getClass())) {
+                field.setAccessible(true);
+                field.set(parent, child);
+                continue;
+            }
 
             // 컬렉션이면,
             if (Collection.class.isAssignableFrom(field.getType())) {
@@ -219,7 +224,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     private void addParentToChild(Object child, Object parent) throws IllegalAccessException {
         for (Field childField : child.getClass().getDeclaredFields()) {
-            if (childField.getType().equals(parent.getClass()) || isAssociations(childField.getType(), parent.getClass()) != null) {
+            if (childField.getType().isAssignableFrom(parent.getClass())) {
                 childField.setAccessible(true);
                 childField.set(child, parent);
             }

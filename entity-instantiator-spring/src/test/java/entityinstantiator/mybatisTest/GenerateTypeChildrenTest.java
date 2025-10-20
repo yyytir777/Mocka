@@ -48,6 +48,11 @@ public class GenerateTypeChildrenTest {
             assertThat(child).isNotNull().isInstanceOf(Child.class);
             assertThat(child.getParent()).isNotNull().isInstanceOf(Parent.class);
         });
+
+        System.out.println("grandParent = " + grandParent);
+        System.out.println("parents = " + parents);
+        System.out.println("children = " + children);
+
     }
 }
 

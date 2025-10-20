@@ -1,5 +1,6 @@
 package entityinstantiator.generator.orm.hibernate.association;
 
+import entityinstantiator.generator.orm.mybatis.AssociationType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -12,7 +13,7 @@ import java.util.Collection;
 
 public class ParentMatcher implements AssociationMatcher {
 
-    public boolean supports(Field field, GenerateType generateType, ORMType ormType) {
+    public boolean supports(Field field, GenerateType generateType, ORMType ormType, AssociationType associationType) {
         if(!(generateType.equals(GenerateType.PARENTS) || generateType.equals(GenerateType.PARENT))) return false;
 
         if(ormType.equals(ORMType.HIBERNATE)) {
@@ -20,10 +21,7 @@ public class ParentMatcher implements AssociationMatcher {
             if (field.isAnnotationPresent(OneToOne.class) && !field.getAnnotation(OneToOne.class).mappedBy().isEmpty()) return true;
             if (field.isAnnotationPresent(ManyToMany.class) && !field.getAnnotation(ManyToMany.class).mappedBy().isEmpty()) return true;
         } else if(ormType.equals(ORMType.MYBATIS)) {
-            if (!field.getType().isPrimitive() && !field.getType().getName().startsWith("java.")
-                    && !Collection.class.isAssignableFrom(field.getType())) {
-                return true;
-            }
+            if (associationType.equals(AssociationType.MANY_TO_ONE)) return true;
         }
         return false;
     }

@@ -3,6 +3,7 @@ package entityinstantiator.generator.orm.hibernate.association;
 import entityinstantiator.generator.GenerateType;
 import entityinstantiator.generator.orm.AssociationMatcher;
 import entityinstantiator.generator.orm.ORMType;
+import entityinstantiator.generator.orm.mybatis.AssociationType;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,7 +24,7 @@ public class AssociationMatcherFactory {
             new AllMatcher()
     );
 
-    public static boolean support(Field field, GenerateType generateType, ORMType ormType) {
-        return matchers.stream().anyMatch(m ->  m.supports(field, generateType, ormType));
+    public static boolean support(Field field, GenerateType generateType, ORMType ormType, AssociationType associationType) {
+        return matchers.stream().anyMatch(m ->  m.supports(field, generateType, ormType, associationType));
     }
 }

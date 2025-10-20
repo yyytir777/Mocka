@@ -87,7 +87,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
                 if(field.get(instance) != null) continue;
 
                 if(isAssociations(field)) {
-                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE)) continue;
+                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE, null)) continue;
 
                     if(Collection.class.isAssignableFrom(field.getType())) {
                         value = new ArrayList<>();
@@ -145,7 +145,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
 
                     // 연관관계 애노테이션과 필드 타입이 맞지 않을 경우 continue
-                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE)) continue;
+                    if(!AssociationMatcherFactory.support(field, generateType, ORMType.HIBERNATE, null)) continue;
 
                     // 이미 방문한 필드라면 continue
                     if(visited.contains(path)) continue;
