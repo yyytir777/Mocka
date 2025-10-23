@@ -3,8 +3,6 @@ name: Java 21 Compatibility
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
