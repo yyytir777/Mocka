@@ -14,8 +14,8 @@ public class BulkExecutorDefaultConfiguration {
     @ConditionalOnMissingBean(name = "bulkProducerExecutor")
     public ThreadPoolTaskExecutor bulkProducerExecutor() {
         return new ThreadPoolTaskExecutorBuilder()
-                .corePoolSize(16)
-                .maxPoolSize(16)
+                .corePoolSize(8)
+                .maxPoolSize(8)
                 .queueCapacity(10000)
                 .threadNamePrefix("Bulk-Producer-").build();
     }
@@ -24,8 +24,8 @@ public class BulkExecutorDefaultConfiguration {
     @ConditionalOnMissingBean(name = "bulkConsumerExecutor")
     public ThreadPoolTaskExecutor bulkConsumerExecutor() {
         return new ThreadPoolTaskExecutorBuilder()
-                .corePoolSize(16)
-                .maxPoolSize(24)
+                .corePoolSize(8)
+                .maxPoolSize(8)
                 .queueCapacity(0)
                 .threadNamePrefix("Bulk-Consumer")
                 .build();
