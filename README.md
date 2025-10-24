@@ -7,10 +7,10 @@ Mocka
   <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>
 </p>
 
-<p align="center"><b><span style="font-size: 16px; font-style: italic">`"Make ORM Entity Generation Faster"`</span></b></p>
+<p align="center"><b><span style="font-size: 16px; font-style: italic">"Generate ORM Entity Instances Faster for Mock Data"</span></b></p>
 
-**Mocka** is a Spring-based library for automatic ORM Entity instance generator.
-It can create not only single entities but also complex entity relationships.
+**Mocka** is a Spring-based library for automatically generate ORM Entity instances for **Mock Data**.
+It can create from not only single entities but also complex entity relationships.
 By mapping files to entity classes or fields, it provides flexible and customizable instance generation.
 It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatically detects which one is in use to scan and generate the appropriate entity instances.
 
@@ -20,7 +20,7 @@ Generator<Member> generator = springGenerator.getGenerator(Member.class);
 Member member = generator.get();
 ```
 
-Such randomly generated ORM entities can be used in various contexts, such as **testing**, **data populating**, and more.
+Such randomly generated ORM entity instances can be used in various contexts, such as **testing**, **data populating**, and more.
 
 This project consists of two modules:
 - **Mocka Core** – generates field values when instantiating entities.
@@ -28,17 +28,17 @@ This project consists of two modules:
 
 Please visit the GitHub Wiki for detailed usage of each module.
 
-| module                         | version                                                                                             | Github Page                                                                       |
-|--------------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| **Mocka Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core)     | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)        |
-| **Mocka Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-spring)   | [**Spring Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Spring)    |
+| module           | version                                                                                           | Github Page                                                                     |
+|------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **Mocka Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core)   | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)      |
+| **Mocka Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-spring) | [**Spring Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Spring)  |
 
 
 ## Key Features
-- **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
-- **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
 - **ORM Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
 - **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
+- **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
+- **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
 - **Entity Relationship Support** : Not only generates entities but also creates associated entities recursively.
 - **Extensibility** : Implement your own custom generators to support new data types seamlessly.
 - **Flexibility** : Map entity fields or entire classes to specific datasets or files for tailored instance generation.
@@ -116,7 +116,7 @@ public class Member {
 }
 ```
 
-### 5. Register Custom Generator based specific file to GeneratorRegistry
+### 5. Register Custom Generator based specific file to GeneratorFactory
 
 ```java
 GeneratorFactory.putGenerator(new RegistrableGenerator<>("test_generator", "test.txt", String.class));
