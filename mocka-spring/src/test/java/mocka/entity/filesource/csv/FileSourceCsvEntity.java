@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source.csv")
+@FileSource("file-source/file_source.csv")
 public class FileSourceCsvEntity {
 
     @Id

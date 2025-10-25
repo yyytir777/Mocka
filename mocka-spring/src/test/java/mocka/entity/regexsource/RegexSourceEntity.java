@@ -13,7 +13,7 @@ public class RegexSourceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @RegexSource(pattern = "\\d{10}")
+    @RegexSource("\\d{10}")
     private String description;
 
     public String getDescription() {

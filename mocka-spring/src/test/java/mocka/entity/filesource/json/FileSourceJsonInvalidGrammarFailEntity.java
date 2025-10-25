@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source_invalid_grammar.json")
+@FileSource("file-source/file_source_invalid_grammar.json")
 public class FileSourceJsonInvalidGrammarFailEntity {
 
     @Id

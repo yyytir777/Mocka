@@ -73,7 +73,7 @@ public abstract class AbstractCreator {
 
     protected  String handleRegexSource(Field field) {
         RegexSource regexSource = field.getAnnotation(RegexSource.class);
-        String pattern = regexSource.pattern();
+        String pattern = regexSource.value();
         return regexGenerator.get(pattern);
     }
 

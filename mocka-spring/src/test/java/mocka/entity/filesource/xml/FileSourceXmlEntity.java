@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source.xml")
+@FileSource("file-source/file_source.xml")
 public class FileSourceXmlEntity {
 
     @Id

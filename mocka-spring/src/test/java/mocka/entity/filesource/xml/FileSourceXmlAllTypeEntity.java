@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@FileSource(path = "file-source/file_source_all_type.xml")
+@FileSource("file-source/file_source_all_type.xml")
 public class FileSourceXmlAllTypeEntity {
 
     @Id
