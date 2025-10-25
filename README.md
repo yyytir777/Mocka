@@ -211,3 +211,9 @@ If you generate entity B with `GenerateType.ALL`, entities A, B, and C will all 
 
 ![GenerateType ALL.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType%20ALL.png)
 
+
+---
+
+## GitHub Wiki
+
+If you want to see more information of `Mocka`, please visit [GitHub Wiki](https://github.com/yyytir777/Mocka/wiki) Pages!!
