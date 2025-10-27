@@ -1,4 +1,4 @@
-package mocka.batch;
+package mocka.persistence;
 
 import mocka.generator.EntityGenerator;
 
