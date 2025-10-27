@@ -1,6 +1,5 @@
-package mocka.batch;
+package mocka.persistence;
 
-import mocka.batch.persistence.JdbcBatchPersistence;
 import mocka.generator.EntityGenerator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -16,17 +15,18 @@ public class BulkPersistenceManager {
 
     private final ExecutorService producerExecutor;
     private final ExecutorService consumerExecutor;
-    private final JdbcBatchPersistence jdbcBatchPersistence;
-    private final BlockingQueue<List<?>> queue = new ArrayBlockingQueue<>(8);
+    private final JdbcBatchWriter jdbcBatchWriter;
+    private final BlockingQueue<List<?>> queue = new ArrayBlockingQueue<>(512);
 
-    public BulkPersistenceManager(ThreadPoolTaskExecutor bulkProducerExecutor, ThreadPoolTaskExecutor bulkConsumerExecutor, JdbcBatchPersistence jdbcBatchPersistence) {
+    public BulkPersistenceManager(ThreadPoolTaskExecutor bulkProducerExecutor, ThreadPoolTaskExecutor bulkConsumerExecutor, JdbcBatchWriter jdbcBatchWriter) {
         this.producerExecutor = bulkProducerExecutor.getThreadPoolExecutor();
         this.consumerExecutor = bulkConsumerExecutor.getThreadPoolExecutor();
-        this.jdbcBatchPersistence = jdbcBatchPersistence;
+        this.jdbcBatchWriter = jdbcBatchWriter;
     }
 
     public <T> void start(EntityGenerator<T> generator, long totalCount, int batchSize, Class<T> entityType) throws InterruptedException {
         int consumerThreads = ((ThreadPoolExecutor) consumerExecutor).getCorePoolSize();
+        CountDownLatch latch = new CountDownLatch(consumerThreads);
         long totalBatches = (long) Math.ceil((double) totalCount / batchSize);
 
         List<Callable<Void>> producers = new ArrayList<>();
@@ -35,7 +35,7 @@ public class BulkPersistenceManager {
         }
 
         for(int i = 0; i < consumerThreads; i++) {
-            consumerExecutor.execute(new Consumer<>(queue, jdbcBatchPersistence, entityType));
+            consumerExecutor.execute(new Consumer<>(queue, jdbcBatchWriter, entityType, latch));
         }
 
         producerExecutor.invokeAll(producers);
@@ -43,11 +43,7 @@ public class BulkPersistenceManager {
         for (int i = 0; i < consumerThreads; i++) {
             queue.put(Collections.emptyList());
         }
-        shutdownExecutors();
-    }
 
-    private void shutdownExecutors() {
-        producerExecutor.shutdown();
-        consumerExecutor.shutdown();
+        latch.await();
     }
 }

@@ -30,7 +30,6 @@ public class BulkPersistenceExecutorTest {
         EntityGenerator<Member> generator = springGeneratorFactory.getGenerator(Member.class);
         bulkPersistenceExecutor.execute(generator, 100L, 10, Member.class);
 
-//        Thread.sleep(10000);
         Long rowCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM member", Long.class);
         assertThat(rowCount).isEqualTo(100);
     }

@@ -1,5 +1,6 @@
-package mocka.batch.persistence;
+package mocka.persistence;
 
+import jakarta.persistence.Column;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -9,13 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
-public class JdbcBatchPersistence {
+public class JdbcBatchWriter {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcBatchPersistence(JdbcTemplate jdbcTemplate) {
+    public JdbcBatchWriter(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -25,12 +27,14 @@ public class JdbcBatchPersistence {
         String tableName = entityType.getSimpleName().toLowerCase();
 
         Field[] fields = Arrays.stream(entityType.getDeclaredFields())
-                .filter(f -> isSimpleType(f.getType())) // ✅ 관계 필드 제외
-                .filter(f -> !f.getName().equalsIgnoreCase("id")) // ✅ id 제외
+                .filter(f -> isSimpleType(f.getType()))
+                .filter(f -> !f.getName().equalsIgnoreCase("id"))
                 .toArray(Field[]::new);
 
-        String columns = String.join(", ",
-                java.util.Arrays.stream(fields).map(Field::getName).toList());
+        // resolve name field of @Column annotation
+        String columns = Arrays.stream(fields)
+                .map(this::resolveColumnName)
+                .collect(Collectors.joining(", "));
 
         String placeholders = String.join(", ",
                 java.util.Arrays.stream(fields).map(f -> "?").toList());
@@ -45,7 +49,8 @@ public class JdbcBatchPersistence {
                 try {
                     for (int j = 0; j < fields.length; j++) {
                         fields[j].setAccessible(true);
-                        ps.setObject(j + 1, fields[j].get(entity));
+                        if(fields[j].get(entity) instanceof Enum<?>) ps.setObject(j + 1, ((Enum<?>) fields[j].get(entity)).name());
+                        else ps.setObject(j + 1, fields[j].get(entity));
                     }
                 } catch (IllegalAccessException e) {
                     throw new SQLException("Failed to map entity fields", e);
@@ -57,6 +62,16 @@ public class JdbcBatchPersistence {
                 return batch.size();
             }
         });
+    }
+
+    private String resolveColumnName(Field field) {
+        Column column = field.getAnnotation(Column.class);
+        if( column != null && !column.name().isEmpty()) return column.name();
+        else return toSnakeCase(field.getName());
+    }
+
+    private String toSnakeCase(String name) {
+        return name.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
     }
 
     private boolean isSimpleType(Class<?> type) {

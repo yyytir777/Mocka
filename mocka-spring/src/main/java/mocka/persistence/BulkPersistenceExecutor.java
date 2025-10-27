@@ -1,7 +1,8 @@
-package mocka.batch;
+package mocka.persistence;
 
 import mocka.generator.EntityGenerator;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class BulkPersistenceExecutor {
