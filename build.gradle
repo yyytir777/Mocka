@@ -60,6 +60,8 @@ jacocoTestReport {
     }
 }
 
+test.finalizedBy jacocoTestReport
+
 sonar {
     properties {
         property "sonar.host.url", "https://sonarcloud.io"
