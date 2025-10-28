@@ -46,4 +46,4 @@ gradle.properties
 /mocka-test
 settings.gradle
 *.drawio
-repeat-test
+/script
