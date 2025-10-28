@@ -60,7 +60,15 @@ jacocoTestReport {
     }
 }
 
-test.finalizedBy jacocoTestReport
+tasks.register('jacocoRootReport', JacocoReport) {
+    dependsOn subprojects.tasks.test
+    executionData fileTree(dir: '.', include: ['**/build/jacoco/*.exec'])
+    sourceSets subprojects.sourceSets.main
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
 
 sonar {
     properties {
