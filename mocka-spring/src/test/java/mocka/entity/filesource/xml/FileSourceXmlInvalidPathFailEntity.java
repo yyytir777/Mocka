@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source_invalid_path_fail.xml")
+@FileSource("file-source/file_source_invalid_path_fail.xml")
 public class FileSourceXmlInvalidPathFailEntity {
 
     @Id

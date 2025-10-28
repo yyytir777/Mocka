@@ -1,4 +1,4 @@
-package mocka.generator.orm.hibernate.association;
+package mocka.generator.orm.association;
 
 import mocka.generator.GenerateType;
 import mocka.generator.orm.AssociationMatcher;

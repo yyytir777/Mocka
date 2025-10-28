@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@FileSource(path = "file-source/file_source_empty.json")
+@FileSource("file-source/file_source_empty.json")
 public class FileSourceJsonEmptyFailEntity {
 
     @Id

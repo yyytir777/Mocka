@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface RegexSource {
-    String pattern() default "";
+    String value() default "";
 }

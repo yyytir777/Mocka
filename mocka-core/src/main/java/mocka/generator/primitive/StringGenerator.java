@@ -21,7 +21,7 @@ public class StringGenerator extends AbstractGenerator<String> {
     @Override
     public String get() {
         int length = (int) randomProvider.getGaussian(7, 2);
-        return getString(Math.max(1, length));
+        return getString(Math.min(Math.max(1, length), 254));
     }
 
     /**
@@ -43,8 +43,8 @@ public class StringGenerator extends AbstractGenerator<String> {
      */
     public String getUpTo(int max) {
         double biased = Math.pow(randomProvider.getDouble(1), 2); // 작은 값에 편향
-        int length = 1 + (int)(biased * (max - 1)); // 최소 1, 최대 max
-        return getString(length);
+        int length = 5 + (int)(biased * (max - 1)); // 최소 1, 최대 max
+        return getString(Math.min(length, max));
     }
 
     /** returns a string containing all characters in the Unicode range [a,b] */

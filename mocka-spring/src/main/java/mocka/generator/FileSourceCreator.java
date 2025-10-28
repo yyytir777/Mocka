@@ -30,7 +30,7 @@ public class FileSourceCreator {
      */
     public <T> T createFromFileSource(Class<T> clazz, FileSource fileSource) {
 
-        String stringPath = fileSource.path();
+        String stringPath = fileSource.value();
         InputStream inputStream = PathResourceLoader.getPath(stringPath);
         String extension = PathResourceLoader.getExtension(stringPath);
 

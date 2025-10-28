@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@FileSource(path = "file-source/file_source_all_type.yaml")
+@FileSource("file-source/file_source_all_type.yaml")
 public class FileSourceYamlAllTypeEntity {
 
     @Id

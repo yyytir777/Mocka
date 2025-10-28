@@ -12,17 +12,13 @@ signing {
     sign publishing.publications
 }
 
-tasks.named("jar") {
-    archiveClassifier.set("")
-}
-
-
 tasks.named("bootJar") {
     enabled = false
 }
 
 tasks.named("jar") {
     enabled = true
+    archiveClassifier.set('')
 }
 
 mavenPublishing {
@@ -82,5 +78,4 @@ dependencies {
 
     // xlsx
     implementation 'org.apache.poi:poi-ooxml:5.4.1'
-    runtimeOnly 'com.mysql:mysql-connector-j'
 }

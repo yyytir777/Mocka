@@ -6,7 +6,7 @@ import mocka.generator.GenerateType;
 import mocka.generator.orm.*;
 import mocka.generator.orm.hibernate.HibernateLoader;
 import mocka.generator.orm.hibernate.VisitedPath;
-import mocka.generator.orm.hibernate.association.AssociationMatcherFactory;
+import mocka.generator.orm.association.AssociationMatcherFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;

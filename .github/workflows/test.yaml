@@ -2,6 +2,9 @@ name : Test Mocka Library
 
 on:
   push:
+    branches-ignore:
+      - main
+      - release/*
 
 jobs:
   test-mocka-core:

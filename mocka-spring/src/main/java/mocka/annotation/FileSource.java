@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface FileSource {
-    String path() default "";
+    String value() default "";
 }

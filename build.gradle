@@ -84,9 +84,3 @@ tasks.register('aggregateJavadocs', Javadoc) {
     options.encoding = 'UTF-8'
     failOnError = false
 }
-
-tasks.register("printVersion") {
-    doLast {
-        println project.version
-    }
-}

@@ -1,4 +1,4 @@
-package mocka.generator.orm.hibernate.association;
+package mocka.generator.orm.association;
 
 import mocka.generator.orm.mybatis.AssociationType;
 import jakarta.persistence.ManyToMany;
