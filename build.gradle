@@ -42,39 +42,17 @@ subprojects {
 
     apply plugin: 'jacoco'
     jacoco { toolVersion = "0.8.11" }
-}
 
-tasks.named("test") {
-    useJUnitPlatform()
-    finalizedBy(tasks.named("jacocoTestReport"))
+    jacocoTestReport {
+        reports {
+            xml.required = true // xml 형태의 리포트 생성
+            html.required = true
+        }
+    }
 }
 
 jacoco {
     toolVersion = "0.8.11"
-}
-
-jacocoTestReport {
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
-tasks.register("jacocoRootReport", JacocoReport) {
-    dependsOn(subprojects.test)
-
-    // 모든 하위 모듈의 exec 파일 수집
-    executionData(fileTree(dir: ".", include: ["**/build/jacoco/test.exec"]))
-
-    // 모든 하위 모듈의 main sourceSets를 배열로 전달
-    def allSourceSets = subprojects.collect { it.sourceSets.main } as SourceSet[]
-    sourceSets(allSourceSets)
-
-    reports {
-        xml.required = true
-        html.required = true
-        xml.outputLocation = file("$buildDir/reports/jacoco/jacocoRootReport.xml")
-    }
 }
 
 sonar {
@@ -82,7 +60,6 @@ sonar {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "yyytir777"
         property "sonar.projectKey", "yyytir777_mocka"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/jacocoRootReport.xml"
     }
 }
 
