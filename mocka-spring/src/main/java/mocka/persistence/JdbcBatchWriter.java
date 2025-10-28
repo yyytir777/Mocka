@@ -3,27 +3,28 @@ package mocka.persistence;
 import jakarta.persistence.Column;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class JdbcBatchWriter {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    public JdbcBatchWriter(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcBatchWriter(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public <T> void insertBatch(Class<T> entityType, List<T> batch) {
         if (batch == null || batch.isEmpty()) return;
 
+        // ✅ 내부 코드에서만 생성 → 외부 입력 아님 (사실상 안전)
         String tableName = entityType.getSimpleName().toLowerCase();
 
         Field[] fields = Arrays.stream(entityType.getDeclaredFields())
@@ -31,37 +32,37 @@ public class JdbcBatchWriter {
                 .filter(f -> !f.getName().equalsIgnoreCase("id"))
                 .toArray(Field[]::new);
 
-        // resolve name field of @Column annotation
-        String columns = Arrays.stream(fields)
+        List<String> columnNames = Arrays.stream(fields)
                 .map(this::resolveColumnName)
+                .toList();
+
+        String columns = String.join(", ", columnNames);
+        String placeholders = columnNames.stream()
+                .map(name -> ":" + name)
                 .collect(Collectors.joining(", "));
 
-        String placeholders = String.join(", ",
-                java.util.Arrays.stream(fields).map(f -> "?").toList());
-
+        // ✅ NamedParameterJdbcTemplate용 SQL
         String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
 
-        // 🔸 3. batch insert 실행
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                T entity = batch.get(i);
+        // ✅ 파라미터 매핑
+        List<Map<String, Object>> paramMaps = new ArrayList<>();
+        for (T entity : batch) {
+            Map<String, Object> paramMap = new HashMap<>();
+            for (Field field : fields) {
+                field.setAccessible(true);
                 try {
-                    for (int j = 0; j < fields.length; j++) {
-                        fields[j].setAccessible(true);
-                        if(fields[j].get(entity) instanceof Enum<?>) ps.setObject(j + 1, ((Enum<?>) fields[j].get(entity)).name());
-                        else ps.setObject(j + 1, fields[j].get(entity));
-                    }
+                    Object value = field.get(entity);
+                    if (value instanceof Enum<?> e) value = e.name();
+                    paramMap.put(resolveColumnName(field), value);
                 } catch (IllegalAccessException e) {
-                    throw new SQLException("Failed to map entity fields", e);
+                    throw new IllegalStateException("Failed to access field: " + field.getName(), e);
                 }
             }
+            paramMaps.add(paramMap);
+        }
 
-            @Override
-            public int getBatchSize() {
-                return batch.size();
-            }
-        });
+        // ✅ Batch Insert 실행
+        namedJdbcTemplate.batchUpdate(sql, paramMaps.toArray(new Map[0]));
     }
 
     private String resolveColumnName(Field field) {
