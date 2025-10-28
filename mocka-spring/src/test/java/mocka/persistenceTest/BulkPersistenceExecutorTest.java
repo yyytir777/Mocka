@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,7 +25,7 @@ public class BulkPersistenceExecutorTest {
 
     @Test
     @DisplayName("creates 1000 instances of Member.class and insert to db using batch operation")
-    public void test_create_100_instances_and_bulk_persistence_success() throws InterruptedException, ExecutionException {
+    public void test_create_100_instances_and_bulk_persistence_success() throws InterruptedException {
         EntityGenerator<Member> generator = springGeneratorFactory.getGenerator(Member.class);
         bulkPersistenceExecutor.execute(generator, 100L, 10, Member.class);
 
