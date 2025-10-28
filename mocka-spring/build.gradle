@@ -14,6 +14,7 @@ signing {
 
 tasks.named("bootJar") {
     enabled = false
+    mustRunAfter(tasks.named("jacocoTestReport"))
 }
 
 tasks.named("jar") {
