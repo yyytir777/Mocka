@@ -2,6 +2,8 @@ Mocka
 ===
 [![Test Entity_Instantiator Library](https://github.com/yyytir777/Mocka/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/yyytir777/Mocka/actions/workflows/test.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=bugs)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=coverage)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>
