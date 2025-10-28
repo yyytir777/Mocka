@@ -60,13 +60,20 @@ jacocoTestReport {
     }
 }
 
-tasks.register('jacocoRootReport', JacocoReport) {
-    dependsOn subprojects.tasks.test
-    executionData fileTree(dir: '.', include: ['**/build/jacoco/*.exec'])
-    sourceSets subprojects.sourceSets.main
+tasks.register("jacocoRootReport", JacocoReport) {
+    dependsOn(subprojects.test)
+
+    // 모든 하위 모듈의 exec 파일 수집
+    executionData(fileTree(dir: ".", include: ["**/build/jacoco/test.exec"]))
+
+    // 모든 하위 모듈의 main sourceSets를 배열로 전달
+    def allSourceSets = subprojects.collect { it.sourceSets.main } as SourceSet[]
+    sourceSets(allSourceSets)
+
     reports {
         xml.required = true
         html.required = true
+        xml.outputLocation = file("$buildDir/reports/jacoco/jacocoRootReport.xml")
     }
 }
 
@@ -75,7 +82,7 @@ sonar {
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.organization", "yyytir777"
         property "sonar.projectKey", "yyytir777_mocka"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/jacocoRootReport.xml"
     }
 }
 
