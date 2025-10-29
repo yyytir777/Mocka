@@ -43,6 +43,11 @@ jobs:
         id: version
         run: echo "version=$(./gradlew -q printVersion)" >> $GITHUB_OUTPUT
 
+      - name: Set git identity
+        run: |
+          git config --global user.name "Lim Wonjae"
+          git config --global user.email "yyytir777@gmail.com"
+
       - name: Create Tag
         run: |
           git tag -a v${{ steps.version.outputs.version }} -m "Release v${{ steps.version.outputs.version }}"
