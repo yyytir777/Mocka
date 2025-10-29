@@ -33,6 +33,8 @@ jobs:
           echo "signing.gnupg.keyName=${{ secrets.GPG_KEY_NAME }}" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
           echo "signing.gnupg.useGpgCmd=true" >> ~/.gradle/gradle.properties
+          echo "mavenCentralUsername=${{ secrets.MAVEN_USERNAME }}" >> ~/.gradle/gradle.properties
+          echo "mavenCentralPassword=${{ secrets.MAVEN_PASSWORD }}" >> ~/.gradle/gradle.properties
 
       - name: Publish to Maven Central
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon
