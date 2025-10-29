@@ -231,8 +231,8 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
      * Generates a value for a non-association field.
      */
     @SuppressWarnings("unchecked")
-    private <T> T generateValue(Field field) throws NoSuchMethodException {
-        if(field.isAnnotationPresent(ValueSource.class)) {
+    private <T> T generateValue(Field field) {
+        if (field.isAnnotationPresent(ValueSource.class)) {
             return handleValueSource(field);
         } else if(field.getType().equals(String.class) && field.isAnnotationPresent(RegexSource.class)) {
             return (T) handleRegexSource(field);
