@@ -1,6 +1,10 @@
 name: Release to Maven Central Repository & GitHub Releases
 
 on:
+  pull_request:
+    branches:
+      - release/*
+    types: [closed]
   workflow_dispatch:
 
 permissions:
