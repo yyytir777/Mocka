@@ -3,6 +3,9 @@ name: Release to Maven Central Repository & GitHub Releases
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
