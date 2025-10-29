@@ -1,16 +1,12 @@
 package mocka.persistence;
 
 import jakarta.persistence.Column;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -40,7 +36,6 @@ public class JdbcBatchWriter {
                 .peek(this::validateColumnName)
                 .toList();
 
-        // ✅ 테이블명/컬럼명은 검증된 safe literal
         String columns = String.join(", ", columnNames);
         String placeholders = columnNames.stream().map(name -> ":" + name).collect(Collectors.joining(", "));
         final String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
@@ -60,7 +55,6 @@ public class JdbcBatchWriter {
             return params;
         }).toArray(SqlParameterSource[]::new);
 
-        // ✅ 안전한 PreparedStatement 기반 batch insert
         namedJdbcTemplate.batchUpdate(sql, batchParams);
     }
 

@@ -27,6 +27,13 @@ jobs:
       - name: Build & Test
         run: ./gradlew clean build
 
+      - name: Configure Gradle signing
+        run: |
+          mkdir -p ~/.gradle
+          echo "signing.gnupg.keyName=${{ secrets.GPG_KEY_NAME }}" >> ~/.gradle/gradle.properties
+          echo "signing.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
+          echo "signing.gnupg.useGpgCmd=true" >> ~/.gradle/gradle.properties
+
       - name: Publish to Maven Central
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon
 
