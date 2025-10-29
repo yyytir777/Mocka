@@ -15,6 +15,11 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * This extension integrates the functionality of JUnit and the Mocka library.
+ * By applying @ExtendWith(MockaExtension.class) to a test class,
+ * you can enable and use the test annotations provided by the Mocka library.
+ */
 public class MockaExtension implements BeforeEachCallback {
 
     @Override
