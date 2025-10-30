@@ -1,4 +1,4 @@
-package mocka.mockaAnnotationTest;
+package mocka.annotationTest;
 
 import mocka.annotation.mocka.Mocka;
 import mocka.annotation.mocka.MockaExtension;

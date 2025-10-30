@@ -22,8 +22,8 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build Javadocs
-        run: ./gradlew javadoc
+      - name: Build aggregated Javadocs
+        run: ./gradlew clean aggregateJavadocs
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
