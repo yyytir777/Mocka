@@ -26,16 +26,4 @@ public class ChildMatcher implements AssociationMatcher {
         }
         return false;
     }
-
-    private Class<?> resolveFieldType(Field field) {
-        Type genericType = field.getGenericType();
-
-        if (genericType instanceof ParameterizedType parameterizedType) {
-            Type actualType = parameterizedType.getActualTypeArguments()[0];
-            if (actualType instanceof Class<?> clazz) {
-                return clazz;
-            }
-        }
-        return null;
-    }
 }

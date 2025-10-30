@@ -1,21 +1,21 @@
 package mocka.persistence;
 
 import jakarta.persistence.Column;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
 public class JdbcBatchWriter {
 
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
+    private static final Pattern IDENTIFIER = Pattern.compile("^[a-zA-Z0-9_]+$");
 
     public JdbcBatchWriter(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedJdbcTemplate = namedParameterJdbcTemplate;
@@ -24,8 +24,7 @@ public class JdbcBatchWriter {
     public <T> void insertBatch(Class<T> entityType, List<T> batch) {
         if (batch == null || batch.isEmpty()) return;
 
-        // ✅ 내부 코드에서만 생성 → 외부 입력 아님 (사실상 안전)
-        String tableName = entityType.getSimpleName().toLowerCase();
+        String tableName = sanitizeIdentifier(entityType.getSimpleName().toLowerCase());
 
         Field[] fields = Arrays.stream(entityType.getDeclaredFields())
                 .filter(f -> isSimpleType(f.getType()))
@@ -34,35 +33,40 @@ public class JdbcBatchWriter {
 
         List<String> columnNames = Arrays.stream(fields)
                 .map(this::resolveColumnName)
+                .peek(this::validateColumnName)
                 .toList();
 
         String columns = String.join(", ", columnNames);
-        String placeholders = columnNames.stream()
-                .map(name -> ":" + name)
-                .collect(Collectors.joining(", "));
+        String placeholders = columnNames.stream().map(name -> ":" + name).collect(Collectors.joining(", "));
+        final String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
 
-        // ✅ NamedParameterJdbcTemplate용 SQL
-        String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
-
-        // ✅ 파라미터 매핑
-        List<Map<String, Object>> paramMaps = new ArrayList<>();
-        for (T entity : batch) {
-            Map<String, Object> paramMap = new HashMap<>();
+        SqlParameterSource[] batchParams = batch.stream().map(entity -> {
+            MapSqlParameterSource params = new MapSqlParameterSource();
             for (Field field : fields) {
-                field.setAccessible(true);
                 try {
+                    field.setAccessible(true);
                     Object value = field.get(entity);
                     if (value instanceof Enum<?> e) value = e.name();
-                    paramMap.put(resolveColumnName(field), value);
-                } catch (IllegalAccessException e) {
-                    throw new IllegalStateException("Failed to access field: " + field.getName(), e);
+                    params.addValue(resolveColumnName(field), value);
+                } catch (IllegalAccessException ex) {
+                    throw new IllegalStateException("Failed to access field: " + field.getName(), ex);
                 }
             }
-            paramMaps.add(paramMap);
-        }
+            return params;
+        }).toArray(SqlParameterSource[]::new);
 
-        // ✅ Batch Insert 실행
-        namedJdbcTemplate.batchUpdate(sql, paramMaps.toArray(new Map[0]));
+        namedJdbcTemplate.batchUpdate(sql, batchParams);
+    }
+
+    private void validateColumnName(String s) {
+        if (!IDENTIFIER.matcher(s).matches())
+            throw new IllegalArgumentException("Invalid column name: " + s);
+    }
+
+    private String sanitizeIdentifier(String s) {
+        if (!IDENTIFIER.matcher(s).matches())
+            throw new IllegalArgumentException("Invalid identifier: " + s);
+        return s;
     }
 
     private String resolveColumnName(Field field) {

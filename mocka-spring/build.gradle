@@ -75,7 +75,6 @@ dependencies {
 
     // csv
     implementation 'org.apache.commons:commons-csv:1.14.1' // Apache 2.0
-    implementation 'org.apache.commons:commons-csv:1.14.1' // Apache 2.0
 
     // xlsx
     implementation 'org.apache.poi:poi-ooxml:5.4.1'

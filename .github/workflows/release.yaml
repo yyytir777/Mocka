@@ -1,7 +1,14 @@
 name: Release to Maven Central Repository & GitHub Releases
 
 on:
+  pull_request:
+    branches:
+      - release/*
+    types: [closed]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -27,12 +34,26 @@ jobs:
       - name: Build & Test
         run: ./gradlew clean build
 
+      - name: Configure Gradle signing
+        run: |
+          mkdir -p ~/.gradle
+          echo "signing.gnupg.keyName=${{ secrets.GPG_KEY_NAME }}" >> ~/.gradle/gradle.properties
+          echo "signing.gnupg.passphrase=${{ secrets.GPG_PASSPHRASE }}" >> ~/.gradle/gradle.properties
+          echo "signing.gnupg.useGpgCmd=true" >> ~/.gradle/gradle.properties
+          echo "mavenCentralUsername=${{ secrets.MAVEN_USERNAME }}" >> ~/.gradle/gradle.properties
+          echo "mavenCentralPassword=${{ secrets.MAVEN_PASSWORD }}" >> ~/.gradle/gradle.properties
+
       - name: Publish to Maven Central
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon
 
       - name: Get version from Gradle
         id: version
         run: echo "version=$(./gradlew -q printVersion)" >> $GITHUB_OUTPUT
+
+      - name: Set git identity
+        run: |
+          git config --global user.name "Lim Wonjae"
+          git config --global user.email "yyytir777@gmail.com"
 
       - name: Create Tag
         run: |

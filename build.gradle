@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = 'io.github.yyytir777'
-    version = "1.1.0"
+    version = "1.2.0"
 
     java {
         toolchain {
@@ -83,4 +83,10 @@ tasks.register('aggregateJavadocs', Javadoc) {
 
     options.encoding = 'UTF-8'
     failOnError = false
+}
+
+tasks.register("printVersion") {
+    doLast {
+        println project.version
+    }
 }

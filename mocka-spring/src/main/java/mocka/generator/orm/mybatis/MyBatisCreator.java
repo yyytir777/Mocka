@@ -1,5 +1,6 @@
 package mocka.generator.orm.mybatis;
 
+import mocka.annotation.RegexSource;
 import mocka.annotation.ValueSource;
 import mocka.generator.FileSourceCreator;
 import mocka.generator.GenerateType;
@@ -104,7 +105,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
                         value = parent;
                     }
                 } else {
-                    value = generateValue(field);
+                    value = generateValue(field.getField());
                 }
                 field.getField().set(instance, value);
             }
@@ -177,7 +178,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
                         value = parent;
                     }
                 } else { // 일반 필드일 때
-                    value = generateValue(field);
+                    value = generateValue(field.getField());
                 }
                 field.getField().set(instance, value);
             }
@@ -241,16 +242,15 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      * Generates a value for a non-association field.
      */
     @SuppressWarnings("unchecked")
-    private <T> T generateValue(PropertyField field) {
-        // @ValueSource 애노테이션이 있으면 해당 파일 경로 key에 대한 generator가 있는지 체크
-        if (field.getField().isAnnotationPresent(ValueSource.class)) {
-            return handleValueSource(field.getField());
+    private <T> T generateValue(Field field) {
+        if (field.isAnnotationPresent(ValueSource.class)) {
+            return handleValueSource(field);
+        } else if(field.getType().equals(String.class) && field.isAnnotationPresent(RegexSource.class)) {
+            return (T) handleRegexSource(field);
         }
-
-        return (T) fieldValueGenerator.get(field.getField());
+        return (T) fieldValueGenerator.get(field);
     }
 
-    // clazz -> field의 연관관계가 존재하는지
     private AssociationType isAssociations(Class<?> clazz, Class<?> target) {
         return myBatisMetadata.getAssociation(clazz, target);
     }

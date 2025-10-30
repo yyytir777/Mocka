@@ -55,7 +55,7 @@ class StringGeneratorTest {
     @DisplayName("getUpTo(max) returns a string with length upto max")
     void get_max_length() {
         StringGenerator stringGenerator = generatorFactory.asString();
-        String string = stringGenerator.get(100);
+        String string = stringGenerator.getUpTo(100);
         assertThat(string.length()).isLessThanOrEqualTo(100);
     }
 
