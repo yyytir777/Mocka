@@ -44,7 +44,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      * The number of elements to generate for collection associations (one-to-many, many-to-many).
      * Configured via {@link ORMProperties#getAssociationSize()}.
      */
-    private final Integer ASSOCIATION_SIZE;
+    private Integer ASSOCIATION_SIZE;
 
     public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
         super(fileSourceCreator);
@@ -275,5 +275,9 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
     @Override
     public Set<Class<?>> load() {
         return myBatisLoader.load();
+    }
+
+    public void setAssociationSize(int size) {
+        this.ASSOCIATION_SIZE = size;
     }
 }

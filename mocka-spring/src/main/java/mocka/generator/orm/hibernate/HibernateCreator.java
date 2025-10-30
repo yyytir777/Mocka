@@ -46,7 +46,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
      * The number of elements to generate for collection associations (OneToMany, ManyToMany).
      * Configured via {@link ORMProperties#getAssociationSize()}.
      */
-    private final Integer ASSOCIATION_SIZE;
+    private Integer ASSOCIATION_SIZE;
 
     public HibernateCreator(HibernateLoader hibernateLoader, HibernateFieldValueGenerator fieldValueGenerator, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
         super(fileSourceCreator);
@@ -249,5 +249,9 @@ public class  HibernateCreator extends AbstractCreator implements ORMResolver {
     @Override
     public Set<Class<?>> load() {
         return hibernateLoader.load();
+    }
+
+    public void setAssociationSize(int size) {
+        this.ASSOCIATION_SIZE = size;
     }
 }
