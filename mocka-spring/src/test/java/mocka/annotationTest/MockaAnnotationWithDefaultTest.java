@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MockaAnnotationWithDefaultTest {
 
     @Mocka
-    Parent parent; // hibernate
+    Parent hibernateParent; // hibernate
 
     @Mocka
     mocka.entity.mybatis.associations.Parent myBatisParent; // mybatis
@@ -24,10 +24,10 @@ public class MockaAnnotationWithDefaultTest {
 
     @Test
     void test_mocka_annotation_test_with_hibernate() {
-        System.out.println("parent = " + parent);
-        assertThat(parent).isNotNull();
-        assertThat(parent.getGrandParent()).isNull();
-        assertThat(parent.getChildren()).isNull();
+        System.out.println("hibernateParent = " + hibernateParent);
+        assertThat(hibernateParent).isNotNull();
+        assertThat(hibernateParent.getGrandParent()).isNull();
+        assertThat(hibernateParent.getChildren()).isNull();
     }
 
     @Test

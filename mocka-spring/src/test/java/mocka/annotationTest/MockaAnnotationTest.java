@@ -4,16 +4,18 @@ import mocka.annotation.mocka.Mocka;
 import mocka.annotation.mocka.MockaExtension;
 import mocka.entity.hibernate.associations.Parent;
 import mocka.generator.GenerateType;
+import mocka.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(MockaExtension.class)
-@DisplayName("Mocka Annotation Test")
+@DisplayName("Mocka Annotation Test Code")
 public class MockaAnnotationTest {
 
     @Mocka(GenerateType.ALL)
@@ -30,6 +32,10 @@ public class MockaAnnotationTest {
 
     @Mocka(GenerateType.PARENTS)
     Parent parents_parent;
+
+    @Autowired
+    SpringGeneratorFactory springGeneratorFactory;
+
 
     @Test
     void test_mocka_annotation_test_with_GenerateTypeAll() {
