@@ -1,7 +1,7 @@
 package mocka.hibernateTest;
 
 import mocka.MockaSpringTestApplication;
-import mocka.entity.hibernate.Member;
+import mocka.entity.orm.Member;
 import mocka.generator.EntityGenerator;
 import mocka.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;

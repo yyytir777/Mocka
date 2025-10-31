@@ -2,7 +2,7 @@ package mocka.annotationTest;
 
 import mocka.annotation.mocka.Mocka;
 import mocka.annotation.mocka.MockaExtension;
-import mocka.entity.hibernate.associations.Parent;
+import mocka.entity.orm.associations.Parent;
 import mocka.generator.GenerateType;
 import mocka.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;

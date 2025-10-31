@@ -1,9 +1,9 @@
 <!-- resources/mapper/GrandparentMapper.xml -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mocka.entity.mybatis.associations.GrandParentMapper">
+<mapper namespace="mocka.entity.orm.mybatis.GrandParentMapper">
 
-    <resultMap id="GrandParentResultMap" type="mocka.entity.mybatis.associations.GrandParent">
+    <resultMap id="GrandParentResultMap" type="mocka.entity.orm.associations.GrandParent">
         <id property="id" column="gp_id"/>
         <result property="name" column="gp_name"/>
         <collection property="parents" resultMap="ParentResultMap"/>

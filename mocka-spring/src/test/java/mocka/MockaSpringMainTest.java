@@ -2,7 +2,7 @@ package mocka;
 
 import mocka.generator.orm.ORMCreator;
 import mocka.generator.orm.ORMResolver;
-import mocka.entity.hibernate.Member;
+import mocka.entity.orm.Member;
 import mocka.generator.Generator;
 import mocka.generator.SpringGeneratorFactory;
 import org.junit.jupiter.api.DisplayName;

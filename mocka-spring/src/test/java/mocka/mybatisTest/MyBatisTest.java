@@ -1,9 +1,10 @@
 package mocka.mybatisTest;
 
 import mocka.MockaSpringTestApplication;
-import mocka.entity.mybatis.Member;
+import mocka.entity.orm.Member;
 import mocka.generator.EntityGenerator;
 import mocka.generator.SpringGeneratorFactory;
+import mocka.generator.orm.ORMType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class MyBatisTest {
     @DisplayName("MyBatis supports the fields of Member.class")
     void mybatis_supports_the_fields_of_Member() {
         EntityGenerator<Member> generator = springGeneratorFactory.getGenerator(Member.class);
-        Member member = generator.get();
+        Member member = generator.get(ORMType.MYBATIS);
         System.out.println("member = " + member);
 
         assertThat(member).isNotNull().isInstanceOf(Member.class);

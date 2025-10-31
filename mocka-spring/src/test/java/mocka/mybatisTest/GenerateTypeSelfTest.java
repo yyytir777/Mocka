@@ -4,9 +4,9 @@ import mocka.MockaSpringTestApplication;
 import mocka.generator.EntityGenerator;
 import mocka.generator.GenerateType;
 import mocka.generator.SpringGeneratorFactory;
-import mocka.entity.mybatis.associations.Child;
-import mocka.entity.mybatis.associations.GrandParent;
-import mocka.entity.mybatis.associations.Parent;
+import mocka.entity.orm.associations.Child;
+import mocka.entity.orm.associations.GrandParent;
+import mocka.entity.orm.associations.Parent;
 import mocka.generator.orm.ORMType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class GenerateTypeSelfTest {
     void generate_self_entity() {
         EntityGenerator<Parent> generator = springGeneratorFactory.getGenerator(Parent.class);
 
-        Parent parent = generator.get(GenerateType.SELF);
+        Parent parent = generator.get(ORMType.MYBATIS, GenerateType.SELF);
         System.out.println("parent = " + parent);
         assertThat(parent).isNotNull().isInstanceOf(Parent.class);
 

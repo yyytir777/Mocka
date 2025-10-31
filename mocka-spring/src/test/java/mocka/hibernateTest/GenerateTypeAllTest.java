@@ -1,9 +1,9 @@
 package mocka.hibernateTest;
 
 import mocka.MockaSpringTestApplication;
-import mocka.entity.hibernate.associations.Child;
-import mocka.entity.hibernate.associations.GrandParent;
-import mocka.entity.hibernate.associations.Parent;
+import mocka.entity.orm.associations.Child;
+import mocka.entity.orm.associations.GrandParent;
+import mocka.entity.orm.associations.Parent;
 import mocka.generator.EntityGenerator;
 import mocka.generator.GenerateType;
 import mocka.generator.SpringGeneratorFactory;

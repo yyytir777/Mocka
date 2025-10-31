@@ -1,4 +1,4 @@
-package mocka.entity.hibernate.associations;
+package mocka.entity.orm.associations;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

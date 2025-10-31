@@ -1,7 +1,7 @@
 package mocka.entity.filesource.csv;
 
 import mocka.annotation.FileSource;
-import mocka.entity.hibernate.MemberType;
+import mocka.entity.orm.MemberType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
