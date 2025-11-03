@@ -48,7 +48,7 @@ public class PathResourceLoader {
         } catch (FileNotFoundException e) {
             throw new GeneratorException(e.getMessage());
         } catch (IOException ioe) {
-            throw new GeneratorException("Failed to load resource " + path, ioe);
+            throw new GeneratorException("Failed to load resource " + path);
         }
     }
 

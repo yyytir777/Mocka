@@ -4,9 +4,10 @@ import mocka.MockaSpringTestApplication;
 import mocka.generator.EntityGenerator;
 import mocka.generator.GenerateType;
 import mocka.generator.SpringGeneratorFactory;
-import mocka.entity.mybatis.associations.Child;
-import mocka.entity.mybatis.associations.GrandParent;
-import mocka.entity.mybatis.associations.Parent;
+import mocka.entity.orm.associations.Child;
+import mocka.entity.orm.associations.GrandParent;
+import mocka.entity.orm.associations.Parent;
+import mocka.generator.orm.ORMType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class GenerateTypeParentsTest {
     @DisplayName("GenerateType.PARENTS generates parent and grandParent entity (follows parent association)")
     void generate_parent_entity() {
         EntityGenerator<Child> generator = springGeneratorFactory.getGenerator(Child.class);
-        Child child = generator.get(GenerateType.PARENTS);
+        Child child = generator.get(ORMType.MYBATIS, GenerateType.PARENTS);
         System.out.println("child = " + child);
         assertThat(child).isNotNull().isInstanceOf(Child.class);
 

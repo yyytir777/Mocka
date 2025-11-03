@@ -1,4 +1,4 @@
-package mocka.entity.hibernate.associations;
+package mocka.entity.orm.associations;
 
 import mocka.annotation.ValueSource;
 import jakarta.persistence.Entity;

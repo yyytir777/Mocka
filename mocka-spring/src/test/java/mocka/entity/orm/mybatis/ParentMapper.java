@@ -1,4 +1,4 @@
-package mocka.entity.mybatis.associations;
+package mocka.entity.orm.mybatis;
 
 import org.apache.ibatis.annotations.Mapper;
 

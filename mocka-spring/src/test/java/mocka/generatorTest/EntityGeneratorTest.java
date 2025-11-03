@@ -4,7 +4,7 @@ import mocka.MockaSpringTestApplication;
 import mocka.generator.EntityGenerator;
 import mocka.generator.Generator;
 import mocka.generator.SpringGeneratorFactory;
-import mocka.entity.hibernate.TestEntity;
+import mocka.entity.orm.TestEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

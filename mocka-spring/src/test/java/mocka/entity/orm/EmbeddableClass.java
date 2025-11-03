@@ -1,4 +1,4 @@
-package mocka.entity.hibernate;
+package mocka.entity.orm;
 
 import jakarta.persistence.Embeddable;
 

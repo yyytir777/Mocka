@@ -23,9 +23,11 @@ import java.util.HashSet;
 public class MockaExtension implements BeforeEachCallback {
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws IllegalAccessException {
         Object testInstance = context.getRequiredTestInstance();
         ApplicationContext ctx = SpringExtension.getApplicationContext(context);
+
+        ORMType ormType = resolveMockaConfig(testInstance, ctx);
 
         Class<?> clazz = testInstance.getClass();
 
@@ -39,7 +41,7 @@ public class MockaExtension implements BeforeEachCallback {
 
             Class<?> targetClass = field.getType();
 
-            ORMType ormType = detectORM(targetClass);
+            if(ormType == null) ormType = detectORM(targetClass);
 
             ORMResolver ormResolver = switch (ormType) {
                 case MYBATIS -> ctx.getBean(MyBatisCreator.class);
@@ -54,7 +56,30 @@ public class MockaExtension implements BeforeEachCallback {
 
             }
             field.set(testInstance, entity);
+            ormType = null;
         }
+    }
+
+    private ORMType resolveMockaConfig(Object testClass, ApplicationContext ctx) {
+        MockaConfig mockaConfig = testClass.getClass().getAnnotation(MockaConfig.class);
+        if(mockaConfig == null) return null;
+
+        ORMType ormType = mockaConfig.ormType();
+        int size = mockaConfig.size();
+
+        switch (ormType) {
+            case HIBERNATE -> {
+                HibernateCreator creator = ctx.getBean(HibernateCreator.class);
+                creator.setAssociationSize(size);
+                return ORMType.HIBERNATE;
+            }
+            case MYBATIS -> {
+                MyBatisCreator creator = ctx.getBean(MyBatisCreator.class);
+                creator.setAssociationSize(size);
+                return ORMType.MYBATIS;
+            }
+        }
+        return null;
     }
 
     private <T> ORMType detectORM(Class<T> clazz) {

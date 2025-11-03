@@ -2,6 +2,7 @@ package mocka.generator.orm.mybatis;
 
 import mocka.annotation.RegexSource;
 import mocka.annotation.ValueSource;
+import mocka.exception.GeneratorException;
 import mocka.generator.FileSourceCreator;
 import mocka.generator.GenerateType;
 import mocka.generator.orm.*;
@@ -44,7 +45,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      * The number of elements to generate for collection associations (one-to-many, many-to-many).
      * Configured via {@link ORMProperties#getAssociationSize()}.
      */
-    private final Integer ASSOCIATION_SIZE;
+    private Integer ASSOCIATION_SIZE;
 
     public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
         super(fileSourceCreator);
@@ -68,6 +69,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, GenerateType generateType) {
+        if(!myBatisMetadata.getMapperClasses().contains(clazz)) throw new GeneratorException("MyBatis Entity isn't exists");
+
         if (generateType == null) return null;
 
         GenerateType nextGenerateType = generateType.next();
@@ -130,6 +133,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
+        if(!myBatisMetadata.getMapperClasses().contains(clazz)) throw new GeneratorException("MyBatis Entity isn't exists");
+
         GenerateType generateType = GenerateType.ALL;
         String className = clazz.getSimpleName();
         if(caches.containsKey(className)) {
@@ -275,5 +280,9 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
     @Override
     public Set<Class<?>> load() {
         return myBatisLoader.load();
+    }
+
+    public void setAssociationSize(int size) {
+        this.ASSOCIATION_SIZE = size;
     }
 }

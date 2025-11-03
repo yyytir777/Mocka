@@ -1,6 +1,6 @@
 package mocka.persistenceTest;
 
-import mocka.entity.hibernate.Member;
+import mocka.entity.orm.Member;
 import mocka.generator.EntityGenerator;
 import mocka.generator.SpringGeneratorFactory;
 import mocka.persistence.BulkPersistenceExecutor;

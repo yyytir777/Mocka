@@ -1,6 +1,6 @@
-<mapper namespace="mocka.entity.mybatis.MemberMapper">
+<mapper namespace="mocka.entity.orm.mybatis.MemberMapper">
 
-    <resultMap id="MemberResultMap" type="mocka.entity.mybatis.Member">
+    <resultMap id="MemberResultMap" type="mocka.entity.orm.Member">
         <id property="id" column="id"/>
 
         <!-- primitive -->
