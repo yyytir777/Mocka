@@ -71,7 +71,7 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.6' // 	EDL 1.0
 
     // json
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0' // Apache 2.0
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1' // Apache 2.0
 
     // csv
     implementation 'org.apache.commons:commons-csv:1.14.1' // Apache 2.0
