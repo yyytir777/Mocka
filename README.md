@@ -52,8 +52,8 @@ Please visit the GitHub Wiki for detailed usage of each module.
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:mocka-core:1.1.0'
-    implementation 'io.github.yyytir777:mocka-spring:1.1.0'
+    implementation 'io.github.yyytir777:mocka-core:1.2.0'
+    implementation 'io.github.yyytir777:mocka-spring:1.2.0'
 }
 ```
 
@@ -63,12 +63,12 @@ dependencies {
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-core</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-spring</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
     </dependency>
 </dependencies>
 ```
@@ -125,6 +125,24 @@ GeneratorFactory.putGenerator(new RegistrableGenerator<>("test_generator", "test
 Generator<String> generator = GeneratorFactory.getGenerator("test_generator");
 ```
 
+## @Mocka Annotation
+- You can easily initialize entity instances in test code.
+- Developers can focus on core logic without having to manually generate relational entity instances for each test method
+
+```java
+@SpringBootTest
+@ExtendWith(MockaExtension.class)
+public class MockaTest {
+
+    @Mocka(GenerateType.CHILD)
+    Parent parent;
+
+    @Test
+    void assert_parent_is_not_null() {
+        assertThat(parent).isNotNull();
+    }
+}
+```
 
 ## GenerateType
 When generating entity instances, you can specify the GenerateType to control how associated entities are created.
