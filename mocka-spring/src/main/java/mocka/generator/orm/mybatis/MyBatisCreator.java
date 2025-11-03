@@ -2,6 +2,7 @@ package mocka.generator.orm.mybatis;
 
 import mocka.annotation.RegexSource;
 import mocka.annotation.ValueSource;
+import mocka.exception.GeneratorException;
 import mocka.generator.FileSourceCreator;
 import mocka.generator.GenerateType;
 import mocka.generator.orm.*;
@@ -68,6 +69,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, GenerateType generateType) {
+        if(!myBatisMetadata.getMapperClasses().contains(clazz)) throw new GeneratorException("MyBatis Entity isn't exists");
+
         if (generateType == null) return null;
 
         GenerateType nextGenerateType = generateType.next();
@@ -130,6 +133,8 @@ public class MyBatisCreator extends AbstractCreator implements ORMResolver {
      */
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
+        if(!myBatisMetadata.getMapperClasses().contains(clazz)) throw new GeneratorException("MyBatis Entity isn't exists");
+
         GenerateType generateType = GenerateType.ALL;
         String className = clazz.getSimpleName();
         if(caches.containsKey(className)) {
