@@ -37,7 +37,7 @@ Please visit the GitHub Wiki for detailed usage of each module.
 
 
 ## Key Features
-- **ORM Entity Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
+- **ORM Entity Instance Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
 - **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
 - **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
 - **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
