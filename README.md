@@ -134,7 +134,7 @@ Generator<String> generator = GeneratorFactory.getGenerator("test_generator");
 @ExtendWith(MockaExtension.class)
 public class MockaTest {
 
-    @Mocka(GenerateType.CHILD)
+    @Mocka
     Parent parent;
 
     @Test
@@ -143,6 +143,25 @@ public class MockaTest {
     }
 }
 ```
+
+## @MockaConfig Annotation
+- `@MockaConfig` annotation defines configuration options for entity instance generation in tests.
+- `size` : Specifies how many entity instances should be generated for `1:n` associations. (Default : 5)
+- `ormType` : Specifies which ORM implementation (`HIBERNATE`, `MYBATIS`) to use (when multiple are available)
+```java
+@MockaConfig(size = 10, ormType = ORMType.HIBERNATE)
+public class MockaTest {
+    
+    @Mocka(GenerateType.CHILD)
+    Parent parent;
+
+    @Test
+    void generate_children_with_given_size_and_specified_orm() {
+        assertThat(parent.getChildren()).hasSize(10);
+    }
+}
+```
+
 
 ## GenerateType
 When generating entity instances, you can specify the GenerateType to control how associated entities are created.
