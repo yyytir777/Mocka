@@ -48,7 +48,7 @@ mavenPublishing {
 dependencies {
     antlr "org.antlr:antlr4:4.13.2"
     implementation "org.antlr:antlr4-runtime:4.13.2" // BSD 3-clause
-    implementation 'commons-io:commons-io:2.20.0' // Apache 2.0
+    implementation 'commons-io:commons-io:2.21.0' // Apache 2.0
 }
 
 // generateGrammarSource settings
