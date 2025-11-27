@@ -27,11 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SpringGeneratorFactory extends GeneratorFactory {
 
     /**
-     * Responsible for creating entity instances during generation.
-     */
-    private final EntityInstanceCreator entityInstanceCreator;
-
-    /**
      * Provides ORM resolvers to discover and load entity classes.
      */
     private final ORMCreator ormCreator;
@@ -49,11 +44,9 @@ public class SpringGeneratorFactory extends GeneratorFactory {
     /**
      * Constructs a new {@code SpringGeneratorFactory} with the required dependencies.
      *
-     * @param entityInstanceCreator the factory responsible for creating entity instances
      * @param ormCreator            the ORM creator used to provide entity resolvers
      */
-    public SpringGeneratorFactory(EntityInstanceCreator entityInstanceCreator, ORMCreator ormCreator) {
-        this.entityInstanceCreator = entityInstanceCreator;
+    public SpringGeneratorFactory(ORMCreator ormCreator) {
         this.ormCreator = ormCreator;
     }
 
@@ -89,7 +82,7 @@ public class SpringGeneratorFactory extends GeneratorFactory {
      */
     private void registerEntities() {
         for (Class<?> clazz : SCANNED_CLASSES) {
-            entityGenerators.put(clazz, new EntityGenerator<>(clazz, entityInstanceCreator));
+            entityGenerators.put(clazz, new EntityGenerator<>(clazz, ormCreator));
         }
     }
 

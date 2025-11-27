@@ -1,15 +1,16 @@
 package mocka.generator;
 
+import mocka.generator.orm.ORMCreator;
 import mocka.generator.orm.ORMType;
 
 
 public class EntityGenerator<T> extends AbstractGenerator<T> {
 
-    private final EntityInstanceCreator entityInstanceCreator;
+    private final ORMCreator ormCreator;
 
-    public EntityGenerator(Class<T> entity, EntityInstanceCreator entityInstanceCreator) {
+    public EntityGenerator(Class<T> entity, ORMCreator ormCreator) {
         super(entity.getName(), entity);
-        this.entityInstanceCreator = entityInstanceCreator;
+        this.ormCreator = ormCreator;
     }
 
     /**
@@ -17,27 +18,27 @@ public class EntityGenerator<T> extends AbstractGenerator<T> {
      */
     @Override
     public T get() {
-        return entityInstanceCreator.createInstance(type, GenerateType.SELF);
+        return ormCreator.create(type, GenerateType.SELF);
     }
 
     /**
      * Returns a random entity instance with the given GenerateType
      */
     public T get(GenerateType generateType) {
-        return entityInstanceCreator.createInstance(type, generateType);
+        return ormCreator.create(type, generateType);
     }
 
     /**
      * Returns a random entity instance with the given ORMType and the default GeneratorType.SELF
      */
     public T get(ORMType ormType) {
-        return entityInstanceCreator.createInstance(ormType, type, GenerateType.SELF);
+        return ormCreator.create(ormType, type, GenerateType.SELF);
     }
 
     /**
      * Returns a random entity instance with the given ORMType and GenerateType
      */
     public T get(ORMType ormType, GenerateType generateType) {
-        return entityInstanceCreator.createInstance(ormType, type, generateType);
+        return ormCreator.create(ormType, type, generateType);
     }
 }
