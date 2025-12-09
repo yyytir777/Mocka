@@ -1,7 +1,7 @@
 grammar Regex;
 
 @header {
-    package mocka.generator.regex;
+    package mocka.core.generator.regex;
 }
 
 regex       : expr (PIPE expr)* ;
