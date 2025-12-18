@@ -43,7 +43,7 @@ bin/
 .DS_Store
 
 gradle.properties
-/mocka-test
+/test
 settings.gradle
 *.drawio
 /script

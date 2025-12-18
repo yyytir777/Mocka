@@ -1,8 +1,6 @@
 package mocka.core.generator.regex;
 
 import mocka.core.generator.AbstractGenerator;
-import mockacore.generator.regex.RegexLexer;
-import mockacore.generator.regex.RegexParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 

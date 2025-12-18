@@ -4,8 +4,6 @@ package mocka.core.generator.regex;
 import mocka.core.generator.primitive.CharacterGenerator;
 import mocka.core.generator.primitive.StringGenerator;
 import mocka.core.random.RandomProvider;
-import mockacore.generator.regex.RegexBaseVisitor;
-import mockacore.generator.regex.RegexParser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
