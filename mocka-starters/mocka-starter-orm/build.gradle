@@ -1,0 +1,24 @@
+plugins {
+    id 'java-library'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "signing"
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "mocka-starter-orm", version.toString())
+
+    pom {
+        name = "Mocka Starter ORM"
+        description = "Starter for using Mocka ORM"
+    }
+}
+
+dependencies {
+    api project(":mocka-core")
+    api project(":mocka-orm")
+}

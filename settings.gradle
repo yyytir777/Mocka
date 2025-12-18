@@ -1,4 +1,6 @@
 rootProject.name = 'mocka'
 
-include 'mocka-core'
-include 'mocka-spring'
+include ('mocka-core', "mocka-orm", "mocka-odm", "mocka-bom", "mocka-starter-orm", "mocka-starter-odm")
+
+project(":mocka-starter-orm").projectDir = file("mocka-starters/mocka-starter-orm")
+project(":mocka-starter-odm").projectDir = file("mocka-starters/mocka-starter-odm")
