@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "signing"
+
+    id 'io.spring.dependency-management'
+    id 'org.springframework.boot'
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+tasks.named("bootJar") {
+    enabled = false
+    mustRunAfter(tasks.named("jacocoTestReport"))
+}
+
+tasks.named("jar") {
+    enabled = true
+    archiveClassifier.set('')
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "mocka-odm", version.toString())
+
+    pom {
+        name = "Mocka ODM"
+        description = "Spring Library Of Mocka, generate automatically ODM entity instances"
+    }
+}
+
+dependencies {
+    implementation project(':mocka-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+
+}
