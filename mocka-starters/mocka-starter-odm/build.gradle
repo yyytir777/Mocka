@@ -19,6 +19,8 @@ mavenPublishing {
 }
 
 dependencies {
+    api platform("io.github.yyytir777:mocka-bom:${version}")
+
     api(project(":mocka-core"))
     api(project(":mocka-odm"))
 }
