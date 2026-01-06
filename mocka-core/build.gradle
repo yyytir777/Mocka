@@ -24,9 +24,9 @@ dependencies {
     implementation "org.antlr:antlr4-runtime:4.13.2" // BSD 3-clause
     implementation 'commons-io:commons-io:2.20.0' // Apache 2.0
 
-    implementation 'org.springframework:spring-context:6.2.7'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    implementation 'org.springframework:spring-context'
     testImplementation 'org.assertj:assertj-core:3.25.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 // generateGrammarSource settings

@@ -32,11 +32,24 @@ mavenPublishing {
 }
 
 dependencies {
-    implementation project(':mocka-core')
-
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-test'
-
+    api project(':mocka-core')
+    implementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework:spring-test'
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
+
+    // XML
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.4'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.6'
+
+    // JSON
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
+
+    // CSV
+    implementation 'org.apache.commons:commons-csv:1.14.1'
+
+    // XLSX
+    implementation 'org.apache.poi:poi-ooxml:5.4.1'
 }

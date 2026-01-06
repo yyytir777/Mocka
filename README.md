@@ -30,10 +30,11 @@ This project consists of two modules:
 
 Please visit the GitHub Wiki for detailed usage of each module.
 
-| module           | version                                                                                           | Github Page                                                                     |
-|------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **Mocka Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core)   | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)      |
-| **Mocka Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-spring) | [**Spring Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Spring)  |
+| module         | version                                                                                         | Github Page                                                                |
+|----------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **mocka core** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core) | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core) |
+| **mocka orm**  | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-orm)  | [**ORM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ORM)   |
+| **mocka odm**  | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-odm)  | [**ODM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ODM)   |
 
 
 ## Key Features

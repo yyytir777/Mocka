@@ -25,7 +25,7 @@ mavenPublishing {
 dependencies {
     constraints {
         api "io.github.yyytir777:mocka-core:${version}"
-        api "io.github.yyytir777:mocka-jpa:${version}"
+        api "io.github.yyytir777:mocka-orm:${version}"
         api "io.github.yyytir777:mocka-odm:${version}"
     }
 }

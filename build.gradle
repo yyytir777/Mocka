@@ -25,7 +25,8 @@ subprojects {
     }
 
     dependencies {
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
+        implementation platform("org.springframework.boot:spring-boot-dependencies:3.4.4")
+        testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     }
 
     tasks.withType(Test).configureEach {
@@ -41,10 +42,6 @@ subprojects {
             xml.required = true // xml 형태의 리포트 생성
             html.required = true
         }
-    }
-
-    test {
-        useJUnitPlatform()
     }
 
     plugins.withId("com.vanniktech.maven.publish") {

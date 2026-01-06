@@ -32,14 +32,13 @@ mavenPublishing {
 }
 
 dependencies {
-    // 필요한 것) jpa코드, mybatis코드
-    implementation project(':mocka-core')
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-test'
-
+    api project(':mocka-core')
+    implementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework:spring-test'
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3"
 
+    testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
 
 // XML
