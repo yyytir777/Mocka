@@ -13,19 +13,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * {@code ORMCreator} is responsible for managing and delegating entity creation
- * to the appropriate {@link ORMCreator} based on the configured ORM type(s).
- * <p>
- * It supports multiple ORM frameworks (Hibernate and MyBatis) and determines
- * which resolver to use either automatically (via entity annotations) or
- * explicitly (via {@link ORMType} parameter).
- * </p>
+ * {@code ORMSelector} is a facade component responsible for selecting
+ * the appropriate {@link ORMCreator} and delegating entity creation to it.
  *
- * <p>This class is registered as a Spring {@link org.springframework.stereotype.Component}
- * and is constructed with available ORM beans and configuration properties.</p>
+ * <p>
+ * It supports multiple ORM frameworks (currently Hibernate and MyBatis) and
+ * determines which {@link ORMCreator} to use either:
+ * </p>
+ * <ul>
+ *   <li>automatically, based on entity annotations</li>
+ *   <li>explicitly, based on a provided {@link ORMType}</li>
+ * </ul>
+ *
+ * <p>
+ * This class does not create entities itself.
+ * It only coordinates and delegates creation requests to the resolved {@link ORMCreator}.
+ * </p>
  */
 @Component
-public class ORMSelector {
+public class ORMResolver {
 
     /**
      * Spring {@link BeanFactory} used to detect the presence of ORM-related beans.
@@ -40,16 +46,16 @@ public class ORMSelector {
     private static final String MYBATIS_BEAN_NAME = "sqlSessionFactory";
     private static final String HIBERNATE_BEAN_NAME = "entityManagerFactory";
 
-    public ORMSelector(BeanFactory beanFactory, ORMProperties ormProperties, List<ORMCreator> ormCreators) {
+    public ORMResolver(BeanFactory beanFactory, ORMProperties ormProperties, List<ORMCreator> ormCreators) {
         this.beanFactory = beanFactory;
         this.ormCreators = resolver(ormProperties, ormCreators);
     }
 
     /**
-     * Returns all registered {@link ORMCreator} implementations.
+     * Returns all registered {@link ORMCreator} instances.
      *
-     * @return a list of available ORM resolvers
-     * @throws GeneratorException if no resolver is available
+     * @return a list of available ORM creators
+     * @throws GeneratorException if no ORM creators are registered
      */
     public List<ORMCreator> getCreators() {
         if (this.ormCreators.isEmpty()) {
@@ -69,8 +75,8 @@ public class ORMSelector {
      * the ORM framework managing the given entity class.
      *
      * @param clazz        the entity class to instantiate
-     * @param generateType the generation strategy to apply ({@link GenerateType} except {@code GenerateType.ALL})
-     * @param <T>          the type of the entity
+     * @param generateType the generation strategy (excluding {@code GenerateType.ALL})
+     * @param <T>          the entity type
      * @return a new entity instance created using the appropriate ORM
      * @throws GeneratorException if no ORM resolver is available
      */
@@ -100,7 +106,7 @@ public class ORMSelector {
      * @param clazz   the root entity class to instantiate
      * @param caches  cache map used to store already created instances
      * @param visited set of visited paths to prevent infinite recursion
-     * @param <T>     the type of the entity
+     * @param <T>     the entity type
      * @return a fully populated entity instance created using the appropriate ORM
      * @throws GeneratorException if no ORM resolver is available
      */

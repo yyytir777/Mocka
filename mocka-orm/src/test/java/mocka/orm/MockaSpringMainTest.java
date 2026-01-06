@@ -2,7 +2,7 @@ package mocka.orm;
 
 import mocka.orm.generator.EntityGeneratorFactory;
 import mocka.orm.generator.EntityGeneratorInitializer;
-import mocka.orm.generator.ORMSelector;
+import mocka.orm.generator.ORMResolver;
 import mocka.orm.generator.ORMCreator;
 import mocka.orm.entity.orm.Member;
 import mocka.core.generator.Generator;
@@ -31,8 +31,8 @@ public class MockaSpringMainTest {
     @Test
     @DisplayName("Set ORM scan range by the value of 'mocka.orm.ormType' in application.yaml. If not specified, use bean definition.")
     void get_ormType() {
-        ORMSelector ormSelector = initializer.getOrmSelector();
-        List<ORMCreator> creators = ormSelector.getCreators();
+        ORMResolver ormResolver = initializer.getOrmSelector();
+        List<ORMCreator> creators = ormResolver.getCreators();
         for (ORMCreator ormCreator : creators) {
             System.out.println("ormCreator = " + ormCreator);
             assertThat(ormCreator).isNotNull();

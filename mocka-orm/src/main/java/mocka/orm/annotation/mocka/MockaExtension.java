@@ -16,9 +16,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * This extension integrates the functionality of JUnit and the Mocka library.
- * By applying @ExtendWith(MockaExtension.class) to a test class,
- * you can enable and use the test annotations provided by the Mocka library.
+ * {@code MockaExtension} integrates JUnit 5 with the Mocka ORM library.
+ *
+ * <p>
+ * When applied via {@code @ExtendWith(MockaExtension.class)}, this extension
+ * automatically initializes fields annotated with {@link Mocka} before each test.
+ * </p>
+ *
+ * <p>
+ * For each {@code @Mocka}-annotated field:
+ * </p>
+ * <ul>
+ *   <li>The target ORM type is resolved (explicitly via {@link MockaConfig} or implicitly)</li>
+ *   <li>The appropriate {@link ORMCreator} is selected from the Spring context</li>
+ *   <li>An entity instance is generated according to the specified {@link GenerateType}</li>
+ *   <li>The generated entity is injected into the test instance field</li>
+ * </ul>
+ *
+ * <p>
+ * This extension performs no caching and runs before every test method execution.
+ * </p>
  */
 public class MockaExtension implements BeforeEachCallback {
 

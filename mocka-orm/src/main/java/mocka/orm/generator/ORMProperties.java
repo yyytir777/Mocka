@@ -9,7 +9,7 @@ import java.util.List;
  * Configuration properties for ORM-related settings.
  *
  * <p>
- * These properties are bound from the application configuration file with the prefix {@code jodag.orm}.
+ * These properties are bound from the application configuration file with the prefix {@code mocka.orm}.
  * </p>
  *
  * <p><b>Configuration Example (application.yaml):</b></p>
