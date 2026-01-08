@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "signing"
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "mocka-starter-odm", version.toString())
+
+    pom {
+        name = "Mocka Starter ODM"
+        description = "Starter for using Mocka ODM"
+    }
+}
+
+dependencies {
+    api platform("io.github.yyytir777:mocka-bom:${version}")
+
+    api(project(":mocka-core"))
+    api(project(":mocka-odm"))
+}

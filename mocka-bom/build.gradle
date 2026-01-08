@@ -1,0 +1,31 @@
+plugins {
+    id 'java-platform'
+    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "signing"
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "mocka-bom", version.toString())
+
+    pom {
+        name = "Mocka BOM"
+        description = "Bill of Materials for Mocka modules"
+    }
+}
+
+dependencies {
+    constraints {
+        api "io.github.yyytir777:mocka-core:${version}"
+        api "io.github.yyytir777:mocka-orm:${version}"
+        api "io.github.yyytir777:mocka-odm:${version}"
+    }
+}

@@ -19,21 +19,24 @@ It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatical
 You can create entity instances **without knowing their fields**:
 ```java
 Generator<Member> generator = springGenerator.getGenerator(Member.class);
-Member member = generator.get();
+Member member = generator
+        .generateType(GenerateType.SELF)
+        .ormType(ORMTyp.HIBERNATE)
+        .get();
 ```
 
 Such randomly generated ORM entity instances can be used in various contexts, such as **testing**, **data populating**, and more.
 
 This project consists of two modules:
 - **Mocka Core** – generates field values when instantiating entities.
-- **Mocka Spring** – handles the logic for generating entity instances.
+- **Mocka ORM** – handles the logic for generating ORM entity instances.
 
 Please visit the GitHub Wiki for detailed usage of each module.
 
-| module           | version                                                                                           | Github Page                                                                     |
-|------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **Mocka Core**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core)   | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)      |
-| **Mocka Spring** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-spring) | [**Spring Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Spring)  |
+| module         | version                                                                                         | Github Page                                                                |
+|----------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **mocka core** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core) | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core) |
+| **mocka orm**  | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-orm)  | [**ORM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ORM)   |
 
 
 ## Key Features
@@ -52,8 +55,8 @@ Please visit the GitHub Wiki for detailed usage of each module.
 ### Gradle
 ```groovy
 dependencies {
-    implementation 'io.github.yyytir777:mocka-core:1.2.0'
-    implementation 'io.github.yyytir777:mocka-spring:1.2.0'
+    implementation 'io.github.yyytir777:mocka-core:1.3.0'
+    implementation 'io.github.yyytir777:mocka-orm:1.3.0'
 }
 ```
 
@@ -63,12 +66,12 @@ dependencies {
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-core</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
-        <artifactId>mocka-spring</artifactId>
-        <version>1.2.0</version>
+        <artifactId>mocka-orm</artifactId>
+        <version>1.3.0</version>
     </dependency>
 </dependencies>
 ```
@@ -78,7 +81,10 @@ dependencies {
 ### 1. Generate Entity Instances
 ```java
 Generator<Member> generator = springGenerator.getGenerator(Member.class);
-Member member = generator.get();
+Member member = generator
+        .generateType(GenerateType.SELF)
+        .ormType(ORMType.HIBERNATE)
+        .get();
 ```
 
 ### 2. Map Entity Fields to a Generator or File
@@ -179,7 +185,9 @@ Even if relationships exist, they are initialized as null.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
-B b = generator.get(GenerateType.SELF);
+B b = generator
+        .generateType(GenerateType.SELF)
+        .get();
 ```
 If you generate entity B with `GenerateType.SELF`, only B will be created; associated entities will not be generated.
 
@@ -192,7 +200,9 @@ Generates the specified entity and its direct child entities.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
-B b = generator.get(GenerateType.CHILD);
+B b = generator
+        .generateType(GenerateType.CHILD)
+        .get();
 ```
 If you generate entity B with `GenerateType.CHILD`, both B and its child entity C will be created.
 
@@ -204,8 +214,10 @@ If you generate entity B with `GenerateType.CHILD`, both B and its child entity 
 Recursively generates the specified entity and all its descendant entities.
 
 ```java
-Generator<A> generator = springGenerator.getGenerator(A.class);
-A a = generator.get(GenerateType.CHILDREN);
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator
+        .generateType(GenerateType.CHILDREN)
+        .get();
 ```
 If you generate entity A with `GenerateType.CHILDREN`, entities A, B, and C will all be created recursively.
 
@@ -218,7 +230,9 @@ Generates the specified entity and its direct parent entity.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
-B b = generator.get(GenerateType.PARENT);
+B b = generator
+        .generateType(GenerateType.PARENT)
+        .get();
 ```
 If you generate entity B with `GenerateType.PARENT`, both B and its parent entity A will be created.
 
@@ -230,8 +244,10 @@ If you generate entity B with `GenerateType.PARENT`, both B and its parent entit
 Recursively generates the specified entity and all its ancestor entities.
 
 ```java
-Generator<C> generator = springGenerator.getGenerator(C.class);
-C c = generator.get(GenerateType.PARENTS);
+Generator<B> generator = springGenerator.getGenerator(B.class);
+B b = generator
+        .generateType(GenerateType.PARENTS)
+        .get();
 ```
 If you generate entity C with `GenerateType.PARENTS`, entities C, B, and A will all be created recursively.
 
@@ -244,7 +260,9 @@ Recursively generates the specified entity and all related entities, both parent
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
-B b = generator.get(GenerateType.ALL);
+B b = generator
+        .generateType(GenerateType.ALL)
+        .get();
 ```
 If you generate entity B with `GenerateType.ALL`, entities A, B, and C will all be created together.
 
