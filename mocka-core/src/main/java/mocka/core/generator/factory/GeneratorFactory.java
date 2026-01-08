@@ -43,7 +43,4 @@ import mocka.core.generator.Generator;
  */
 public class GeneratorFactory extends GeneratorRegistry implements PrimitiveFactory, CommonFactory, ExtendedFactory, RegexFactory {
 
-//    public abstract <T> Generator<T> getGenerator(Class<T> clazz);
-//
-//    public abstract List<Class<?>> getEntityGeneratorNames();
 }
