@@ -1,6 +1,6 @@
 package mocka.orm.regexSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.regexsource.RegexSourceEntity;
 import mocka.orm.entity.regexsource.RegexSourceFailEntity;
 import mocka.core.generator.Generator;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles("test")
 @DisplayName("ValueSource Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class RegexSourceTest {
 
     @Autowired

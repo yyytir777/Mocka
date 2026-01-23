@@ -1,6 +1,6 @@
 package mocka.orm.fileSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.filesource.json.*;
 import mocka.orm.generator.EntityGenerator;
 import mocka.orm.generator.EntityGeneratorFactory;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @DisplayName("FileSource JSON Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class FileSourceJsonTest {
 
     @Autowired

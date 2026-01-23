@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @ActiveProfiles("test")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
-@DisplayName("mocka-spring Main Test Code")
-public class MockaSpringMainTest {
+@SpringBootTest(classes = MockaOrmTestApplication.class)
+@DisplayName("mocka-orm Main Test Code")
+public class MockaOrmMainTest {
 
     @Autowired
     private EntityGeneratorInitializer initializer;

@@ -1,6 +1,6 @@
 package mocka.orm.hibernateTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.orm.Member;
 import mocka.orm.generator.EntityGenerator;
 import mocka.orm.generator.EntityGeneratorFactory;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @DisplayName("Hibernate Supports Field Type Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class HibernateTest {
 
     @Autowired

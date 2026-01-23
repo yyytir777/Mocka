@@ -1,6 +1,6 @@
 package mocka.orm.valueSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.core.file.PathResourceLoader;
 import mocka.core.exception.GeneratorException;
 import mocka.core.generator.Generator;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles("test")
 @DisplayName("ValueSource Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class ValueSourceTest {
 
     @Autowired

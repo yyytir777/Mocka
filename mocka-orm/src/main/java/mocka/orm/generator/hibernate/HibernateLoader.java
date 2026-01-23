@@ -61,7 +61,7 @@ public class HibernateLoader implements BeanFactoryAware, ORMLoader {
                 }).collect(Collectors.toSet());
 
         Long endMs = System.currentTimeMillis();
-        log.info("Finished scanning entity classes in {}ms. Add {} entities in SpringGeneratorFactory", (endMs - startMs), candidates.size());
+        log.info("Finished scanning entity classes in {}ms. Add {} entities in EntityGeneratorFactory", (endMs - startMs), candidates.size());
         return candidates;
     }
 }

@@ -1,6 +1,6 @@
 package mocka.orm.annotationTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.annotation.mocka.Mocka;
 import mocka.orm.annotation.mocka.MockaExtension;
 import mocka.orm.entity.orm.associations.Parent;
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest(classes = {MockaSpringTestApplication.class})
+@SpringBootTest(classes = {MockaOrmTestApplication.class})
 @ExtendWith(MockaExtension.class)
 @DisplayName("Mocka Annotation Test Code")
 public class MockaAnnotationTest {

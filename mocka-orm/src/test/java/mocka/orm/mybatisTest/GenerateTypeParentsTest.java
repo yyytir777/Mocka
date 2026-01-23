@@ -1,6 +1,6 @@
 package mocka.orm.mybatisTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.generator.EntityGenerator;
 import mocka.core.GenerateType;
 import mocka.orm.entity.orm.associations.Child;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @DisplayName("MyBatis GenerateType.PARENTS Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class GenerateTypeParentsTest {
 
     @Autowired
