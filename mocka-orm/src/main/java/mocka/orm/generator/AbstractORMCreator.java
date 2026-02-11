@@ -10,12 +10,12 @@ import mocka.core.generator.regex.RegexGenerator;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
-public abstract class AbstractCreator {
+public abstract class AbstractORMCreator {
 
     private final FileSourceCreator fileSourceCreator;
     private final RegexGenerator regexGenerator = RegexGenerator.getInstance();
 
-    public AbstractCreator(FileSourceCreator fileSourceCreator) {
+    public AbstractORMCreator(FileSourceCreator fileSourceCreator) {
         this.fileSourceCreator = fileSourceCreator;
     }
 

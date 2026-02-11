@@ -35,12 +35,12 @@ import java.util.*;
  * is configured through {@link ORMProperties#getAssociationSize()}.
  *
  * @see ORMCreator
- * @see AbstractCreator
+ * @see AbstractORMCreator
  * @see HibernateFieldValueGenerator
  * @see AssociationMatcherFactory
  */
 @Component
-public class  HibernateCreator extends AbstractCreator implements ORMCreator {
+public class HibernateCreator extends AbstractORMCreator implements ORMCreator {
 
     private final ORMLoader hibernateLoader;
     private final FieldValueGenerator fieldValueGenerator;

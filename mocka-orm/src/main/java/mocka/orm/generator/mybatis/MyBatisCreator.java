@@ -30,12 +30,12 @@ import java.util.*;
  * is configured through {@link ORMProperties#getAssociationSize()}.
  *
  * @see ORMCreator
- * @see AbstractCreator
+ * @see AbstractORMCreator
  * @see MyBatisFieldValueGenerator
  * @see AssociationMatcherFactory
  */
 @Component
-public class MyBatisCreator extends AbstractCreator implements ORMCreator {
+public class MyBatisCreator extends AbstractORMCreator implements ORMCreator {
 
     private final ORMLoader myBatisLoader;
     private final FieldValueGenerator fieldValueGenerator;
