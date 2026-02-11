@@ -1,6 +1,6 @@
 package mocka.orm.entity.filesource.xlsx;
 
-import mocka.orm.annotation.FileSource;
+import mocka.core.annotation.FileSource;
 import mocka.orm.entity.orm.MemberType;
 import jakarta.persistence.*;
 

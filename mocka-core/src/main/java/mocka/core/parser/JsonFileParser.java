@@ -1,4 +1,4 @@
-package mocka.orm.parser;
+package mocka.core.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mocka.core.random.RandomProvider;

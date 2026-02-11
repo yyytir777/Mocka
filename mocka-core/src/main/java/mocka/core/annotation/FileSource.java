@@ -1,11 +1,11 @@
-package mocka.orm.annotation;
+package mocka.core.annotation;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface RegexSource {
+public @interface FileSource {
     String value() default "";
 }

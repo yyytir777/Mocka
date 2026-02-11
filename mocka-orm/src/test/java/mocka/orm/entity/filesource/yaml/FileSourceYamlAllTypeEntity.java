@@ -1,6 +1,6 @@
 package mocka.orm.entity.filesource.yaml;
 
-import mocka.orm.annotation.FileSource;
+import mocka.core.annotation.FileSource;
 import mocka.orm.entity.orm.MemberType;
 import jakarta.persistence.*;
 

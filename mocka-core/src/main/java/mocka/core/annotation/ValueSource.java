@@ -1,4 +1,4 @@
-package mocka.orm.annotation;
+package mocka.core.annotation;
 
 
 

@@ -1,23 +1,22 @@
 package mocka.orm.generator;
 
-import mocka.orm.annotation.FileSource;
-import mocka.orm.annotation.RegexSource;
-import mocka.orm.annotation.ValueSource;
+import mocka.core.file.PathResourceLoader;
+import mocka.core.generator.Creator;
+import mocka.core.annotation.FileSource;
+import mocka.core.annotation.RegexSource;
+import mocka.core.annotation.ValueSource;
 import mocka.core.exception.ValueSourceException;
 import mocka.core.generator.factory.GeneratorRegistry;
 import mocka.core.generator.regex.RegexGenerator;
+import mocka.core.parser.FileParser;
+import mocka.core.parser.FileParserFactory;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
-public abstract class AbstractORMCreator {
+public abstract class AbstractORMCreator implements Creator {
 
-    private final FileSourceCreator fileSourceCreator;
     private final RegexGenerator regexGenerator = RegexGenerator.getInstance();
-
-    public AbstractORMCreator(FileSourceCreator fileSourceCreator) {
-        this.fileSourceCreator = fileSourceCreator;
-    }
 
     /**
      * Handles field value generation for fields annotated with {@link ValueSource}.
@@ -51,7 +50,7 @@ public abstract class AbstractORMCreator {
      *                              (e.g., when neither generatorKey nor path+type combination is properly specified)
      */
     @SuppressWarnings("unchecked")
-    protected  <T> T handleValueSource(Field field) {
+    public <T> T handleValueSource(Field field) {
         ValueSource valueSource = field.getAnnotation(ValueSource.class);
         String path = valueSource.path();
         Class<?> type = valueSource.type();
@@ -70,23 +69,26 @@ public abstract class AbstractORMCreator {
         throw new ValueSourceException("Cannot resolve generator from ValueSource: " + valueSource);
     }
 
-    protected  String handleRegexSource(Field field) {
+    public String handleRegexSource(Field field) {
         RegexSource regexSource = field.getAnnotation(RegexSource.class);
         String pattern = regexSource.value();
         return regexGenerator.get(pattern);
     }
 
 
-    protected  <T> T initInstance(Class<T> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public <T> T initInstance(Class<T> clazz) {
         T instance = null;
         FileSource fileSource = clazz.getAnnotation(FileSource.class);
         if(fileSource != null) {
-            instance = fileSourceCreator.createFromFileSource(clazz, fileSource);
+            instance = createFromFileSource(clazz, fileSource);
         }
         if(instance == null) {
-            instance = clazz.getDeclaredConstructor().newInstance();
+            try {
+                instance = clazz.getDeclaredConstructor().newInstance();
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Failed to create instance of " + clazz.getName(), e);
+            }
         }
-
         return instance;
     }
 }

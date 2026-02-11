@@ -1,4 +1,4 @@
-package mocka.orm.parser;
+package mocka.core.parser;
 
 
 import java.io.InputStream;

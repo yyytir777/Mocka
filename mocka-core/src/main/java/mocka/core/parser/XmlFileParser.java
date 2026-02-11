@@ -1,4 +1,4 @@
-package mocka.orm.parser;
+package mocka.core.parser;
 
 import mocka.core.random.RandomProvider;
 import org.w3c.dom.Document;

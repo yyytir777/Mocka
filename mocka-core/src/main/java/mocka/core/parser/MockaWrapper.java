@@ -1,4 +1,4 @@
-package mocka.orm.parser;
+package mocka.core.parser;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;

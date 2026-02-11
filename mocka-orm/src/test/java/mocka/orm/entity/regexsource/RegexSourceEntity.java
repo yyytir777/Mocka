@@ -1,6 +1,6 @@
 package mocka.orm.entity.regexsource;
 
-import mocka.orm.annotation.RegexSource;
+import mocka.core.annotation.RegexSource;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

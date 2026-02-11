@@ -2,7 +2,7 @@ package mocka.orm.entity.orm.associations;
 
 
 import jakarta.persistence.*;
-import mocka.orm.annotation.ValueSource;
+import mocka.core.annotation.ValueSource;
 
 import java.util.List;
 
