@@ -21,8 +21,7 @@ public class BulkPersistenceExecutorTest {
 
     @Autowired BulkPersistenceExecutor bulkPersistenceExecutor;
     @Autowired JdbcTemplate jdbcTemplate;
-    @Autowired
-    EntityGeneratorFactory generatorFactory;
+    @Autowired EntityGeneratorFactory generatorFactory;
 
     @Test
     @DisplayName("creates 1000 instances of Member.class and insert to db using batch operation")
@@ -31,5 +30,6 @@ public class BulkPersistenceExecutorTest {
         bulkPersistenceExecutor.execute(generator, 100L, 10, Member.class);
 
         Long rowCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM member", Long.class);
+        assertThat(rowCount).isEqualTo(100L);
     }
 }
