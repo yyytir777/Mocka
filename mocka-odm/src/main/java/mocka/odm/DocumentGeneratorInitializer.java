@@ -3,7 +3,7 @@ package mocka.odm;
 import jakarta.annotation.PostConstruct;
 import mocka.odm.generator.DocumentGenerator;
 import mocka.odm.generator.DocumentGeneratorFactory;
-import mocka.odm.generator.ODMSelector;
+import mocka.odm.generator.ODMResolver;
 import mocka.odm.generator.odm.ODMCreator;
 import org.springframework.stereotype.Component;
 
@@ -16,28 +16,28 @@ import java.util.Set;
 public class DocumentGeneratorInitializer {
 
     private final DocumentGeneratorFactory documentGeneratorFactory;
-    private final ODMSelector odmSelector;
+    private final ODMResolver odmResolver;
 
-    public DocumentGeneratorInitializer(DocumentGeneratorFactory documentGeneratorFactory, ODMSelector odmSelector) {
+    public DocumentGeneratorInitializer(DocumentGeneratorFactory documentGeneratorFactory, ODMResolver odmResolver) {
         this.documentGeneratorFactory = documentGeneratorFactory;
-        this.odmSelector = odmSelector;
+        this.odmResolver = odmResolver;
     }
 
     @PostConstruct
     public void init() {
         Map<Class<?>, DocumentGenerator<?>> generators = new HashMap<>();
 
-        List<ODMCreator> creators = odmSelector.getCreators();
+        List<ODMCreator> creators = odmResolver.getCreators();
         for (ODMCreator creator : creators) {
             Set<Class<?>> documentClasses = creator.load();
             for (Class<?> documentClass : documentClasses) {
-                generators.put(documentClass, new DocumentGenerator<>(documentClass, odmSelector));
+                generators.put(documentClass, new DocumentGenerator<>(documentClass, odmResolver));
             }
         }
         documentGeneratorFactory.registerAll(generators);
     }
 
-    public ODMSelector getOdmSelector() {
-        return this.odmSelector;
+    public ODMResolver getOdmSelector() {
+        return this.odmResolver;
     }
 }

@@ -9,13 +9,13 @@ import java.util.HashSet;
 
 public class DocumentGenerator<T> extends AbstractGenerator<T> {
 
-    private final ODMSelector odmSelector;
+    private final ODMResolver odmResolver;
     private GenerateType generateType = GenerateType.SELF;
     private ODMType odmType = ODMType.MONGDODB;
 
-    public DocumentGenerator(Class<T> type, ODMSelector odmSelector) {
+    public DocumentGenerator(Class<T> type, ODMResolver odmResolver) {
         super(type.getName(), type);
-        this.odmSelector = odmSelector;
+        this.odmResolver = odmResolver;
     }
 
     public DocumentGenerator<T> generateType(GenerateType generateType) {
@@ -31,8 +31,8 @@ public class DocumentGenerator<T> extends AbstractGenerator<T> {
     @Override
     public T get() {
         if (generateType.equals(GenerateType.ALL)) {
-            return odmSelector.create(odmType, type, new HashMap<>(), new HashSet<>());
+            return odmResolver.create(odmType, type, new HashMap<>(), new HashSet<>());
         }
-        return odmSelector.create(odmType, type, generateType);
+        return odmResolver.create(odmType, type, generateType);
     }
 }
