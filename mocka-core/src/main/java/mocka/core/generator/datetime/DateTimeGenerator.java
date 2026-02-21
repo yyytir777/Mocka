@@ -36,6 +36,7 @@ public class DateTimeGenerator extends AbstractDateGenerator<Temporal> {
         if (type.equals(OffsetTime.class)) return (T) getOffsetTime();
         if (type.equals(OffsetDateTime.class)) return (T) getOffsetDateTime();
         if (type.equals(Instant.class)) return (T) getInstant();
+        if (type.equals(ZonedDateTime.class)) return (T) getZonedDatetime();
         throw new UnsupportedOperationException("Unsupported type: " + type);
     }
 
@@ -79,5 +80,14 @@ public class DateTimeGenerator extends AbstractDateGenerator<Temporal> {
      */
     public Instant getInstant() {
         return getRandomDate().toInstant(getRandomOffset());
+    }
+
+    /**
+     * Returns a random value of java.time.ZonedDateTime
+     */
+    public ZonedDateTime getZonedDatetime() {
+        int hour = randomProvider.getInt(-12, 12);
+        ZoneId zoneId = ZoneOffset.ofHours(hour);
+        return ZonedDateTime.of(getRandomDate(), zoneId);
     }
 }

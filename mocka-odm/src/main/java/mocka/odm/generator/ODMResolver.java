@@ -8,22 +8,23 @@ import mocka.odm.generator.odm.ODMType;
 import mocka.core.GenerateType;
 import mocka.core.VisitedPath;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.boot.SpringApplicationShutdownHandlers;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class ODMSelector {
+public class ODMResolver {
 
     private final BeanFactory beanFactory;
 
     private Map<ODMType, ODMCreator> odmCreators = new HashMap<>();
 
     private static final String MONGODB_BEAN_NAME = "mongoTemplate";
+    // TODO : Redis
+//    private static final String REDIS_BEAN_NAME = "redisTemplate";
 
-    public ODMSelector(BeanFactory beanFactory, ODMProperties odmProperties, List<ODMCreator> odmCreators) {
+    public ODMResolver(BeanFactory beanFactory, ODMProperties odmProperties, List<ODMCreator> odmCreators) {
         this.beanFactory = beanFactory;
         this.odmCreators = resolver(odmProperties, odmCreators);
     }
@@ -47,6 +48,12 @@ public class ODMSelector {
     }
 
     private Map<ODMType, ODMCreator> resolver(ODMProperties odmProperties, List<ODMCreator> odmCreators) {
+        boolean hasMongoDB = beanFactory.containsBean(MONGODB_BEAN_NAME);
+
+        if(!hasMongoDB) {
+            throw new GeneratorException("ODM isn't exists");
+        }
+
         List<ODMType> odmTypes = odmProperties.getOdmType();
 
         Map<ODMType, ODMCreator> creatorMap = odmCreators.stream()
