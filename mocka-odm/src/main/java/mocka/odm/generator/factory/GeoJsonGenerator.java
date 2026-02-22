@@ -1,4 +1,4 @@
-package mocka.odm.generator.geo;
+package mocka.odm.generator.factory;
 
 import mocka.core.generator.AbstractGenerator;
 import mocka.core.generator.primitive.DoubleGenerator;
@@ -19,7 +19,7 @@ public class GeoJsonGenerator extends AbstractGenerator<String> {
         return INSTANCE;
     }
 
-    public GeoJsonGenerator() {
+    private GeoJsonGenerator() {
         super("geoGson", String.class);
     }
 
@@ -93,8 +93,7 @@ public class GeoJsonGenerator extends AbstractGenerator<String> {
     }
 
     public Sphere getSphere() {
-        return null;
+        Double radius = doubleGenerator.get();
+        return new Sphere(geoGenerator.getPoint(), radius);
     }
-
-
 }

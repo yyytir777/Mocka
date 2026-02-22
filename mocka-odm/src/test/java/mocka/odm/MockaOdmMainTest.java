@@ -44,12 +44,10 @@ public class MockaOdmMainTest {
         DocumentGenerator<Member> generator = generatorFactory.getGenerator(Member.class);
 
         Member member = generator.get();
-        System.out.println("document = " + member.toString());
         assertThat(member.getId()).isNotNull();
         assertThat(member.getName()).isNotNull();
 
         List<Class<?>> generatorNames = generatorFactory.getDocumentGeneratorNames();
-        System.out.println("generatorNames = " + generatorNames);
         assertThat(Member.class).isIn(generatorNames);
     }
 }

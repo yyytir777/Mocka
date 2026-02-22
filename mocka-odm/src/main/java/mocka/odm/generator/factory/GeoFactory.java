@@ -1,9 +1,5 @@
 package mocka.odm.generator.factory;
 
-import mocka.odm.generator.BsonGenerator;
-import mocka.odm.generator.geo.GeoJsonGenerator;
-import mocka.odm.generator.geo.GeoGenerator;
-
 public interface GeoFactory {
 
     default GeoGenerator asGeo() {
@@ -14,7 +10,7 @@ public interface GeoFactory {
         return GeoJsonGenerator.getInstance();
     }
 
-    default BsonGenerator asOdm() {
+    default BsonGenerator asBson() {
         return BsonGenerator.getInstance();
     }
 }

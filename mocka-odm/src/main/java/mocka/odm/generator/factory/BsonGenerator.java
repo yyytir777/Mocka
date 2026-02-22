@@ -1,4 +1,4 @@
-package mocka.odm.generator;
+package mocka.odm.generator.factory;
 
 import mocka.core.generator.AbstractGenerator;
 import mocka.core.generator.factory.GeneratorFactory;

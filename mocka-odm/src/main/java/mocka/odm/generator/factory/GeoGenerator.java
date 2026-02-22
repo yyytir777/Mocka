@@ -1,4 +1,4 @@
-package mocka.odm.generator.geo;
+package mocka.odm.generator.factory;
 
 import mocka.core.generator.AbstractGenerator;
 import mocka.core.generator.primitive.DoubleGenerator;
@@ -15,12 +15,12 @@ public class GeoGenerator extends AbstractGenerator<String> {
     private static final GeoGenerator INSTANCE = new GeoGenerator();
     private final DoubleGenerator doubleGenerator = DoubleGenerator.getInstance();
 
-    public GeoGenerator() {
-        super("geo", String.class);
-    }
-
     public static GeoGenerator getInstance() {
         return INSTANCE;
+    }
+
+    private GeoGenerator() {
+        super("geo", String.class);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GeoGenerator extends AbstractGenerator<String> {
         Double upperX = doubleGenerator.getDouble(-100.0, 100.0);
         Double upperY = doubleGenerator.getDouble(-100.0, 100.0);
 
-        Double lowerX = doubleGenerator.getDouble(-180.0, upperX);
+        Double lowerX = doubleGenerator.getDouble(-100.0, upperX);
         Double lowerY = doubleGenerator.getDouble(-90.0, upperY);
         return new Box(new Point(lowerX, lowerY), new Point(upperX, upperY));
     }
@@ -67,8 +67,13 @@ public class GeoGenerator extends AbstractGenerator<String> {
         return new Circle(center, radius);
     }
 
-    public Circle getCircle(Point p, double radius) {
-        return new Circle(p, radius);
+    public Circle getCircle(Point p) {
+        return new Circle(p, doubleGenerator.getPositiveDouble());
+    }
+
+    public Circle getCircle(double radius) {
+        if(radius < 0) throw new IllegalArgumentException("radius must be positive");
+        return new Circle(getPoint(), radius);
     }
 
     public Polygon getPolygon() {

@@ -3,10 +3,10 @@ package mocka.odm.generator.odm;
 import mocka.core.generator.FieldValueGenerator;
 import mocka.core.generator.factory.GeneratorFactory;
 import mocka.core.random.RandomProvider;
-import mocka.odm.generator.BsonGenerator;
+import mocka.odm.generator.factory.BsonGenerator;
 import mocka.odm.generator.factory.ODMGeneratorFactory;
-import mocka.odm.generator.geo.GeoGenerator;
-import mocka.odm.generator.geo.GeoJsonGenerator;
+import mocka.odm.generator.factory.GeoGenerator;
+import mocka.odm.generator.factory.GeoJsonGenerator;
 import org.bson.types.*;
 import org.springframework.data.geo.*;
 import org.springframework.data.mongodb.core.geo.*;
@@ -64,7 +64,6 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
     @Override
     public Object get(Field field) {
         Class<?> type = field.getType();
-        System.out.println("type = " + type);
 
         // no need to generate
         if(isNotGenerable(field)) {
@@ -140,7 +139,7 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
 
         // MongoDB 특수 타입
         if(type.getPackageName().startsWith("org.bson")) {
-            BsonGenerator bsonGenerator = odmGeneratorFactory.asOdm();
+            BsonGenerator bsonGenerator = odmGeneratorFactory.asBson();
 
             if(type.equals(ObjectId.class)) {
                 return bsonGenerator.getObjectId();
@@ -243,8 +242,6 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
     // type : List, Set, Collection / element : elementType
     private <T> Collection<T>  createCollections(Class<?> type, Class<?> element) {
         int size = randomProvider.getNextIdx(10);
-        // TODO Collection<T> 인스턴스 생성
-
         Collection<T> collection;
         if (Set.class.isAssignableFrom(type)) {
             collection = new HashSet<>(size);
