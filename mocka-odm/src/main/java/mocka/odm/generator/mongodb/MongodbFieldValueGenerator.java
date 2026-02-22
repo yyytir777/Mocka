@@ -1,4 +1,4 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator.mongodb;
 
 import mocka.core.generator.FieldValueGenerator;
 import mocka.core.generator.factory.GeneratorFactory;

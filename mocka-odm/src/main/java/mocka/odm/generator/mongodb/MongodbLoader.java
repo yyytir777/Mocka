@@ -1,5 +1,6 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator.mongodb;
 
+import mocka.odm.generator.ODMLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;

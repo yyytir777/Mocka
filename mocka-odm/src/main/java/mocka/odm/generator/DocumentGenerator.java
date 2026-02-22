@@ -1,7 +1,6 @@
 package mocka.odm.generator;
 
 import mocka.core.generator.AbstractGenerator;
-import mocka.odm.generator.odm.ODMType;
 import mocka.core.GenerateType;
 
 import java.util.HashMap;

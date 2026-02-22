@@ -1,9 +1,12 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator.mongodb;
 
 import mocka.core.GenerateType;
 import mocka.core.VisitedPath;
 import mocka.core.generator.FieldValueGenerator;
 import mocka.odm.generator.AbstractODMCreator;
+import mocka.odm.generator.ODMCreator;
+import mocka.odm.generator.ODMLoader;
+import mocka.odm.generator.ODMProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.stereotype.Component;
 

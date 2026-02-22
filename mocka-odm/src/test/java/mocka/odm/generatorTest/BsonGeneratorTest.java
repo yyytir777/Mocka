@@ -1,4 +1,4 @@
-package mocka.odm.generator;
+package mocka.odm.generatorTest;
 
 import mocka.odm.generator.factory.BsonGenerator;
 import mocka.odm.generator.factory.ODMGeneratorFactory;

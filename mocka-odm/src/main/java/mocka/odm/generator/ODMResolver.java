@@ -1,10 +1,7 @@
 package mocka.odm.generator;
 
 import mocka.core.exception.GeneratorException;
-import mocka.odm.generator.odm.MongodbCreator;
-import mocka.odm.generator.odm.ODMCreator;
-import mocka.odm.generator.odm.ODMProperties;
-import mocka.odm.generator.odm.ODMType;
+import mocka.odm.generator.mongodb.MongodbCreator;
 import mocka.core.GenerateType;
 import mocka.core.VisitedPath;
 import org.springframework.beans.factory.BeanFactory;

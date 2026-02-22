@@ -1,4 +1,4 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator;
 
 public enum ODMType {
     MONGDODB,

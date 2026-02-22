@@ -1,4 +1,4 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

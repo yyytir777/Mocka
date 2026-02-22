@@ -1,4 +1,4 @@
-package mocka.odm.generator.odm;
+package mocka.odm.generator;
 
 import java.util.Set;
 

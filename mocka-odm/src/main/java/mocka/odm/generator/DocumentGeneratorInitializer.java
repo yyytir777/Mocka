@@ -1,10 +1,6 @@
-package mocka.odm;
+package mocka.odm.generator;
 
 import jakarta.annotation.PostConstruct;
-import mocka.odm.generator.DocumentGenerator;
-import mocka.odm.generator.DocumentGeneratorFactory;
-import mocka.odm.generator.ODMResolver;
-import mocka.odm.generator.odm.ODMCreator;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
