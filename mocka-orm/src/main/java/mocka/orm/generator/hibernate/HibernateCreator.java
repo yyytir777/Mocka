@@ -144,6 +144,8 @@ public class HibernateCreator extends AbstractORMCreator implements ORMCreator {
                 field.setAccessible(true);
                 Object value;
 
+                if(field.get(instance) != null) continue;
+
                 if(isAssociations(field)) {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
 

@@ -78,7 +78,6 @@ public class MongodbCreator extends AbstractODMCreator implements ODMCreator {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T create(Class<T> clazz, Map<String, Object> caches, Set<VisitedPath> visited) {
-        GenerateType generateType = GenerateType.ALL;
         String className = clazz.getSimpleName();
         if(caches.containsKey(className)) {
             return (T) caches.get(className);
@@ -91,6 +90,8 @@ public class MongodbCreator extends AbstractODMCreator implements ODMCreator {
             for(Field field : clazz.getDeclaredFields()) {
                 field.setAccessible(true);
                 Object value;
+
+                if(field.get(instance) != null) continue;
 
                 if(field.isAnnotationPresent(DBRef.class)) {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
