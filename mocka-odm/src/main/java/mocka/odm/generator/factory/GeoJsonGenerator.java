@@ -93,7 +93,7 @@ public class GeoJsonGenerator extends AbstractGenerator<String> {
     }
 
     public Sphere getSphere() {
-        Double radius = doubleGenerator.get();
+        Double radius = doubleGenerator.getPositiveDouble();
         return new Sphere(geoGenerator.getPoint(), radius);
     }
 }

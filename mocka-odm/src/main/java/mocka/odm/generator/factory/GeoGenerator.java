@@ -41,11 +41,11 @@ public class GeoGenerator extends AbstractGenerator<String> {
     }
 
     public Box getBox() {
-        Double upperX = doubleGenerator.getDouble(-100.0, 100.0);
-        Double upperY = doubleGenerator.getDouble(-100.0, 100.0);
+        Double lowerX = doubleGenerator.getDouble(-100.0, 100.0);
+        Double upperX = doubleGenerator.getDouble(lowerX, 100.0);
 
-        Double lowerX = doubleGenerator.getDouble(-100.0, upperX);
-        Double lowerY = doubleGenerator.getDouble(-90.0, upperY);
+        Double lowerY = doubleGenerator.getDouble(-90.0, 90.0);
+        Double upperY = doubleGenerator.getDouble(lowerY, 90.0);
         return new Box(new Point(lowerX, lowerY), new Point(upperX, upperY));
     }
 

@@ -2,6 +2,8 @@ package mocka.odm.generator.mongodb;
 
 import mocka.core.GenerateType;
 import mocka.core.VisitedPath;
+import mocka.core.annotation.RegexSource;
+import mocka.core.annotation.ValueSource;
 import mocka.core.generator.FieldValueGenerator;
 import mocka.odm.generator.AbstractODMCreator;
 import mocka.odm.generator.ODMCreator;
@@ -132,6 +134,11 @@ public class MongodbCreator extends AbstractODMCreator implements ODMCreator {
 
     @SuppressWarnings("unchecked")
     private <T> T generateValue(Field field) {
+        if(field.isAnnotationPresent(ValueSource.class)) {
+            return handleValueSource(field);
+        } else if(field.getType().equals(String.class) && field.isAnnotationPresent(RegexSource.class)) {
+            return (T) handleRegexSource(field);
+        }
         return (T) fieldValueGenerator.get(field);
     }
 

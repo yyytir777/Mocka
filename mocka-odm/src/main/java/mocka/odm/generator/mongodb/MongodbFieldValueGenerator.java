@@ -110,9 +110,8 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
         // Collection
         if (Collection.class.isAssignableFrom(type)) {
             Type genericType = field.getGenericType();
-            if (genericType instanceof ParameterizedType parameterizedType) {
-                Class<?> element = (Class<?>) parameterizedType.getActualTypeArguments()[0];
-
+            if (genericType instanceof ParameterizedType parameterizedType
+                    && parameterizedType.getActualTypeArguments()[0] instanceof Class<?> element) {
                 // type : List / element : ElementType
                 return createCollections(type, element);
             }
@@ -240,7 +239,8 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
     }
 
     // type : List, Set, Collection / element : elementType
-    private <T> Collection<T>  createCollections(Class<?> type, Class<?> element) {
+    @SuppressWarnings("unchecked")
+    private <T> Collection<T> createCollections(Class<?> type, Class<?> element) {
         int size = randomProvider.getNextIdx(10);
         Collection<T> collection;
         if (Set.class.isAssignableFrom(type)) {
@@ -252,7 +252,6 @@ public class MongodbFieldValueGenerator implements FieldValueGenerator {
         Supplier<?> generator = primitiveGeneratorMap.get(element);
 
         for (int i = 0; i < size; i++) {
-            //noinspection unchecked
             collection.add((T) generator.get());
         }
         return collection;

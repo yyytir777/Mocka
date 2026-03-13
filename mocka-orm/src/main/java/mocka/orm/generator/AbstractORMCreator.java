@@ -1,6 +1,5 @@
 package mocka.orm.generator;
 
-import mocka.core.file.PathResourceLoader;
 import mocka.core.generator.Creator;
 import mocka.core.annotation.FileSource;
 import mocka.core.annotation.RegexSource;
@@ -8,10 +7,7 @@ import mocka.core.annotation.ValueSource;
 import mocka.core.exception.ValueSourceException;
 import mocka.core.generator.factory.GeneratorRegistry;
 import mocka.core.generator.regex.RegexGenerator;
-import mocka.core.parser.FileParser;
-import mocka.core.parser.FileParserFactory;
 
-import java.io.InputStream;
 import java.lang.reflect.Field;
 
 public abstract class AbstractORMCreator implements Creator {

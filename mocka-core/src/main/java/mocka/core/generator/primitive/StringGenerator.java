@@ -43,7 +43,7 @@ public class StringGenerator extends AbstractGenerator<String> {
      */
     public String getUpTo(int max) {
         double biased = Math.pow(randomProvider.getDouble(1), 2); // 작은 값에 편향
-        int length = 5 + (int)(biased * (max - 1)); // 최소 1, 최대 max
+        int length = 1 + (int)(biased * (max - 1)); // 최소 1, 최대 max
         return getString(Math.min(length, max));
     }
 
