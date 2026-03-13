@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityInstantiator>
+    <fileSourceXmlAllTypeDocument>
+        <name>Lim Wonjae</name>
+        <email>lim@example.com</email>
+        <typeInteger>42</typeInteger>
+        <typeLong>1234567890</typeLong>
+        <typeDouble>3.14159265</typeDouble>
+        <typeBoolean>true</typeBoolean>
+        <bigInteger>12345678901234567890</bigInteger>
+        <bigDecimal>98765.4321</bigDecimal>
+        <date>2025-10-08T14:35:22</date>
+        <localDate>2025-10-08</localDate>
+        <localTime>14:35:22</localTime>
+        <localDateTime>2025-10-08T14:35:22</localDateTime>
+        <offsetDateTime>2025-10-08T14:35:22+09:00</offsetDateTime>
+        <offsetTime>14:35:22+09:00</offsetTime>
+        <instant>2025-10-08T05:35:22Z</instant>
+        <memberEnum>A</memberEnum>
+    </fileSourceXmlAllTypeDocument>
+</entityInstantiator>
