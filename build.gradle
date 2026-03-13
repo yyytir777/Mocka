@@ -10,8 +10,6 @@ allprojects {
 }
 
 subprojects {
-    if (project.name == "mocka-bom") return
-
     apply plugin: 'java'
 
     java {
