@@ -62,14 +62,14 @@ public class ODMResolver {
                             type -> type, creatorMap::get));
         } else if(odmTypes != null && odmTypes.size() == 1) {
             return switch (odmTypes.get(0)) {
-                case MONGDODB -> Map.of(ODMType.MONGDODB, creatorMap.get(ODMType.MONGDODB));
+                case MONGODB -> Map.of(ODMType.MONGODB, creatorMap.get(ODMType.MONGODB));
             };
         }
-        return Map.of(ODMType.MONGDODB, creatorMap.get(ODMType.MONGDODB));
+        return Map.of(ODMType.MONGODB, creatorMap.get(ODMType.MONGODB));
     }
 
     private ODMType resolveType(ODMCreator odmCreator) {
-        if(odmCreator instanceof MongodbCreator) return ODMType.MONGDODB;
+        if(odmCreator instanceof MongodbCreator) return ODMType.MONGODB;
         throw new IllegalArgumentException("Unsupported ODMCreator: " + odmCreator);
     }
 }

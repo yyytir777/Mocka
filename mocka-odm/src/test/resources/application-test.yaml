@@ -1,0 +1,9 @@
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 7.0.0
+
+mocka:
+  odm:
+    odm-type: mongodb

@@ -10,7 +10,7 @@ public class DocumentGenerator<T> extends AbstractGenerator<T> {
 
     private final ODMResolver odmResolver;
     private GenerateType generateType = GenerateType.SELF;
-    private ODMType odmType = ODMType.MONGDODB;
+    private ODMType odmType = ODMType.MONGODB;
 
     public DocumentGenerator(Class<T> type, ODMResolver odmResolver) {
         super(type.getName(), type);
