@@ -52,15 +52,18 @@ public class MongodbCreator extends AbstractODMCreator implements ODMCreator {
 
                 if(field.get(instance) != null) continue;
 
-                // 연관관계 필드일 때 (@DBRef 애노테이션으로 구분하기..?)
                 if(field.isAnnotationPresent(DBRef.class)) {
+                    boolean isCollection = Collection.class.isAssignableFrom(field.getType());
 
-                    // 해당 타입이 List같은 Collection일 때 & GenerateType == PARENT || PARENTS 이어야 함 -> ASSOCIATION 개수 만큼 생성하여 넣음
-                    if(Collection.class.isAssignableFrom(field.getType())) {
+                    // GenerateType 방향에 맞지 않는 연관관계 필드는 건너뜀 (순환참조 방지)
+                    if (generateType == GenerateType.SELF) continue;
+                    if ((generateType == GenerateType.CHILD || generateType == GenerateType.CHILDREN) && !isCollection) continue;
+                    if ((generateType == GenerateType.PARENT || generateType == GenerateType.PARENTS) && isCollection) continue;
+
+                    if(isCollection) {
                         value = new ArrayList<>();
                         for(int i = 0; i < ASSOCIATION_SIZE; i++) {
                             Object child = create(getGenericType(field), nextGenerateType);
-                            // 두 객체간 양방향 연관관계는 생성하지 않기 (NoSQL 특성)
                             ((List<Object>)value).add(child);
                         }
                     } else {
