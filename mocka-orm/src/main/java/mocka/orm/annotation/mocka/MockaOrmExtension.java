@@ -2,6 +2,7 @@ package mocka.orm.annotation.mocka;
 
 import jakarta.persistence.Entity;
 import mocka.core.GenerateType;
+import mocka.core.annotation.Mocka;
 import mocka.orm.generator.ORMCreator;
 import mocka.orm.generator.ORMType;
 import mocka.orm.generator.hibernate.HibernateCreator;
@@ -27,7 +28,7 @@ import java.util.HashSet;
  * For each {@code @Mocka}-annotated field:
  * </p>
  * <ul>
- *   <li>The target ORM type is resolved (explicitly via {@link MockaConfig} or implicitly)</li>
+ *   <li>The target ORM type is resolved (explicitly via {@link MockaOrmConfig} or implicitly)</li>
  *   <li>The appropriate {@link ORMCreator} is selected from the Spring context</li>
  *   <li>An entity instance is generated according to the specified {@link GenerateType}</li>
  *   <li>The generated entity is injected into the test instance field</li>
@@ -37,7 +38,7 @@ import java.util.HashSet;
  * This extension performs no caching and runs before every test method execution.
  * </p>
  */
-public class MockaExtension implements BeforeEachCallback {
+public class MockaOrmExtension implements BeforeEachCallback {
 
     @Override
     public void beforeEach(ExtensionContext context) throws IllegalAccessException {
@@ -78,11 +79,11 @@ public class MockaExtension implements BeforeEachCallback {
     }
 
     private ORMType resolveMockaConfig(Object testClass, ApplicationContext ctx) {
-        MockaConfig mockaConfig = testClass.getClass().getAnnotation(MockaConfig.class);
-        if(mockaConfig == null) return null;
+        MockaOrmConfig mockaOrmConfig = testClass.getClass().getAnnotation(MockaOrmConfig.class);
+        if(mockaOrmConfig == null) return null;
 
-        ORMType ormType = mockaConfig.ormType();
-        int size = mockaConfig.size();
+        ORMType ormType = mockaOrmConfig.ormType();
+        int size = mockaOrmConfig.size();
 
         switch (ormType) {
             case HIBERNATE -> {

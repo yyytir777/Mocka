@@ -1,8 +1,8 @@
 package mocka.orm.annotationTest;
 
-import mocka.orm.annotation.mocka.Mocka;
-import mocka.orm.annotation.mocka.MockaConfig;
-import mocka.orm.annotation.mocka.MockaExtension;
+import mocka.core.annotation.Mocka;
+import mocka.orm.annotation.mocka.MockaOrmConfig;
+import mocka.orm.annotation.mocka.MockaOrmExtension;
 import mocka.orm.entity.orm.associations.Child;
 import mocka.orm.entity.orm.associations.Parent;
 import mocka.core.GenerateType;
@@ -17,10 +17,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ExtendWith(MockaExtension.class)
-@MockaConfig(size = 10, ormType = ORMType.MYBATIS)
+@ExtendWith(MockaOrmExtension.class)
+@MockaOrmConfig(size = 10, ormType = ORMType.HIBERNATE)
 @DisplayName("MockaConfig Annotation Test Code")
-public class MockaConfigAnnotationWithMyBatisTest {
+public class MockaOrmConfigAnnotationWithHibernateTest {
 
     @Mocka(GenerateType.CHILD)
     Parent parent;

@@ -1,8 +1,8 @@
 package mocka.orm.annotationTest;
 
 import mocka.orm.MockaOrmTestApplication;
-import mocka.orm.annotation.mocka.Mocka;
-import mocka.orm.annotation.mocka.MockaExtension;
+import mocka.core.annotation.Mocka;
+import mocka.orm.annotation.mocka.MockaOrmExtension;
 import mocka.orm.entity.orm.associations.Parent;
 import mocka.core.GenerateType;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(classes = {MockaOrmTestApplication.class})
-@ExtendWith(MockaExtension.class)
-@DisplayName("Mocka Annotation Test Code")
-public class MockaAnnotationTest {
+@ExtendWith(MockaOrmExtension.class)
+@DisplayName("Mocka ORM Annotation Test Code")
+public class MockaOrmAnnotationTest {
 
     @Mocka(GenerateType.ALL)
     Parent all_parent;
@@ -33,7 +33,7 @@ public class MockaAnnotationTest {
     Parent parents_parent;
 
     @Test
-    void test_mocka_annotation_test_with_GenerateTypeAll() {
+    void test_mocka_orm_annotation_with_GenerateTypeAll() {
         System.out.println("all_parent = " + all_parent);
         assertThat(all_parent).isNotNull();
         assertThat(all_parent.getGrandParent()).isNotNull();
@@ -41,7 +41,7 @@ public class MockaAnnotationTest {
     }
 
     @Test
-    void test_mocka_annotation_test_with_GenerateTypeChild() {
+    void test_mocka_orm_annotation_with_GenerateTypeChild() {
         System.out.println("child_parent = " + child_parent);
         assertThat(child_parent).isNotNull();
         assertThat(child_parent.getGrandParent()).isNull();
@@ -49,7 +49,7 @@ public class MockaAnnotationTest {
     }
 
     @Test
-    void test_mocka_annotation_test_with_GenerateTypeChildren() {
+    void test_mocka_orm_annotation_with_GenerateTypeChildren() {
         System.out.println("children_parent = " + children_parent);
         assertThat(children_parent).isNotNull();
         assertThat(children_parent.getGrandParent()).isNull();
@@ -57,7 +57,7 @@ public class MockaAnnotationTest {
     }
 
     @Test
-    void test_mocka_annotation_test_with_GenerateTypeParent() {
+    void test_mocka_orm_annotation_with_GenerateTypeParent() {
         System.out.println("parent_parent = " + parent_parent);
         assertThat(parent_parent).isNotNull();
         assertThat(parent_parent.getGrandParent()).isNotNull();
@@ -65,7 +65,7 @@ public class MockaAnnotationTest {
     }
 
     @Test
-    void test_mocka_annotation_test_with_GenerateTypeParents() {
+    void test_mocka_orm_annotation_with_GenerateTypeParents() {
         System.out.println("parents_parent = " + parents_parent);
         assertThat(parents_parent).isNotNull();
         assertThat(parents_parent.getGrandParent()).isNotNull();

@@ -1,6 +1,7 @@
 package mocka.orm.annotation.mocka;
 
 
+import mocka.core.annotation.Mocka;
 import mocka.orm.generator.ORMType;
 
 import java.lang.annotation.ElementType;
@@ -23,7 +24,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MockaConfig {
+public @interface MockaOrmConfig {
 
     /**
      * Specifies the ORM type to use when generating entities.

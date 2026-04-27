@@ -1,7 +1,7 @@
 package mocka.orm.annotationTest;
 
-import mocka.orm.annotation.mocka.Mocka;
-import mocka.orm.annotation.mocka.MockaExtension;
+import mocka.core.annotation.Mocka;
+import mocka.orm.annotation.mocka.MockaOrmExtension;
 import mocka.orm.entity.orm.associations.Parent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ExtendWith(MockaExtension.class)
+@ExtendWith(MockaOrmExtension.class)
 @DisplayName("Mocka Annotation With Default(GenerateType.SELF) Test")
-public class MockaAnnotationWithDefaultTest {
+public class MockaOrmAnnotationWithDefaultTest {
 
     @Mocka
     Parent hibernateParent; // hibernate

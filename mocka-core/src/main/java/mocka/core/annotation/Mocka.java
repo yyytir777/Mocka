@@ -1,4 +1,4 @@
-package mocka.orm.annotation.mocka;
+package mocka.core.annotation;
 
 import mocka.core.GenerateType;
 
