@@ -5,9 +5,11 @@ Mocka
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=bugs)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yyytir777_mocka&metric=coverage)](https://sonarcloud.io/summary/new_code?id=yyytir777_mocka)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>
-</p>
+[//]: # (<p align="center">)
+
+[//]: # (  <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>)
+
+[//]: # (</p>)
 
 <p align="center"><b><span style="font-size: 16px; font-style: italic">"Generate ORM/ODM Entity Instances Faster for Mock Data"</span></b></p>
 
