@@ -31,4 +31,6 @@ public interface CommonFactory {
     default DateGenerator asDate() {
         return DateGenerator.getInstance();
     }
+
+    default UtilGenerator asUtil() { return UtilGenerator.getInstance(); }
 }

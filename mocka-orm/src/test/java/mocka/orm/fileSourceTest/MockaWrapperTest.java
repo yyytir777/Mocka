@@ -1,7 +1,7 @@
 package mocka.orm.fileSourceTest;
 
 import mocka.orm.entity.filesource.xml.Person;
-import mocka.orm.parser.MockaWrapper;
+import mocka.core.parser.MockaWrapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;

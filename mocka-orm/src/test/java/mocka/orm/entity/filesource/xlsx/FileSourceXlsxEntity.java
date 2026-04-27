@@ -1,7 +1,7 @@
 package mocka.orm.entity.filesource.xlsx;
 
 
-import mocka.orm.annotation.FileSource;
+import mocka.core.annotation.FileSource;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

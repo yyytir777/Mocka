@@ -1,6 +1,6 @@
 package mocka.orm.fileSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.filesource.xml.*;
 import mocka.orm.generator.EntityGenerator;
 import mocka.orm.generator.EntityGeneratorFactory;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles("test")
 @DisplayName("FileSource XML Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class FileSourceXmlTest {
 
     @Autowired

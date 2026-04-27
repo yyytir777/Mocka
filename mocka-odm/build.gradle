@@ -38,7 +38,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'com.h2database:h2'
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.18.0'
 
     // XML
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.4'

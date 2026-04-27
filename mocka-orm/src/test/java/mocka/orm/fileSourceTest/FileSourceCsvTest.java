@@ -1,6 +1,6 @@
 package mocka.orm.fileSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.filesource.csv.FileSourceCsvAllTypeEntity;
 import mocka.orm.entity.filesource.csv.FileSourceCsvEmptyFailEntity;
 import mocka.orm.entity.filesource.csv.FileSourceCsvEntity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @DisplayName("FileSource CSV Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class FileSourceCsvTest {
 
     @Autowired

@@ -1,6 +1,6 @@
 package mocka.orm.fileSourceTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.filesource.xlsx.FileSourceXlsxAllTypeEntity;
 import mocka.orm.entity.filesource.xlsx.FileSourceXlsxEmptyFailEntity;
 import mocka.orm.entity.filesource.xlsx.FileSourceXlsxEntity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @DisplayName("FileSource Xlsx Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class FileSourceXlsxTest {
 
     @Autowired

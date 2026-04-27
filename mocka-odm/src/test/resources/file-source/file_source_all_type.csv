@@ -1,0 +1,3 @@
+name,email,typeInteger,typeLong,typeDouble,typeBoolean,bigInteger,bigDecimal,date,localDate,localTime,localDateTime,offsetDateTime,offsetTime,instant,memberEnum
+Lim Wonjae,lim@example.com,42,1234567890,3.14159265,true,12345678901234567890,98765.4321,2025-10-08T14:35:22,2025-10-08,14:35:22,2025-10-08T14:35:22,2025-10-08T14:35:22+09:00,14:35:22+09:00,2025-10-08T05:35:22Z,A
+Jane Smith,jane@example.com,100,9876543210,2.71828182,false,98765432109876543210,12345.6789,2025-09-15T09:12:00,2025-09-15,09:12:00,2025-09-15T09:12:00,2025-09-15T09:12:00+09:00,09:12:00+09:00,2025-09-15T00:12:00Z,B

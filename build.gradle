@@ -6,12 +6,10 @@ plugins {
 
 allprojects {
     group = 'io.github.yyytir777'
-    version = "1.3.0"
+    version = "1.4.0"
 }
 
 subprojects {
-    if (project.name == "mocka-bom") return
-
     apply plugin: 'java'
 
     java {

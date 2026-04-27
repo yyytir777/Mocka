@@ -1,0 +1,33 @@
+- name: "Lim Wonjae"
+  email: "lim@example.com"
+  typeInteger: 42
+  typeLong: 1234567890
+  typeDouble: 3.14159265
+  typeBoolean: true
+  bigInteger: "12345678901234567890"
+  bigDecimal: "98765.4321"
+  date: "2025-10-08T14:35:22"
+  localDate: "2025-10-08"
+  localTime: "14:35:22"
+  localDateTime: "2025-10-08T14:35:22"
+  offsetDateTime: "2025-10-08T14:35:22+09:00"
+  offsetTime: "14:35:22+09:00"
+  instant: "2025-10-08T05:35:22Z"
+  memberEnum: "A"
+
+- name: "Jane Smith"
+  email: "jane@example.com"
+  typeInteger: 100
+  typeLong: 9876543210
+  typeDouble: 2.71828182
+  typeBoolean: false
+  bigInteger: "98765432109876543210"
+  bigDecimal: "12345.6789"
+  date: "2025-09-15T09:12:00"
+  localDate: "2025-09-15"
+  localTime: "09:12:00"
+  localDateTime: "2025-09-15T09:12:00"
+  offsetDateTime: "2025-09-15T09:12:00+09:00"
+  offsetTime: "09:12:00+09:00"
+  instant: "2025-09-15T00:12:00Z"
+  memberEnum: "B"

@@ -1,6 +1,7 @@
 package mocka.orm.entity.orm;
 
 import jakarta.persistence.*;
+import mocka.core.annotation.ValueSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -22,7 +23,8 @@ public class Member {
     @Column(length = 10, nullable = false)
     private String name;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @ValueSource(generatorKey = "email")
+    @Column(length = 30, nullable = false, unique = true)
     private String email;
 
 

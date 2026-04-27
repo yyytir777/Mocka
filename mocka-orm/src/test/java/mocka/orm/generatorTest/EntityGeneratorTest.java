@@ -1,6 +1,6 @@
 package mocka.orm.generatorTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.generator.EntityGenerator;
 import mocka.core.generator.Generator;
 import mocka.orm.entity.orm.TestEntity;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @DisplayName("EntityGenerator Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 class EntityGeneratorTest {
 
     @Autowired

@@ -3,6 +3,7 @@ package mocka.orm.persistenceTest;
 import mocka.orm.entity.orm.Member;
 import mocka.orm.generator.EntityGenerator;
 import mocka.orm.generator.EntityGeneratorFactory;
+import mocka.orm.generator.ORMType;
 import mocka.orm.persistence.BulkPersistenceExecutor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,15 +22,15 @@ public class BulkPersistenceExecutorTest {
 
     @Autowired BulkPersistenceExecutor bulkPersistenceExecutor;
     @Autowired JdbcTemplate jdbcTemplate;
-    @Autowired
-    EntityGeneratorFactory generatorFactory;
+    @Autowired EntityGeneratorFactory generatorFactory;
 
     @Test
     @DisplayName("creates 1000 instances of Member.class and insert to db using batch operation")
     public void test_create_100_instances_and_bulk_persistence_success() throws InterruptedException {
-        EntityGenerator<Member> generator = generatorFactory.getGenerator(Member.class);
+        EntityGenerator<Member> generator = generatorFactory.getGenerator(Member.class).ormType(ORMType.HIBERNATE);
         bulkPersistenceExecutor.execute(generator, 100L, 10, Member.class);
 
         Long rowCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM member", Long.class);
+        assertThat(rowCount).isEqualTo(100L);
     }
 }

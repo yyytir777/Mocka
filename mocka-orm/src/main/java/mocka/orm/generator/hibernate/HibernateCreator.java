@@ -3,12 +3,12 @@ package mocka.orm.generator.hibernate;
 import mocka.core.GenerateType;
 import mocka.core.VisitedPath;
 import mocka.core.generator.FieldValueGenerator;
-import mocka.orm.annotation.RegexSource;
+import mocka.core.annotation.RegexSource;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import mocka.orm.annotation.ValueSource;
+import mocka.core.annotation.ValueSource;
 import mocka.orm.generator.*;
 import mocka.orm.generator.association.AssociationMatcherFactory;
 import mocka.orm.generator.mybatis.AssociationType;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -35,12 +34,12 @@ import java.util.*;
  * is configured through {@link ORMProperties#getAssociationSize()}.
  *
  * @see ORMCreator
- * @see AbstractCreator
+ * @see AbstractORMCreator
  * @see HibernateFieldValueGenerator
  * @see AssociationMatcherFactory
  */
 @Component
-public class  HibernateCreator extends AbstractCreator implements ORMCreator {
+public class HibernateCreator extends AbstractORMCreator implements ORMCreator {
 
     private final ORMLoader hibernateLoader;
     private final FieldValueGenerator fieldValueGenerator;
@@ -53,9 +52,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMCreator {
 
     public HibernateCreator(HibernateLoader hibernateLoader,
                             HibernateFieldValueGenerator fieldValueGenerator,
-                            ORMProperties ormProperties,
-                            FileSourceCreator fileSourceCreator) {
-        super(fileSourceCreator);
+                            ORMProperties ormProperties) {
         this.hibernateLoader = hibernateLoader;
         this.fieldValueGenerator = fieldValueGenerator;
         this.ASSOCIATION_SIZE =  ormProperties.getAssociationSize();
@@ -113,7 +110,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMCreator {
                 field.set(instance, value);
             }
             return instance;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (IllegalAccessException  e) {
             throw new RuntimeException(e);
         }
     }
@@ -147,6 +144,8 @@ public class  HibernateCreator extends AbstractCreator implements ORMCreator {
                 field.setAccessible(true);
                 Object value;
 
+                if(field.get(instance) != null) continue;
+
                 if(isAssociations(field)) {
                     VisitedPath path = VisitedPath.of(clazz, Collection.class.isAssignableFrom(field.getType()) ? getGenericType(field) : field.getType());
 
@@ -179,7 +178,7 @@ public class  HibernateCreator extends AbstractCreator implements ORMCreator {
                 field.set(instance, value);
             }
             return instance;
-        } catch(InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch(IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

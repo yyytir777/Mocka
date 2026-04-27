@@ -1,6 +1,6 @@
 package mocka.orm.entity.orm.associations;
 
-import mocka.orm.annotation.ValueSource;
+import mocka.core.annotation.ValueSource;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;

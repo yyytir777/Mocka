@@ -2,8 +2,8 @@ package mocka.orm.generator.mybatis;
 
 import mocka.core.GenerateType;
 import mocka.core.generator.FieldValueGenerator;
-import mocka.orm.annotation.RegexSource;
-import mocka.orm.annotation.ValueSource;
+import mocka.core.annotation.RegexSource;
+import mocka.core.annotation.ValueSource;
 import mocka.core.exception.GeneratorException;
 import mocka.orm.generator.*;
 import mocka.orm.generator.hibernate.HibernateLoader;
@@ -12,7 +12,6 @@ import mocka.orm.generator.association.AssociationMatcherFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -30,12 +29,12 @@ import java.util.*;
  * is configured through {@link ORMProperties#getAssociationSize()}.
  *
  * @see ORMCreator
- * @see AbstractCreator
+ * @see AbstractORMCreator
  * @see MyBatisFieldValueGenerator
  * @see AssociationMatcherFactory
  */
 @Component
-public class MyBatisCreator extends AbstractCreator implements ORMCreator {
+public class MyBatisCreator extends AbstractORMCreator implements ORMCreator {
 
     private final ORMLoader myBatisLoader;
     private final FieldValueGenerator fieldValueGenerator;
@@ -47,8 +46,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMCreator {
      */
     private Integer ASSOCIATION_SIZE;
 
-    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties, FileSourceCreator fileSourceCreator) {
-        super(fileSourceCreator);
+    public MyBatisCreator(MyBatisLoader myBatisLoader, MyBatisFieldValueGenerator fieldValueGenerator, MyBatisMetadata myBatisMetadata, ORMProperties ormProperties) {
         this.myBatisLoader = myBatisLoader;
         this.fieldValueGenerator = fieldValueGenerator;
         this.myBatisMetadata = myBatisMetadata;
@@ -113,7 +111,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMCreator {
                 field.getField().set(instance, value);
             }
             return instance;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -188,7 +186,7 @@ public class MyBatisCreator extends AbstractCreator implements ORMCreator {
                 field.getField().set(instance, value);
             }
             return instance;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

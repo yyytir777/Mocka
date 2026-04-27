@@ -9,87 +9,130 @@ Mocka
   <img src="https://raw.githubusercontent.com/wiki/yyytir777/Mocka/images/README%20title.png" width="800"/>
 </p>
 
-<p align="center"><b><span style="font-size: 16px; font-style: italic">"Generate ORM Entity Instances Faster for Mock Data"</span></b></p>
+<p align="center"><b><span style="font-size: 16px; font-style: italic">"Generate ORM/ODM Entity Instances Faster for Mock Data"</span></b></p>
 
-**Mocka** is a Spring-based library for automatically generate ORM Entity instances for **Mock Data**.
-It can create from not only single entities but also complex entity relationships.
+**Mocka** is a Spring-based library for automatically generating ORM/ODM entity instances for **Mock Data**.
+It can create not only single entities but also complex entity relationships.
 By mapping files to entity classes or fields, it provides flexible and customizable instance generation.
-It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and automatically detects which one is in use to scan and generate the appropriate entity instances.
+It supports **Hibernate** and **MyBatis** as **ORM** frameworks, and **MongoDB** as an **ODM** framework.
 
 You can create entity instances **without knowing their fields**:
 ```java
-Generator<Member> generator = springGenerator.getGenerator(Member.class);
+// ORM
+Generator<Member> generator = entityGeneratorFactory.getGenerator(Member.class);
 Member member = generator
         .generateType(GenerateType.SELF)
-        .ormType(ORMTyp.HIBERNATE)
+        .ormType(ORMType.HIBERNATE)
         .get();
+
+// ODM
+DocumentGenerator<Member> generator = documentGeneratorFactory.getGenerator(Member.class);
+Member member = generator.get();
 ```
 
-Such randomly generated ORM entity instances can be used in various contexts, such as **testing**, **data populating**, and more.
+Such randomly generated instances can be used in various contexts, such as **testing**, **data populating**, and more.
 
-This project consists of two modules:
-- **Mocka Core** – generates field values when instantiating entities.
-- **Mocka ORM** – handles the logic for generating ORM entity instances.
+This project consists of three modules:
+- **Mocka Core** – generates field values when instantiating entities/documents.
+- **Mocka ORM** – handles the logic for generating ORM entity instances (Hibernate, MyBatis).
+- **Mocka ODM** – handles the logic for generating ODM document instances (MongoDB).
 
 Please visit the GitHub Wiki for detailed usage of each module.
 
-| module         | version                                                                                         | Github Page                                                                |
-|----------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| **mocka core** | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core) | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core) |
-| **mocka orm**  | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-orm)  | [**ORM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ORM)   |
+| module          | version                                                                                          | Github Page                                                                 |
+|-----------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| **mocka core**  | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-core) | [**Core Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-Core)  |
+| **mocka orm**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-orm)  | [**ORM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ORM)    |
+| **mocka odm**   | ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.yyytir777/mocka-odm)  | [**ODM Github Page**](https://github.com/yyytir777/Mocka/wiki/Mocka-ODM)    |
 
 
 ## Key Features
-- **ORM Entity Instance Auto Generation** : Easily instantiate ORM-managed entities without manually assigning fields.
+- **ORM/ODM Instance Auto Generation** : Easily instantiate ORM entities and ODM documents without manually assigning fields.
 - **Multi-ORM Support** : Automatically detects ORM frameworks (Hibernate, MyBatis) and scans entity classes to generate appropriate instances.
+- **MongoDB Support** : Generates MongoDB document instances including BSON types, Geo types, and GeoJSON types.
 - **Random Data Generation** : Supports basic types such as String, Number, and Date, as well as Email, Lorem Ipsum, Name, IP Address, and more.
 - **Regex Pattern Generation** : Supports generating strings that match the given regular expression patterns.
-- **Entity Relationship Support** : Not only generates entities but also creates associated entities recursively.
+- **Relationship Support** : Not only generates entities/documents but also creates associated ones recursively.
 - **Extensibility** : Implement your own custom generators to support new data types seamlessly.
 - **Flexibility** : Map entity fields or entire classes to specific datasets or files for tailored instance generation.
-- **Test Optimization** : Automatically generate large volumes of entities to accelerate unit, integration, and data-populating tests.
+- **Test Optimization** : Automatically generate large volumes of instances to accelerate unit, integration, and data-populating tests.
 
 
 ## Import Library
 
 ### Gradle
 ```groovy
+// ORM
 dependencies {
-    implementation 'io.github.yyytir777:mocka-core:1.3.0'
-    implementation 'io.github.yyytir777:mocka-orm:1.3.0'
+    implementation 'io.github.yyytir777:mocka-core:1.4.0'
+    implementation 'io.github.yyytir777:mocka-orm:1.4.0'
+}
+
+// ODM
+dependencies {
+    implementation 'io.github.yyytir777:mocka-core:1.4.0'
+    implementation 'io.github.yyytir777:mocka-odm:1.4.0'
 }
 ```
 
 ### Maven
 ```xml
+<!-- ORM -->
 <dependencies>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-core</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.yyytir777</groupId>
         <artifactId>mocka-orm</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
+    </dependency>
+</dependencies>
+
+<!-- ODM -->
+<dependencies>
+    <dependency>
+        <groupId>io.github.yyytir777</groupId>
+        <artifactId>mocka-core</artifactId>
+        <version>1.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.yyytir777</groupId>
+        <artifactId>mocka-odm</artifactId>
+        <version>1.4.0</version>
     </dependency>
 </dependencies>
 ```
 
 ## What Can You Do With It?
 
-### 1. Generate Entity Instances
+### 1. Generate Entity/Document Instances
 ```java
-Generator<Member> generator = springGenerator.getGenerator(Member.class);
+// ORM
+Generator<Member> generator = entityGeneratorFactory.getGenerator(Member.class);
 Member member = generator
         .generateType(GenerateType.SELF)
         .ormType(ORMType.HIBERNATE)
         .get();
+
+// ODM
+DocumentGenerator<Member> generator = documentGeneratorFactory.getGenerator(Member.class);
+Member member = generator.get();
 ```
 
-### 2. Map Entity Fields to a Generator or File
+### 2. Map Fields to a Generator or File
 ```java
+// ORM
 @Entity
+public class Member {
+    @ValueSource(generatorKey = "name")
+    private String name;
+}
+
+// ODM
+@Document
 public class Member {
     @ValueSource(generatorKey = "name")
     private String name;
@@ -97,48 +140,62 @@ public class Member {
 ```
 
 ```java
-@Entity
-public class Member {
-    @ValueSource(path = "name.txt", type=String.class)
-    private String name;
-}
+@ValueSource(path = "name.txt", type = String.class)
+private String name;
 ```
 
-### 3. Map Entire Entities to Files
-- Supports **YAML**, **XML**, **JSON**, and **CSV**
+### 3. Map Entire Entities/Documents to Files
+- Supports **YAML**, **XML**, **JSON**, **CSV**, and **XLSX**
 ```java
+// ORM
 @Entity
 @FileSource(path = "member.csv")
-public class Member {
-    
-}
+public class Member { }
+
+// ODM
+@Document
+@FileSource(path = "member.yaml")
+public class Member { }
 ```
 
-### 4. Map Entity Fields to Regex Patterns
+### 4. Map Fields to Regex Patterns
 
 ```java
-@Entity
-public class Member {
-    @RegexSource(pattern = "[a-zA-Z]{10}")
-    private String name;
-}
+@RegexSource(pattern = "[a-zA-Z]{10}")
+private String name;
 ```
 
-### 5. Register Custom Generator based specific file to GeneratorFactory
+### 5. Register Custom Generator to GeneratorFactory
 
 ```java
 GeneratorFactory.putGenerator(new RegistrableGenerator<>("test_generator", "test.txt", String.class));
 Generator<String> generator = GeneratorFactory.getGenerator("test_generator");
 ```
 
+
 ## @Mocka Annotation
-- You can easily initialize entity instances in test code.
-- Developers can focus on core logic without having to manually generate relational entity instances for each test method
+- You can easily initialize entity/document instances in test code.
+- Developers can focus on core logic without having to manually generate relational instances for each test method.
 
 ```java
+// ORM
 @SpringBootTest
-@ExtendWith(MockaExtension.class)
-public class MockaTest {
+@ExtendWith(MockaOrmExtension.class)
+public class MockaOrmTest {
+
+    @Mocka
+    Parent parent;
+
+    @Test
+    void assert_parent_is_not_null() {
+        assertThat(parent).isNotNull();
+    }
+}
+
+// ODM
+@SpringBootTest
+@ExtendWith(MockaOdmExtension.class)
+public class MockaOdmTest {
 
     @Mocka
     Parent parent;
@@ -150,14 +207,17 @@ public class MockaTest {
 }
 ```
 
-## @MockaConfig Annotation
-- `@MockaConfig` annotation defines configuration options for entity instance generation in tests.
-- `size` : Specifies how many entity instances should be generated for `1:n` associations. (Default : 5)
-- `ormType` : Specifies which ORM implementation (`HIBERNATE`, `MYBATIS`) to use (when multiple are available)
+## @MockaOrmConfig / @MockaOdmConfig Annotation
+- Defines configuration options for instance generation in tests.
+- `size` : Specifies how many instances should be generated for `1:n` associations. (Default : 5)
+- `ormType` (ORM only) : Specifies which ORM implementation (`HIBERNATE`, `MYBATIS`) to use.
+- `odmType` (ODM only) : Specifies which ODM implementation (`MONGODB`) to use.
+
 ```java
-@MockaConfig(size = 10, ormType = ORMType.HIBERNATE)
-public class MockaTest {
-    
+// ORM
+@MockaOrmConfig(size = 10, ormType = ORMType.HIBERNATE)
+public class MockaOrmTest {
+
     @Mocka(GenerateType.CHILD)
     Parent parent;
 
@@ -166,21 +226,34 @@ public class MockaTest {
         assertThat(parent.getChildren()).hasSize(10);
     }
 }
+
+// ODM
+@MockaOdmConfig(size = 10, odmType = ODMType.MONGODB)
+public class MockaOdmTest {
+
+    @Mocka(GenerateType.CHILD)
+    Parent parent;
+
+    @Test
+    void generate_children_with_given_size_and_specified_odm() {
+        assertThat(parent.getChildren()).hasSize(10);
+    }
+}
 ```
 
 
 ## GenerateType
-When generating entity instances, you can specify the GenerateType to control how associated entities are created.
+When generating instances, you can specify the GenerateType to control how associated entities/documents are created.
 
 ![GenerateType.png](https://github.com/yyytir777/entityinstantiator/wiki/images/GenerateType.png)
 
 In the diagram above, entity A and B have a 1:N relationship, and B and C also have a 1:N relationship.
-Let’s use this to explain each GenerateType strategy.
+Let's use this to explain each GenerateType strategy.
 
 ---
 
 ### GenerateType.SELF
-Generates only the specified entity instance.<br>
+Generates only the specified instance.<br>
 Even if relationships exist, they are initialized as null.
 
 ```java
@@ -196,7 +269,7 @@ If you generate entity B with `GenerateType.SELF`, only B will be created; assoc
 ---
 
 #### GenerateType.CHILD
-Generates the specified entity and its direct child entities.
+Generates the specified instance and its direct child instances.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
@@ -211,7 +284,7 @@ If you generate entity B with `GenerateType.CHILD`, both B and its child entity 
 ---
 
 #### GenerateType.CHILDREN
-Recursively generates the specified entity and all its descendant entities.
+Recursively generates the specified instance and all its descendant instances.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
@@ -226,7 +299,7 @@ If you generate entity A with `GenerateType.CHILDREN`, entities A, B, and C will
 ---
 
 #### GenerateType.PARENT
-Generates the specified entity and its direct parent entity.
+Generates the specified instance and its direct parent instance.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
@@ -241,7 +314,7 @@ If you generate entity B with `GenerateType.PARENT`, both B and its parent entit
 ---
 
 #### GenerateType.PARENTS
-Recursively generates the specified entity and all its ancestor entities.
+Recursively generates the specified instance and all its ancestor instances.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);
@@ -256,7 +329,7 @@ If you generate entity C with `GenerateType.PARENTS`, entities C, B, and A will 
 ---
 
 #### GenerateType.ALL
-Recursively generates the specified entity and all related entities, both parents and children.
+Recursively generates the specified instance and all related instances, both parents and children.
 
 ```java
 Generator<B> generator = springGenerator.getGenerator(B.class);

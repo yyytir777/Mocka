@@ -1,6 +1,6 @@
 package mocka.orm.hibernateTest;
 
-import mocka.orm.MockaSpringTestApplication;
+import mocka.orm.MockaOrmTestApplication;
 import mocka.orm.entity.orm.associations.Child;
 import mocka.orm.entity.orm.associations.GrandParent;
 import mocka.orm.entity.orm.associations.Parent;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles("test")
 @DisplayName("Hibernate GenerateType.ALL Test Code")
-@SpringBootTest(classes = MockaSpringTestApplication.class)
+@SpringBootTest(classes = MockaOrmTestApplication.class)
 public class GenerateTypeAllTest {
 
     @Autowired

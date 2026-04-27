@@ -2,7 +2,7 @@ package mocka.orm.entity.valuesource;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import mocka.orm.annotation.ValueSource;
+import mocka.core.annotation.ValueSource;
 
 @Entity
 public class ValueSourceInvalidMatchFail {
